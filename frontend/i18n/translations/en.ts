@@ -1,0 +1,95 @@
+export default {
+  // General
+  appName: 'SnapCal',
+  next: 'Next',
+  back: 'Back',
+  save: 'Save',
+  cancel: 'Cancel',
+  edit: 'Edit',
+  delete: 'Delete',
+  confirm: 'Confirm',
+  done: 'Done',
+  
+  // Onboarding
+  welcome: 'Welcome to SnapCal!',
+  onboardingTitle: 'Let\'s set up your profile',
+  selectLanguage: 'Select your language',
+  personalInfo: 'Personal Information',
+  age: 'Age',
+  gender: 'Gender',
+  male: 'Male',
+  female: 'Female',
+  other: 'Other',
+  height: 'Height (cm)',
+  weight: 'Weight (kg)',
+  goal: 'What is your goal?',
+  goalLose: 'Lose weight',
+  goalMaintain: 'Maintain weight',
+  goalGain: 'Gain weight',
+  
+  // Main Screen
+  takePicture: 'Take a photo of your meal',
+  dailyTarget: 'Daily Calorie Target',
+  remaining: 'Remaining',
+  consumed: 'Consumed',
+  todayMeals: 'Today\'s Meals',
+  noMealsYet: 'No meals recorded today',
+  analyzing: 'Analyzing your meal...',
+  confirmMeal: 'Confirm Meal',
+  mealCalories: 'Calories',
+  addToFavorites: 'Add to Favorites',
+  removeFromFavorites: 'Remove from Favorites',
+  favorites: 'Favorites',
+  addFromFavorites: 'Add from favorites',
+  chooseOption: 'Choose Option',
+  noFavorites: 'No favorite meals yet',
+  
+  // History
+  historyTitle: 'History',
+  noMealsHistory: 'No meal history yet',
+  caloriesConsumed: 'Calories consumed',
+  
+  // Settings
+  settingsTitle: 'Settings',
+  profileSettings: 'Profile Settings',
+  notificationSettings: 'Notification Settings',
+  enableNotifications: 'Enable Notifications',
+  reminderTime: 'Reminder Time',
+  languageSettings: 'Language Settings',
+  currentLanguage: 'Current Language',
+  updateProfile: 'Update Profile',
+  
+  // Messages
+  mealSaved: 'Meal saved successfully',
+  targetReached: 'You\'ve reached your daily calorie target!',
+  targetExceeded: 'You\'ve exceeded your daily calorie target!',
+  
+  // Errors
+  cameraPermissionDenied: 'Camera permission was denied',
+  formError: 'Please fill out all required fields',
+  loadingError: 'Error loading data',
+  
+  activityLevel: 'Activity Level',
+  activityLevels: {
+    sedentary: 'Sedentary',
+    light: 'Light',
+    moderate: 'Moderate',
+    active: 'Active',
+    veryActive: 'Very Active'
+  },
+  activityDescriptions: {
+    sedentary: 'Little or no physical activity',
+    light: 'Light activity or exercise 1–3 times a week',
+    moderate: 'Moderate exercise or sports 3–5 times a week',
+    active: 'Intense workouts 6–7 times a week',
+    veryActive: 'Very intense workouts, physical work or training 2 times a day'
+  },
+  goals: {
+    lose: 'Lose weight',
+    maintain: 'Maintain',
+    gain: 'Gain weight'
+  },
+  comment: 'Comment',
+  commentPlaceholder: 'Add a comment to the meal...',
+  commentExample: 'Example: two spoons of sugar, or beef soup',
+};
