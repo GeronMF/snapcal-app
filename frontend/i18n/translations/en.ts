@@ -56,11 +56,11 @@ export default {
   enableNotifications: 'Enable Notifications',
   reminderTime: 'Reminder Time',
   languageSettings: 'Language Settings',
-  currentLanguage: 'Current Language',
+  currentLanguage: 'Current language',
   updateProfile: 'Update Profile',
   
   // Messages
-  mealSaved: 'Meal saved successfully',
+  mealSaved: 'Registration successful!',
   targetReached: 'You\'ve reached your daily calorie target!',
   targetExceeded: 'You\'ve exceeded your daily calorie target!',
   
@@ -92,4 +92,18 @@ export default {
   comment: 'Comment',
   commentPlaceholder: 'Add a comment to the meal...',
   commentExample: 'Example: two spoons of sugar, or beef soup',
+  name: 'Name',
+  email: 'Email',
+  password: 'Password',
+  register: 'Register',
+  alreadyHaveAccount: 'Already have an account? Sign in',
+  loading: 'Loading...',
+  error: 'Error',
+  login: 'Login',
+  signIn: 'Sign In',
+  noAccount: 'No account? Register',
+  loginSuccess: 'Login successful!',
+  loginError: 'Login error',
+  serverError: 'Unable to connect to server',
+  logout: 'Logout',
 };

@@ -74,7 +74,7 @@ export default {
   updateProfile: 'Aktualizuj profil',
   
   // Messages
-  mealSaved: 'Posiłek zapisany pomyślnie',
+  mealSaved: 'Rejestracja zakończona sukcesem!',
   targetReached: 'Osiągnąłeś swój dzienny cel kaloryczny!',
   targetExceeded: 'Przekroczyłeś swój dzienny cel kaloryczny!',
   
@@ -90,4 +90,18 @@ export default {
   
   // New translation
   addFromFavorites: 'Dodaj z ulubionych',
+  name: 'Imię',
+  email: 'Email',
+  password: 'Hasło',
+  register: 'Zarejestruj się',
+  alreadyHaveAccount: 'Masz już konto? Zaloguj się',
+  loading: 'Ładowanie...',
+  error: 'Błąd',
+  login: 'Logowanie',
+  signIn: 'Zaloguj się',
+  noAccount: 'Nie masz konta? Zarejestruj się',
+  loginSuccess: 'Logowanie zakończone sukcesem!',
+  loginError: 'Błąd logowania',
+  serverError: 'Nie udało się połączyć z serwerem',
+  logout: 'Wyloguj się',
 };

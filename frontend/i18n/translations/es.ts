@@ -8,7 +8,7 @@ export default {
   edit: 'Editar',
   delete: 'Eliminar',
   confirm: 'Confirmar',
-  done: 'Listo',
+  done: 'Hecho',
   
   // Onboarding
   welcome: '¡Bienvenido a SnapCal!',
@@ -54,13 +54,13 @@ export default {
   updateProfile: 'Actualizar Perfil',
   
   // Messages
-  mealSaved: 'Comida guardada con éxito',
+  mealSaved: '¡Registro exitoso!',
   targetReached: '¡Has alcanzado tu objetivo diario de calorías!',
   targetExceeded: '¡Has excedido tu objetivo diario de calorías!',
   
   // Errors
   cameraPermissionDenied: 'El permiso de la cámara fue denegado',
-  formError: 'Por favor completa todos los campos requeridos',
+  formError: 'Por favor, complete todos los campos obligatorios',
   loadingError: 'Error al cargar datos',
   
   // New fields
@@ -88,4 +88,18 @@ export default {
   commentPlaceholder: 'Agrega un comentario a la comida...',
   commentExample: 'Ejemplo: dos cucharadas de azúcar o sopa de res',
   addFromFavorites: 'Agregar de favoritos',
+  name: 'Nombre',
+  email: 'Correo electrónico',
+  password: 'Contraseña',
+  register: 'Registrarse',
+  alreadyHaveAccount: '¿Ya tienes una cuenta? Iniciar sesión',
+  loading: 'Cargando...',
+  error: 'Error',
+  login: 'Iniciar sesión',
+  signIn: 'Entrar',
+  noAccount: '¿No tienes cuenta? Regístrate',
+  loginSuccess: '¡Inicio de sesión exitoso!',
+  loginError: 'Error de inicio de sesión',
+  serverError: 'No se pudo conectar al servidor',
+  logout: 'Cerrar sesión',
 };

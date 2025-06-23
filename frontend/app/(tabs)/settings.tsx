@@ -17,9 +17,12 @@ import i18n from '@/i18n';
 import colors from '@/constants/colors';
 import { TextInput } from 'react-native-gesture-handler';
 import { ChevronDown, ChevronRight } from 'lucide-react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useRouter } from 'expo-router';
 
 export default function SettingsScreen() {
   const { user, setUserData, updateLanguage } = useUser();
+  const router = useRouter();
   
   const [isProfileExpanded, setIsProfileExpanded] = useState(false);
   const [isNotificationsExpanded, setIsNotificationsExpanded] = useState(false);
@@ -353,7 +356,7 @@ export default function SettingsScreen() {
           {isLanguageExpanded && (
             <View style={styles.sectionContent}>
               <LanguageSelector
-                selectedLanguage={user?.language || 'ru'}
+                selectedLanguage={i18n.locale as Language}
                 onSelectLanguage={handleLanguageChange}
               />
             </View>
@@ -368,6 +371,17 @@ export default function SettingsScreen() {
           </Text>
         </View>
       </ScrollView>
+      <TouchableOpacity
+        style={styles.logoutButton}
+        onPress={async () => {
+          await AsyncStorage.removeItem('token');
+          await AsyncStorage.removeItem('user');
+          await AsyncStorage.removeItem('selectedLanguage');
+          router.replace('/language');
+        }}
+      >
+        <Text style={styles.logoutButtonText}>{i18n.t('logout')}</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
@@ -519,5 +533,21 @@ const styles = StyleSheet.create({
     color: colors.neutral[500],
     textAlign: 'center',
     fontFamily: 'Inter-Regular',
+  },
+  logoutButton: {
+    backgroundColor: colors.neutral[100],
+    paddingVertical: 12,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginTop: 16,
+    marginBottom: 24,
+    marginHorizontal: 16,
+    borderWidth: 1,
+    borderColor: colors.neutral[200],
+  },
+  logoutButtonText: {
+    color: colors.neutral[600],
+    fontSize: 16,
+    fontWeight: '500',
   },
 });

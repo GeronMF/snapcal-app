@@ -54,13 +54,13 @@ export default {
   updateProfile: 'Оновити профіль',
   
   // Messages
-  mealSaved: 'Прийом їжі успішно збережено',
+  mealSaved: 'Реєстрація пройшла успішно!',
   targetReached: 'Ви досягли своєї денної норми калорій!',
   targetExceeded: 'Ви перевищили свою денну норму калорій!',
   
   // Errors
   cameraPermissionDenied: 'Доступ до камери було відхилено',
-  formError: 'Будь ласка, заповніть усі обов\'язкові поля',
+  formError: 'Будь ласка, заповніть всі обовʼязкові поля',
   loadingError: 'Помилка завантаження даних',
   
   // New fields
@@ -88,4 +88,18 @@ export default {
   commentPlaceholder: 'Додайте коментар до страви...',
   commentExample: 'Приклад: дві ложки цукру або суп на яловичині',
   addFromFavorites: 'Додати з обраного',
+  name: 'Імʼя',
+  email: 'Електронна пошта',
+  password: 'Пароль',
+  register: 'Зареєструватися',
+  alreadyHaveAccount: 'Вже є акаунт? Увійти',
+  loading: 'Завантаження...',
+  error: 'Помилка',
+  login: 'Вхід',
+  signIn: 'Увійти',
+  noAccount: 'Немає акаунту? Зареєструватися',
+  loginSuccess: 'Вхід виконано!',
+  loginError: 'Помилка входу',
+  serverError: 'Не вдалося зв\'язатися з сервером',
+  logout: 'Вийти з акаунту',
 };
