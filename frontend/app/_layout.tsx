@@ -10,6 +10,7 @@ import { MealsProvider } from '@/contexts/MealsContext';
 import i18n from '@/i18n';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { StyleSheet } from 'react-native';
+import RegisterScreen from '../src/screens/RegisterScreen';
 
 // Prevent splash screen from auto-hiding
 SplashScreen.preventAutoHideAsync();
@@ -41,6 +42,7 @@ export default function RootLayout() {
       <UserProvider>
         <MealsProvider>
           <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="register" options={{ headerShown: true, title: 'Регистрация' }} />
             <Stack.Screen name="onboarding" options={{ gestureEnabled: false }} />
             <Stack.Screen name="(tabs)" options={{ gestureEnabled: false }} />
             <Stack.Screen name="+not-found" />
