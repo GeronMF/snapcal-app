@@ -268,45 +268,70 @@ export default function ProfileSetupScreen() {
                 style={[styles.radioButton, activityLevel === 'sedentary' && styles.radioSelected]}
                 onPress={() => setActivityLevel('sedentary')}
               >
-                <Text style={[styles.radioText, activityLevel === 'sedentary' && styles.radioTextSelected]}>
-                  {i18n.t('activityLevels.sedentary')}
-                </Text>
+                <View style={styles.radioContent}>
+                  <Text style={[styles.radioText, activityLevel === 'sedentary' && styles.radioTextSelected]}>
+                    {i18n.t('activityLevels.sedentary')}
+                  </Text>
+                  <Text style={[styles.radioDescription, activityLevel === 'sedentary' && styles.radioDescriptionSelected]}>
+                    {i18n.t('activityDescriptions.sedentary')}
+                  </Text>
+                </View>
               </TouchableOpacity>
               
               <TouchableOpacity
                 style={[styles.radioButton, activityLevel === 'light' && styles.radioSelected]}
                 onPress={() => setActivityLevel('light')}
               >
-                <Text style={[styles.radioText, activityLevel === 'light' && styles.radioTextSelected]}>
-                  {i18n.t('activityLevels.light')}
-                </Text>
+                <View style={styles.radioContent}>
+                  <Text style={[styles.radioText, activityLevel === 'light' && styles.radioTextSelected]}>
+                    {i18n.t('activityLevels.light')}
+                  </Text>
+                  <Text style={[styles.radioDescription, activityLevel === 'light' && styles.radioDescriptionSelected]}>
+                    {i18n.t('activityDescriptions.light')}
+                  </Text>
+                </View>
               </TouchableOpacity>
 
               <TouchableOpacity
                 style={[styles.radioButton, activityLevel === 'moderate' && styles.radioSelected]}
                 onPress={() => setActivityLevel('moderate')}
               >
-                <Text style={[styles.radioText, activityLevel === 'moderate' && styles.radioTextSelected]}>
-                  {i18n.t('activityLevels.moderate')}
-                </Text>
+                <View style={styles.radioContent}>
+                  <Text style={[styles.radioText, activityLevel === 'moderate' && styles.radioTextSelected]}>
+                    {i18n.t('activityLevels.moderate')}
+                  </Text>
+                  <Text style={[styles.radioDescription, activityLevel === 'moderate' && styles.radioDescriptionSelected]}>
+                    {i18n.t('activityDescriptions.moderate')}
+                  </Text>
+                </View>
               </TouchableOpacity>
 
               <TouchableOpacity
                 style={[styles.radioButton, activityLevel === 'active' && styles.radioSelected]}
                 onPress={() => setActivityLevel('active')}
               >
-                <Text style={[styles.radioText, activityLevel === 'active' && styles.radioTextSelected]}>
-                  {i18n.t('activityLevels.active')}
-                </Text>
+                <View style={styles.radioContent}>
+                  <Text style={[styles.radioText, activityLevel === 'active' && styles.radioTextSelected]}>
+                    {i18n.t('activityLevels.active')}
+                  </Text>
+                  <Text style={[styles.radioDescription, activityLevel === 'active' && styles.radioDescriptionSelected]}>
+                    {i18n.t('activityDescriptions.active')}
+                  </Text>
+                </View>
               </TouchableOpacity>
 
               <TouchableOpacity
                 style={[styles.radioButton, activityLevel === 'veryActive' && styles.radioSelected]}
                 onPress={() => setActivityLevel('veryActive')}
               >
-                <Text style={[styles.radioText, activityLevel === 'veryActive' && styles.radioTextSelected]}>
-                  {i18n.t('activityLevels.veryActive')}
-                </Text>
+                <View style={styles.radioContent}>
+                  <Text style={[styles.radioText, activityLevel === 'veryActive' && styles.radioTextSelected]}>
+                    {i18n.t('activityLevels.veryActive')}
+                  </Text>
+                  <Text style={[styles.radioDescription, activityLevel === 'veryActive' && styles.radioDescriptionSelected]}>
+                    {i18n.t('activityDescriptions.veryActive')}
+                  </Text>
+                </View>
               </TouchableOpacity>
             </View>
 
@@ -433,7 +458,7 @@ const styles = StyleSheet.create({
   },
   radioButton: {
     flexBasis: '48%',
-    paddingVertical: 14,
+    paddingVertical: 12,
     paddingHorizontal: 8,
     borderRadius: 8,
     borderWidth: 1,
@@ -441,21 +466,22 @@ const styles = StyleSheet.create({
     backgroundColor: colors.neutral[50],
     alignItems: 'center',
     marginBottom: 8,
-    minHeight: 48,
+    minHeight: 68,
   },
   radioSelected: {
     borderColor: colors.primary[500],
     backgroundColor: colors.primary[50],
   },
   radioText: {
-    fontSize: 16,
+    fontSize: 15,
     color: colors.neutral[600],
     textAlign: 'center',
-    flexWrap: 'wrap',
+    fontWeight: '600',
+    marginBottom: 4,
   },
   radioTextSelected: {
     color: colors.primary[700],
-    fontWeight: '500',
+    fontWeight: '600',
   },
   button: {
     backgroundColor: colors.primary[400],
@@ -483,5 +509,20 @@ const styles = StyleSheet.create({
   },
   keyboardView: {
     flex: 1,
+  },
+  radioContent: {
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  radioDescription: {
+    fontSize: 11,
+    color: colors.neutral[500],
+    textAlign: 'center',
+    lineHeight: 14,
+    paddingHorizontal: 4,
+  },
+  radioDescriptionSelected: {
+    color: colors.primary[600],
+    fontWeight: '500',
   },
 }); 
