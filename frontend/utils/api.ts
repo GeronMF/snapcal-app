@@ -2,6 +2,7 @@ import { environment } from '../config/environment';
 
 // Базовый URL для API
 const API_BASE_URL = environment.API_URL;
+console.log('API_BASE_URL:', API_BASE_URL);
 
 // Типы для API ответов
 interface ApiResponse<T> {

@@ -6,8 +6,8 @@ const ENV = Constants.expoConfig?.extra?.ENV || 'development';
 // Конфигурация для разных окружений
 const config = {
   development: {
-    API_URL: 'http://localhost:8081',
-    WEB_URL: 'http://localhost:8081',
+    API_URL: 'http://192.168.0.101:3333',
+    WEB_URL: 'http://192.168.0.101:3333',
     ENV: 'development'
   },
   production: {

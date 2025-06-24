@@ -73,7 +73,21 @@ router.post('/register', async (req, res, next) => {
 
     res.status(201).json({
       success: true,
-      data: { user, token }
+      data: {
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          language: user.language,
+          age: user.age,
+          gender: user.gender,
+          height: user.height,
+          weight: user.weight,
+          activityLevel: user.activity_level,
+          goal: user.goal
+        },
+        token
+      }
     });
   } catch (error) {
     next(error);
@@ -124,7 +138,21 @@ router.post('/login', async (req, res, next) => {
 
     res.json({
       success: true,
-      data: { user, token }
+      data: {
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          language: user.language,
+          age: user.age,
+          gender: user.gender,
+          height: user.height,
+          weight: user.weight,
+          activityLevel: user.activity_level,
+          goal: user.goal
+        },
+        token
+      }
     });
   } catch (error) {
     next(error);
@@ -138,7 +166,20 @@ router.get('/me', protect, async (req, res, next) => {
   try {
     res.json({
       success: true,
-      data: { user: req.user }
+      data: {
+        user: {
+          id: req.user.id,
+          name: req.user.name,
+          email: req.user.email,
+          language: req.user.language,
+          age: req.user.age,
+          gender: req.user.gender,
+          height: req.user.height,
+          weight: req.user.weight,
+          activityLevel: req.user.activity_level,
+          goal: req.user.goal
+        }
+      }
     });
   } catch (error) {
     next(error);

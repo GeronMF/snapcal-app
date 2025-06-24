@@ -61,6 +61,7 @@ export default {
   
   // Messages
   mealSaved: 'Registration successful!',
+  registrationSuccess: 'User registered successfully!',
   targetReached: 'You\'ve reached your daily calorie target!',
   targetExceeded: 'You\'ve exceeded your daily calorie target!',
   
@@ -106,4 +107,9 @@ export default {
   loginError: 'Login error',
   serverError: 'Unable to connect to server',
   logout: 'Logout',
+  profileSetup: 'Profile Setup',
+  setupProfile: 'Profile Setup',
+  fillDataForCalories: 'Fill in your data to calculate daily calorie needs',
+  saveProfile: 'Save Profile',
+  profileSetupSuccess: 'Profile setup successful!',
 };

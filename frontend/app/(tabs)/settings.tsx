@@ -12,7 +12,8 @@ import {
 } from 'react-native';
 import { useUser } from '@/contexts/UserContext';
 import LanguageSelector from '@/components/LanguageSelector';
-import { Language, Gender, ActivityLevel, Goal } from '@/types';
+import { Language, Goal } from '@/types';
+import { Gender, ActivityLevel } from '@/utils/calorieCalculator';
 import i18n from '@/i18n';
 import colors from '@/constants/colors';
 import { TextInput } from 'react-native-gesture-handler';
@@ -38,13 +39,17 @@ export default function SettingsScreen() {
   
   // Update local state when user data changes
   useEffect(() => {
+    console.log('Settings - user data:', user); // Временно для диагностики
     if (user) {
-      setAge(user.age ? user.age.toString() : '');
-      setGender(user.gender || 'male');
-      setHeight(user.height ? user.height.toString() : '');
-      setWeight(user.weight ? user.weight.toString() : '');
-      setActivityLevel(user.activityLevel || 'moderate');
-      setGoal(user.goal || 'maintain');
+      // Проверяем, есть ли вложенные данные
+      const userData = (user as any).user || user;
+      
+      setAge(userData.age ? userData.age.toString() : '');
+      setGender(userData.gender || 'male');
+      setHeight(userData.height ? userData.height.toString() : '');
+      setWeight(userData.weight ? userData.weight.toString() : '');
+      setActivityLevel(userData.activityLevel || userData.activity_level || 'moderate');
+      setGoal(userData.goal || 'maintain');
     }
   }, [user]);
   
@@ -380,7 +385,10 @@ export default function SettingsScreen() {
           router.replace('/language');
         }}
       >
-        <Text style={styles.logoutButtonText}>{i18n.t('logout')}</Text>
+        <Text style={styles.logoutButtonText}>
+          {i18n.t('logout')}
+          {user && user.name ? ` (${user.name})` : ''}
+        </Text>
       </TouchableOpacity>
     </SafeAreaView>
   );

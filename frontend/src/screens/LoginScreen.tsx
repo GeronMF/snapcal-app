@@ -29,17 +29,24 @@ export default function LoginScreen() {
       useNativeDriver: true,
     }).start();
 
-    // Автоматически скрываем через 2 секунды
+    // Автоматически скрываем и переходим через 1.5 секунды
     setTimeout(() => {
-      Animated.timing(fadeAnim, {
-        toValue: 0,
-        duration: 300,
-        useNativeDriver: true,
-      }).start(() => {
-        setShowSuccessMessage(false);
-        router.replace('/(tabs)');
+      setShowSuccessMessage(false);
+      // Проверяем данные пользователя для определения куда переходить
+      AsyncStorage.getItem('user').then(userData => {
+        if (userData) {
+          const user = JSON.parse(userData);
+          // Проверяем activityLevel и activity_level для совместимости
+          if (!user.age || !user.height || !user.weight || (!user.activityLevel && !user.activity_level) || !user.goal) {
+            router.replace('/profile-setup');
+          } else {
+            router.replace('/(tabs)');
+          }
+        } else {
+          router.replace('/(tabs)');
+        }
       });
-    }, 2000);
+    }, 1500);
   };
 
   const checkAuthStatus = async () => {
@@ -74,20 +81,28 @@ export default function LoginScreen() {
     }
     setLoading(true);
     try {
+      console.log('Отправка запроса логина...');
       const response = await fetch('https://snapcal.fun/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
       const data = await response.json();
+      console.log('Ответ сервера:', data);
+      
       if (response.ok && data.success) {
+        console.log('Сохранение токена и данных пользователя...');
         await AsyncStorage.setItem('token', data.data.token);
         await AsyncStorage.setItem('user', JSON.stringify(data.data.user));
+        
+        console.log('Данные пользователя сохранены, показываем уведомление...');
         showSuccessNotification();
       } else {
+        console.log('Ошибка логина:', data.error);
         Alert.alert(i18n.t('error'), data.error || i18n.t('loginError'));
       }
     } catch (e) {
+      console.log('Ошибка сети:', e);
       Alert.alert(i18n.t('error'), i18n.t('serverError'));
     } finally {
       setLoading(false);

@@ -11,6 +11,7 @@ export type User = {
   weight?: number;
   activityLevel?: ActivityLevel;
   goal?: Goal;
+  dailyCalories?: number;
 };
 
 export type Meal = {
@@ -61,6 +62,7 @@ export interface UserContextType {
   setUserData: (data: Partial<User>) => Promise<void>;
   updateLanguage: (language: Language) => void;
   calculateTargetCalories: () => number;
+  reloadUser: () => Promise<void>;
 }
 
 export interface LanguageSelectorProps {

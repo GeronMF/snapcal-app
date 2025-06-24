@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode, useCallback, useMemo } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { User, UserContextType, Language } from '../types';
 import { calculateDailyCalories } from '../utils/calorieCalculator';
@@ -12,39 +12,66 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    loadUser();
-  }, []);
-
-  const loadUser = async () => {
+  const loadUser = useCallback(async () => {
     try {
-      const userData = await AsyncStorage.getItem(STORAGE_KEY);
+      const userData = await AsyncStorage.getItem('user');
       if (userData) {
-        setUser(JSON.parse(userData));
+        const parsedData = JSON.parse(userData);
+        // Если данные во вложенном объекте user, извлекаем их
+        const userDataToSet = parsedData.user || parsedData;
+        
+        // Преобразуем activity_level в activityLevel если нужно
+        const normalizedData = {
+          ...userDataToSet,
+          activityLevel: userDataToSet.activityLevel || userDataToSet.activity_level
+        };
+
+        console.log('Loading user data:', normalizedData); // Для диагностики
+        setUser(prevUser => {
+          // Проверяем, действительно ли данные изменились
+          if (JSON.stringify(prevUser) === JSON.stringify(normalizedData)) {
+            return prevUser; // Возвращаем тот же объект, чтобы избежать ре-рендера
+          }
+          return normalizedData;
+        });
       }
     } catch (error) {
       console.error('Error loading user data:', error);
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const setUserData = async (data: Partial<User>) => {
+  useEffect(() => {
+    loadUser();
+  }, [loadUser]);
+
+  const setUserData = useCallback(async (data: Partial<User>) => {
     try {
       const updatedUser = { ...user, ...data };
-      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedUser));
+      await AsyncStorage.setItem('user', JSON.stringify(updatedUser));
       setUser(updatedUser as User);
     } catch (error) {
       console.error('Error saving user data:', error);
     }
-  };
+  }, [user]);
 
-  const updateLanguage = async (language: Language) => {
+  const reloadUser = useCallback(async () => {
+    await loadUser();
+  }, [loadUser]);
+
+  const updateLanguage = useCallback(async (language: Language) => {
     i18n.locale = language;
     await setUserData({ language });
-  };
+  }, [setUserData]);
 
-  const calculateTargetCalories = () => {
+  const calculateTargetCalories = useCallback(() => {
+    // Если у пользователя уже есть рассчитанная дневная норма калорий, используем её
+    if (user?.dailyCalories) {
+      return user.dailyCalories;
+    }
+
+    // Иначе рассчитываем на основе данных профиля
     if (!user?.age || !user?.gender || !user?.height || !user?.weight || !user?.activityLevel) {
       return 2000; // Default value if user data is incomplete
     }
@@ -66,10 +93,18 @@ export function UserProvider({ children }: { children: ReactNode }) {
       default:
         return baseCalories; // maintain
     }
-  };
+  }, [user]);
+
+  const contextValue = useMemo(() => ({
+    user,
+    setUserData,
+    updateLanguage,
+    calculateTargetCalories,
+    reloadUser
+  }), [user, setUserData, updateLanguage, calculateTargetCalories, reloadUser]);
 
   return (
-    <UserContext.Provider value={{ user, setUserData, updateLanguage, calculateTargetCalories }}>
+    <UserContext.Provider value={contextValue}>
       {children}
     </UserContext.Provider>
   );

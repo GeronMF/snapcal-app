@@ -75,6 +75,7 @@ export default {
   
   // Messages
   mealSaved: 'Rejestracja zakończona sukcesem!',
+  registrationSuccess: 'Użytkownik został pomyślnie zarejestrowany!',
   targetReached: 'Osiągnąłeś swój dzienny cel kaloryczny!',
   targetExceeded: 'Przekroczyłeś swój dzienny cel kaloryczny!',
   
@@ -104,4 +105,9 @@ export default {
   loginError: 'Błąd logowania',
   serverError: 'Nie udało się połączyć z serwerem',
   logout: 'Wyloguj się',
+  profileSetup: 'Konfiguracja profilu',
+  setupProfile: 'Konfiguracja profilu',
+  fillDataForCalories: 'Wypełnij dane, aby obliczyć dzienne zapotrzebowanie kaloryczne',
+  saveProfile: 'Zapisz profil',
+  profileSetupSuccess: 'Konfiguracja profilu zakończona sukcesem!',
 };

@@ -81,9 +81,10 @@ export default {
   updateProfile: 'Обновить профиль',
   
   // Messages
-  mealSaved: 'Прием пищи успешно сохранен',
+  mealSaved: 'Регистрация прошла успешно!',
   targetReached: 'Вы достигли своей дневной нормы калорий!',
   targetExceeded: 'Вы превысили свою дневную норму калорий!',
+  registrationSuccess: 'Пользователь успешно зарегистрирован!',
   
   // Errors
   cameraPermissionDenied: 'Доступ к камере был отклонен',
@@ -108,4 +109,9 @@ export default {
   loginError: 'Ошибка входа',
   serverError: 'Не удалось связаться с сервером',
   logout: 'Выйти из аккаунта',
+  profileSetup: 'Настройка профиля',
+  setupProfile: 'Настройка профиля',
+  fillDataForCalories: 'Заполните данные для расчёта дневной нормы калорий',
+  saveProfile: 'Сохранить профиль',
+  profileSetupSuccess: 'Профиль успешно настроен!',
 };

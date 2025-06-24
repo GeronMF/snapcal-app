@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const compression = require('compression');
 const rateLimit = require('express-rate-limit');
 require('dotenv').config();
+console.log('DB_NAME:', process.env.DB_NAME);
 
 const authRoutes = require('./routes/auth-mysql');
 const userRoutes = require('./routes/users-mysql');

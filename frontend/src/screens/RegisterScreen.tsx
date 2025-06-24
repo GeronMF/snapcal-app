@@ -15,6 +15,7 @@ export default function RegisterScreen() {
   const fadeAnim = useState(new Animated.Value(0))[0];
   const router = useRouter();
   const params = useLocalSearchParams();
+  const [animationEnded, setAnimationEnded] = useState(false);
 
   useEffect(() => {
     if (params.language && typeof params.language === 'string') {
@@ -34,13 +35,13 @@ export default function RegisterScreen() {
 
   const showSuccessNotification = () => {
     setShowSuccessMessage(true);
+    setAnimationEnded(false);
     Animated.timing(fadeAnim, {
       toValue: 1,
       duration: 300,
       useNativeDriver: true,
     }).start();
 
-    // Автоматически скрываем через 2 секунды
     setTimeout(() => {
       Animated.timing(fadeAnim, {
         toValue: 0,
@@ -48,10 +49,16 @@ export default function RegisterScreen() {
         useNativeDriver: true,
       }).start(() => {
         setShowSuccessMessage(false);
-        router.replace('/(tabs)');
+        setAnimationEnded(true);
       });
     }, 2000);
   };
+
+  useEffect(() => {
+    if (animationEnded) {
+      // router.replace('/(tabs)'); // Удаляю переход на tabs
+    }
+  }, [animationEnded, router]);
 
   const handleRegister = async () => {
     if (!name || !email || !password) {
@@ -69,7 +76,7 @@ export default function RegisterScreen() {
       if (response.ok && data.success) {
         await AsyncStorage.setItem('token', data.data.token);
         await AsyncStorage.setItem('user', JSON.stringify(data.data.user));
-        showSuccessNotification();
+        router.replace('/profile-setup'); // Переход только на профиль
       } else {
         Alert.alert(i18n.t('error') || 'Ошибка', data.error || 'Ошибка регистрации');
       }
@@ -88,7 +95,7 @@ export default function RegisterScreen() {
     >
       {showSuccessMessage && (
         <Animated.View style={[styles.successNotification, { opacity: fadeAnim }]}>
-          <Text style={styles.successText}>{i18n.t('mealSaved')}</Text>
+          <Text style={styles.successText}>{i18n.t('registrationSuccess')}</Text>
         </Animated.View>
       )}
       

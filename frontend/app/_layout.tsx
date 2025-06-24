@@ -42,7 +42,11 @@ export default function RootLayout() {
       <UserProvider>
         <MealsProvider>
           <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="index" />
+            <Stack.Screen name="language" />
             <Stack.Screen name="register" options={{ headerShown: true, title: 'Регистрация' }} />
+            <Stack.Screen name="login" />
+            <Stack.Screen name="profile-setup" />
             <Stack.Screen name="onboarding" options={{ gestureEnabled: false }} />
             <Stack.Screen name="(tabs)" options={{ gestureEnabled: false }} />
             <Stack.Screen name="+not-found" />

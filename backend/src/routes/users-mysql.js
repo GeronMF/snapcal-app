@@ -17,7 +17,8 @@ router.put('/profile', protect, async (req, res, next) => {
       height, 
       weight, 
       activityLevel, 
-      goal 
+      goal,
+      dailyCalories
     } = req.body;
 
     // Build update query dynamically
@@ -56,6 +57,10 @@ router.put('/profile', protect, async (req, res, next) => {
       updateFields.push('goal = ?');
       values.push(goal);
     }
+    if (dailyCalories !== undefined) {
+      updateFields.push('daily_calories = ?');
+      values.push(dailyCalories);
+    }
 
     if (updateFields.length === 0) {
       return res.status(400).json({
@@ -72,13 +77,13 @@ router.put('/profile', protect, async (req, res, next) => {
     );
 
     const [[updatedUser]] = await query(
-      'SELECT id, name, email, language, age, gender, height, weight, activity_level, goal FROM users WHERE id = ?',
+      'SELECT id, name, email, language, age, gender, height, weight, activity_level, goal, daily_calories FROM users WHERE id = ?',
       [req.user.id]
     );
 
     res.json({
       success: true,
-      data: { user: updatedUser }
+      data: updatedUser
     });
   } catch (error) {
     next(error);

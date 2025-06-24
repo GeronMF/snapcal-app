@@ -55,6 +55,7 @@ export default {
   
   // Messages
   mealSaved: 'Реєстрація пройшла успішно!',
+  registrationSuccess: 'Користувача успішно зареєстровано!',
   targetReached: 'Ви досягли своєї денної норми калорій!',
   targetExceeded: 'Ви перевищили свою денну норму калорій!',
   
@@ -102,4 +103,9 @@ export default {
   loginError: 'Помилка входу',
   serverError: 'Не вдалося зв\'язатися з сервером',
   logout: 'Вийти з акаунту',
+  profileSetup: 'Налаштування профілю',
+  setupProfile: 'Налаштування профілю',
+  fillDataForCalories: 'Заповніть дані для розрахунку денної норми калорій',
+  saveProfile: 'Зберегти профіль',
+  profileSetupSuccess: 'Профіль успішно налаштовано!',
 };

@@ -57,6 +57,7 @@ export default {
   mealSaved: '¡Registro exitoso!',
   targetReached: '¡Has alcanzado tu objetivo diario de calorías!',
   targetExceeded: '¡Has excedido tu objetivo diario de calorías!',
+  registrationSuccess: '¡Usuario registrado exitosamente!',
   
   // Errors
   cameraPermissionDenied: 'El permiso de la cámara fue denegado',
@@ -102,4 +103,9 @@ export default {
   loginError: 'Error de inicio de sesión',
   serverError: 'No se pudo conectar al servidor',
   logout: 'Cerrar sesión',
+  profileSetup: 'Configuración del perfil',
+  setupProfile: 'Configuración del perfil',
+  fillDataForCalories: 'Complete sus datos para calcular las necesidades calóricas diarias',
+  saveProfile: 'Guardar perfil',
+  profileSetupSuccess: '¡Configuración del perfil exitosa!',
 };
