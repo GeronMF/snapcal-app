@@ -14,11 +14,17 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   const loadUser = useCallback(async () => {
     try {
+      console.log('UserContext: Starting to load user data...');
       const userData = await AsyncStorage.getItem('user');
+      console.log('UserContext: Raw userData:', userData);
+      
       if (userData) {
         const parsedData = JSON.parse(userData);
+        console.log('UserContext: Parsed data:', parsedData);
+        
         // Если данные во вложенном объекте user, извлекаем их
         const userDataToSet = parsedData.user || parsedData;
+        console.log('UserContext: User data to set:', userDataToSet);
         
         // Преобразуем activity_level в activityLevel если нужно
         const normalizedData = {
@@ -26,17 +32,22 @@ export function UserProvider({ children }: { children: ReactNode }) {
           activityLevel: userDataToSet.activityLevel || userDataToSet.activity_level
         };
 
-        console.log('Loading user data:', normalizedData); // Для диагностики
+        console.log('UserContext: Normalized data:', normalizedData);
         setUser(prevUser => {
           // Проверяем, действительно ли данные изменились
           if (JSON.stringify(prevUser) === JSON.stringify(normalizedData)) {
+            console.log('UserContext: Data unchanged, keeping previous user');
             return prevUser; // Возвращаем тот же объект, чтобы избежать ре-рендера
           }
+          console.log('UserContext: Setting new user data');
           return normalizedData;
         });
+      } else {
+        console.log('UserContext: No user data found');
+        setUser(null);
       }
     } catch (error) {
-      console.error('Error loading user data:', error);
+      console.error('UserContext: Error loading user data:', error);
     } finally {
       setLoading(false);
     }

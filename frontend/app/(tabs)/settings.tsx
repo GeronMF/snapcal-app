@@ -11,6 +11,7 @@ import {
   Alert
 } from 'react-native';
 import { useUser } from '@/contexts/UserContext';
+import { useMeals } from '@/contexts/MealsContext';
 import LanguageSelector from '@/components/LanguageSelector';
 import { Language, Goal } from '@/types';
 import { Gender, ActivityLevel } from '@/utils/calorieCalculator';
@@ -20,9 +21,11 @@ import { TextInput } from 'react-native-gesture-handler';
 import { ChevronDown, ChevronRight } from 'lucide-react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
+import { clearUserData } from '@/utils/storage';
 
 export default function SettingsScreen() {
-  const { user, setUserData, updateLanguage } = useUser();
+  const { user, setUserData, updateLanguage, reloadUser } = useUser();
+  const { clearMealsForNewUser } = useMeals();
   const router = useRouter();
   
   const [isProfileExpanded, setIsProfileExpanded] = useState(false);
@@ -379,9 +382,16 @@ export default function SettingsScreen() {
       <TouchableOpacity
         style={styles.logoutButton}
         onPress={async () => {
+          // Очищаем только токен и данные пользователя, НЕ приемы пищи
           await AsyncStorage.removeItem('token');
           await AsyncStorage.removeItem('user');
           await AsyncStorage.removeItem('selectedLanguage');
+          
+          // Очищаем контексты немедленно
+          console.log('Clearing contexts on logout...');
+          clearMealsForNewUser();
+          await reloadUser();
+          
           router.replace('/language');
         }}
       >

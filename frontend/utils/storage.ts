@@ -9,6 +9,26 @@ const KEYS = {
   NOTIFICATIONS: 'snapcal_notifications',
 };
 
+// Функция для получения ключа приемов пищи для конкретного пользователя
+export const getUserMealsKey = (userId: string): string => {
+  return `${KEYS.MEALS}_${userId}`;
+};
+
+// Функция для получения текущего пользователя
+export const getCurrentUserId = async (): Promise<string | null> => {
+  try {
+    const userData = await AsyncStorage.getItem('user');
+    if (userData) {
+      const user = JSON.parse(userData);
+      return user.id || user.user?.id || null;
+    }
+    return null;
+  } catch (error) {
+    console.error('Error getting current user ID:', error);
+    return null;
+  }
+};
+
 // User data storage
 export async function saveUser(user: User): Promise<void> {
   try {
@@ -28,12 +48,27 @@ export async function getUser(): Promise<User | null> {
   }
 }
 
-// Meal data storage
+// Meal data storage с разделением по пользователям
 export async function saveMeal(meal: Meal): Promise<void> {
   try {
+    const userId = await getCurrentUserId();
+    if (!userId) {
+      console.error('No user ID found, cannot save meal');
+      return;
+    }
+
     const meals = await getMeals();
-    meals.push(meal);
-    await AsyncStorage.setItem(KEYS.MEALS, JSON.stringify(meals));
+    
+    // Найти существующий прием пищи и обновить его или добавить новый
+    const existingIndex = meals.findIndex(m => m.id === meal.id);
+    if (existingIndex >= 0) {
+      meals[existingIndex] = meal;
+    } else {
+      meals.push(meal);
+    }
+    
+    const userMealsKey = getUserMealsKey(userId);
+    await AsyncStorage.setItem(userMealsKey, JSON.stringify(meals));
   } catch (error) {
     console.error('Error saving meal data:', error);
   }
@@ -41,7 +76,14 @@ export async function saveMeal(meal: Meal): Promise<void> {
 
 export async function getMeals(): Promise<Meal[]> {
   try {
-    const mealsData = await AsyncStorage.getItem(KEYS.MEALS);
+    const userId = await getCurrentUserId();
+    if (!userId) {
+      console.log('No user ID found, returning empty meals array');
+      return [];
+    }
+
+    const userMealsKey = getUserMealsKey(userId);
+    const mealsData = await AsyncStorage.getItem(userMealsKey);
     return mealsData ? JSON.parse(mealsData) : [];
   } catch (error) {
     console.error('Error getting meals data:', error);
@@ -61,11 +103,47 @@ export async function getMealsByDate(date: string): Promise<Meal[]> {
 
 export async function deleteMeal(id: string): Promise<void> {
   try {
+    const userId = await getCurrentUserId();
+    if (!userId) {
+      console.error('No user ID found, cannot delete meal');
+      return;
+    }
+
     const meals = await getMeals();
     const updatedMeals = meals.filter(meal => meal.id !== id);
-    await AsyncStorage.setItem(KEYS.MEALS, JSON.stringify(updatedMeals));
+    
+    const userMealsKey = getUserMealsKey(userId);
+    await AsyncStorage.setItem(userMealsKey, JSON.stringify(updatedMeals));
   } catch (error) {
     console.error('Error deleting meal:', error);
+  }
+}
+
+// Функция для очистки данных конкретного пользователя при выходе
+export async function clearUserData(): Promise<void> {
+  try {
+    const userId = await getCurrentUserId();
+    if (userId) {
+      const userMealsKey = getUserMealsKey(userId);
+      await AsyncStorage.removeItem(userMealsKey);
+    }
+  } catch (error) {
+    console.error('Error clearing user data:', error);
+  }
+}
+
+// Функция для очистки данных при смене пользователя
+export async function clearDataForUserSwitch(newUserId: string): Promise<void> {
+  try {
+    const currentUserId = await getCurrentUserId();
+    if (currentUserId && currentUserId !== newUserId) {
+      console.log('Switching users, clearing old user data');
+      // Очищаем данные только если пользователь действительно сменился
+      const oldUserMealsKey = getUserMealsKey(currentUserId);
+      await AsyncStorage.removeItem(oldUserMealsKey);
+    }
+  } catch (error) {
+    console.error('Error clearing data for user switch:', error);
   }
 }
 
@@ -118,5 +196,61 @@ export async function clearAllData(): Promise<void> {
     ]);
   } catch (error) {
     console.error('Error clearing all data:', error);
+  }
+}
+
+// Функции для работы с соответствием изображений
+const getImageMappingKey = (userId: string): string => {
+  return `snapcal_image_mapping_${userId}`;
+};
+
+// Сохранить соответствие ID изображения и локального пути
+export async function saveImageMapping(imageId: string, localPath: string): Promise<void> {
+  try {
+    const userId = await getCurrentUserId();
+    if (!userId) {
+      console.error('No user ID found, cannot save image mapping');
+      return;
+    }
+
+    const key = getImageMappingKey(userId);
+    const existingMappings = await getImageMappings();
+    const updatedMappings = {
+      ...existingMappings,
+      [imageId]: localPath
+    };
+    
+    await AsyncStorage.setItem(key, JSON.stringify(updatedMappings));
+    console.log('Image mapping saved:', imageId, '->', localPath);
+  } catch (error) {
+    console.error('Error saving image mapping:', error);
+  }
+}
+
+// Получить все соответствия изображений
+export async function getImageMappings(): Promise<{ [imageId: string]: string }> {
+  try {
+    const userId = await getCurrentUserId();
+    if (!userId) {
+      return {};
+    }
+
+    const key = getImageMappingKey(userId);
+    const mappings = await AsyncStorage.getItem(key);
+    return mappings ? JSON.parse(mappings) : {};
+  } catch (error) {
+    console.error('Error getting image mappings:', error);
+    return {};
+  }
+}
+
+// Получить локальный путь по ID изображения
+export async function getLocalImagePath(imageId: string): Promise<string | null> {
+  try {
+    const mappings = await getImageMappings();
+    return mappings[imageId] || null;
+  } catch (error) {
+    console.error('Error getting local image path:', error);
+    return null;
   }
 }

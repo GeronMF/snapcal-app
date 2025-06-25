@@ -4,8 +4,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import i18n from '@/i18n';
 import colors from '@/constants/colors';
+import { useMeals } from '@/contexts/MealsContext';
+import { useUser } from '@/contexts/UserContext';
+import { clearDataForUserSwitch } from '@/utils/storage';
 
 export default function RegisterScreen() {
+  const { clearMealsForNewUser } = useMeals();
+  const { reloadUser } = useUser();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -76,6 +81,13 @@ export default function RegisterScreen() {
       if (response.ok && data.success) {
         await AsyncStorage.setItem('token', data.data.token);
         await AsyncStorage.setItem('user', JSON.stringify(data.data.user));
+        
+        // Очищаем данные старого пользователя при регистрации нового
+        console.log('Clearing old user data for new registration...');
+        await clearDataForUserSwitch(data.data.user.id);
+        clearMealsForNewUser();
+        await reloadUser();
+        
         router.replace('/profile-setup'); // Переход только на профиль
       } else {
         Alert.alert(i18n.t('error') || 'Ошибка', data.error || 'Ошибка регистрации');

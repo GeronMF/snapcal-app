@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Image, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { Meal } from '../types';
 import { format } from 'date-fns';
 import { Trash2, Heart, HeartOff } from 'lucide-react-native';
@@ -10,19 +10,75 @@ type MealCardProps = {
   meal: Meal;
   onDelete?: (id: string) => void;
   onToggleFavorite?: (id: string) => void;
+  onSelect?: (meal: Meal) => void;
   compact?: boolean;
+  disableTouch?: boolean;
 };
 
-const MealCard: React.FC<MealCardProps> = ({ meal, onDelete, onToggleFavorite, compact = false }) => {
+const MealCard: React.FC<MealCardProps> = ({ meal, onDelete, onToggleFavorite, onSelect, compact = false, disableTouch = false }) => {
   const { id, imageUri, name, calories, timestamp, isFavorite } = meal;
   
   // Format time
   const formattedTime = format(new Date(timestamp), 'HH:mm');
   
-  return (
+  const showActionDialog = () => {
+    const options = [];
+    
+    if (onToggleFavorite) {
+      if (isFavorite) {
+        options.push({
+          text: '💔 Убрать из избранного',
+          onPress: () => onToggleFavorite(id),
+        });
+      } else {
+        options.push({
+          text: '❤️ Добавить в избранное',
+          onPress: () => onToggleFavorite(id),
+        });
+      }
+    }
+    
+    if (onDelete) {
+      options.push({
+        text: '🗑️ Удалить',
+        onPress: () => onDelete(id),
+        style: 'destructive' as const,
+      });
+    }
+    
+    // Только показываем диалог если есть действия
+    if (options.length > 0) {
+      options.push({
+        text: 'Отмена',
+        style: 'cancel' as const,
+      });
+      
+      Alert.alert(
+        name,
+        `${calories} калорий • ${formattedTime}`,
+        options
+      );
+    }
+  };
+
+  const handlePress = () => {
+    if (onSelect) {
+      // Если есть onSelect - это режим выбора из избранных
+      onSelect(meal);
+    } else if ((onToggleFavorite || onDelete)) {
+      // Иначе показываем диалог действий только если есть доступные действия
+      showActionDialog();
+    }
+  };
+
+  const cardContent = (
     <View style={[styles.container, compact && styles.compactContainer]}>
       <Image
-        source={{ uri: imageUri || 'https://images.pexels.com/photos/1583884/pexels-photo-1583884.jpeg?auto=compress&cs=tinysrgb&w=400' }}
+        source={{ 
+          uri: (imageUri && imageUri.trim() !== '') 
+            ? imageUri 
+            : 'https://images.pexels.com/photos/1583884/pexels-photo-1583884.jpeg?auto=compress&cs=tinysrgb&w=400' 
+        }}
         style={[styles.image, compact && styles.compactImage]}
         resizeMode="cover"
       />
@@ -36,32 +92,22 @@ const MealCard: React.FC<MealCardProps> = ({ meal, onDelete, onToggleFavorite, c
         </View>
       </View>
       
-      <View style={styles.actionButtons}>
-        {onToggleFavorite && (
-          <TouchableOpacity 
-            style={styles.actionButton} 
-            onPress={() => onToggleFavorite(id)}
-            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-          >
-            {isFavorite ? (
-              <Heart size={18} color={colors.error[500]} fill={colors.error[500]} />
-            ) : (
-              <HeartOff size={18} color={colors.neutral[400]} />
-            )}
-          </TouchableOpacity>
-        )}
-        
-        {onDelete && (
-          <TouchableOpacity 
-            style={styles.actionButton} 
-            onPress={() => onDelete(id)}
-            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-          >
-            <Trash2 size={18} color={colors.error[500]} />
-          </TouchableOpacity>
+      <View style={styles.statusIndicator}>
+        {isFavorite && onToggleFavorite && (
+          <Heart size={20} color={colors.error[500]} fill={colors.error[500]} />
         )}
       </View>
     </View>
+  );
+  
+  if (disableTouch) {
+    return cardContent;
+  }
+  
+  return (
+    <TouchableOpacity onPress={handlePress} activeOpacity={0.7}>
+      {cardContent}
+    </TouchableOpacity>
   );
 };
 
@@ -123,15 +169,10 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: colors.primary[600],
   },
-  actionButtons: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  actionButton: {
-    padding: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
+  statusIndicator: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
   },
 });
 

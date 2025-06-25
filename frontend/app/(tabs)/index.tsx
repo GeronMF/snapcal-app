@@ -350,10 +350,10 @@ export default function HomeScreen() {
               favoriteMeals.map((meal, idx) => (
                 <TouchableOpacity
                   key={meal.id + '-' + idx}
-                  style={styles.favoriteItem}
                   onPress={() => handleAddFromFavorites(meal)}
+                  activeOpacity={0.7}
                 >
-                  <MealCard meal={meal} compact={true} />
+                  <MealCard meal={meal} compact={true} disableTouch={true} />
                 </TouchableOpacity>
               ))
             )}
@@ -570,9 +570,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
-  favoriteItem: {
-    marginBottom: 8,
-  },
+
   noFavoritesText: {
     fontSize: 16,
     color: colors.neutral[500],

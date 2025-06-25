@@ -1,19 +1,13 @@
-import { environment } from '../config/environment';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Meal } from '../types';
 
-// Базовый URL для API
-const API_BASE_URL = environment.API_URL;
-console.log('API_BASE_URL:', API_BASE_URL);
+const API_BASE_URL = 'https://snapcal.fun';
 
 // Типы для API ответов
 interface ApiResponse<T> {
   data: T;
   success: boolean;
   message?: string;
-}
-
-interface ApiError {
-  message: string;
-  status: number;
 }
 
 // Класс для работы с API
@@ -24,71 +18,96 @@ class ApiClient {
     this.baseURL = baseURL;
   }
 
+  // Получение токена авторизации
+  private async getAuthToken(): Promise<string | null> {
+    try {
+      return await AsyncStorage.getItem('token');
+    } catch (error) {
+      console.error('Error getting auth token:', error);
+      return null;
+    }
+  }
+
   // Базовый метод для HTTP запросов
-  private async request<T>(
-    endpoint: string,
-    options: RequestInit = {}
-  ): Promise<ApiResponse<T>> {
+  private async request<T>(endpoint: string, options: RequestInit = {}): Promise<ApiResponse<T>> {
     const url = `${this.baseURL}${endpoint}`;
-    
-    const config: RequestInit = {
-      headers: {
-        'Content-Type': 'application/json',
-        ...options.headers,
-      },
-      ...options,
+    const token = await this.getAuthToken();
+
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
     };
 
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
+    }
+
+    console.log('API Request:', options.method || 'GET', url);
+
     try {
-      const response = await fetch(url, config);
-      
+      const response = await fetch(url, {
+        ...options,
+        headers,
+      });
+
       if (!response.ok) {
+        console.error(`HTTP error! status: ${response.status}`);
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const data = await response.json();
-      return {
-        data,
-        success: true,
-      };
+      return data;
     } catch (error) {
       console.error('API request failed:', error);
-      throw {
-        message: error instanceof Error ? error.message : 'Unknown error',
-        status: 500,
-      } as ApiError;
+      
+      // Добавляем детальную диагностику
+      if (error instanceof TypeError && error.message.includes('Network request failed')) {
+        console.error('Network error details:');
+        console.error('- URL:', url);
+        console.error('- This usually means:');
+        console.error('  1. Server is down or unreachable');
+        console.error('  2. Network connectivity issues');
+        console.error('  3. CORS or firewall blocking the request');
+        console.error('  4. Invalid URL or SSL certificate issues');
+      }
+      
+      throw error;
     }
   }
 
-  // GET запрос
-  async get<T>(endpoint: string): Promise<ApiResponse<T>> {
-    return this.request<T>(endpoint, { method: 'GET' });
+  // Методы для работы с приемами пищи
+  async getMeals(): Promise<ApiResponse<Meal[]>> {
+    return this.request<Meal[]>('/api/meals');
   }
 
-  // POST запрос
-  async post<T>(endpoint: string, data?: any): Promise<ApiResponse<T>> {
-    return this.request<T>(endpoint, {
+  async createMeal(mealData: {
+    name: string;
+    calories: number;
+    protein?: number;
+    carbs?: number;
+    fat?: number;
+    imageUri?: string;
+    comment?: string;
+    date?: string;
+  }): Promise<ApiResponse<Meal>> {
+    return this.request<Meal>('/api/meals', {
       method: 'POST',
-      body: data ? JSON.stringify(data) : undefined,
+      body: JSON.stringify(mealData),
     });
   }
 
-  // PUT запрос
-  async put<T>(endpoint: string, data?: any): Promise<ApiResponse<T>> {
-    return this.request<T>(endpoint, {
+  async updateMeal(id: string, mealData: Partial<Meal>): Promise<ApiResponse<Meal>> {
+    return this.request<Meal>(`/api/meals/${id}`, {
       method: 'PUT',
-      body: data ? JSON.stringify(data) : undefined,
+      body: JSON.stringify(mealData),
     });
   }
 
-  // DELETE запрос
-  async delete<T>(endpoint: string): Promise<ApiResponse<T>> {
-    return this.request<T>(endpoint, { method: 'DELETE' });
+  async deleteMeal(id: string): Promise<ApiResponse<void>> {
+    return this.request<void>(`/api/meals/${id}`, {
+      method: 'DELETE',
+    });
   }
 }
 
-// Создаем экземпляр API клиента
-export const apiClient = new ApiClient(API_BASE_URL);
-
-// Экспортируем для использования в других файлах
-export { ApiResponse, ApiError }; 
+// Экспортируем единственный экземпляр
+export const apiClient = new ApiClient(API_BASE_URL); 

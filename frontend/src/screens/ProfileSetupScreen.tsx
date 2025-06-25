@@ -22,11 +22,11 @@ import { useUser } from '@/contexts/UserContext';
 
 export default function ProfileSetupScreen() {
   const [age, setAge] = useState('');
-  const [gender, setGender] = useState<Gender>('male');
+  const [gender, setGender] = useState<Gender>('female');
   const [height, setHeight] = useState('');
   const [weight, setWeight] = useState('');
-  const [activityLevel, setActivityLevel] = useState<ActivityLevel>('moderate');
-  const [goal, setGoal] = useState<Goal>('maintain');
+  const [activityLevel, setActivityLevel] = useState<ActivityLevel>('sedentary');
+  const [goal, setGoal] = useState<Goal>('lose');
   const [loading, setLoading] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const fadeAnim = useState(new Animated.Value(0))[0];
@@ -465,6 +465,7 @@ const styles = StyleSheet.create({
     borderColor: colors.neutral[200],
     backgroundColor: colors.neutral[50],
     alignItems: 'center',
+    justifyContent: 'center',
     marginBottom: 8,
     minHeight: 68,
   },
@@ -513,6 +514,8 @@ const styles = StyleSheet.create({
   radioContent: {
     flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
   },
   radioDescription: {
     fontSize: 11,

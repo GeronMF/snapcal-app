@@ -18,7 +18,7 @@ import colors from '@/constants/colors';
 import { calculateCaloriesConsumed } from '@/utils/calorieCalculator';
 
 export default function HistoryScreen() {
-  const { meals } = useMeals();
+  const { meals, removeMeal, toggleFavorite } = useMeals();
   const { user } = useUser();
   
   const [selectedDate, setSelectedDate] = useState<string>(format(new Date(), 'yyyy-MM-dd'));
@@ -30,15 +30,18 @@ export default function HistoryScreen() {
     const mealsByDate: { [date: string]: any[] } = {};
     
     meals.forEach(meal => {
-      if (!mealsByDate[meal.date]) {
-        mealsByDate[meal.date] = [];
+      // Нормализуем дату так же как в MealsContext
+      const normalizedDate = meal.date.includes('T') ? meal.date.split('T')[0] : meal.date;
+      
+      if (!mealsByDate[normalizedDate]) {
+        mealsByDate[normalizedDate] = [];
       }
-      mealsByDate[meal.date].push(meal);
+      mealsByDate[normalizedDate].push(meal);
     });
     
     // Create marked dates object for calendar with color coding
     const marked: any = {};
-    const dailyTarget = user?.dailyCalorieTarget || 2000;
+    const dailyTarget = user?.dailyCalories || 2000;
     
     // Function to get color based on calorie consumption
     const getDateColor = (date: string, mealsForDate: any[]) => {
@@ -122,7 +125,7 @@ export default function HistoryScreen() {
     
     // Update selected day meals
     setSelectedDayMeals(mealsByDate[selectedDate] || []);
-  }, [meals, selectedDate, user?.dailyCalorieTarget]);
+  }, [meals, selectedDate, user?.dailyCalories]);
   
   // Handle date selection
   const handleDateSelect = (day: any) => {
@@ -142,7 +145,17 @@ export default function HistoryScreen() {
   
   // Calculate total calories for selected day
   const totalCalories = calculateCaloriesConsumed(selectedDayMeals);
-  
+
+  // Handle meal deletion
+  const handleDeleteMeal = async (id: string) => {
+    await removeMeal(id);
+  };
+
+  // Handle favorite toggle
+  const handleToggleFavorite = async (id: string) => {
+    await toggleFavorite(id);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -210,6 +223,8 @@ export default function HistoryScreen() {
                 meals={selectedDayMeals} 
                 compact={true}
                 useScrollView={true}
+                onDeleteMeal={handleDeleteMeal}
+                onToggleFavorite={handleToggleFavorite}
               />
             )}
           </View>

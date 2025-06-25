@@ -4,6 +4,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import i18n from '@/i18n';
 import colors from '@/constants/colors';
+import { useMeals } from '@/contexts/MealsContext';
+import { useUser } from '@/contexts/UserContext';
+import { clearDataForUserSwitch } from '@/utils/storage';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -13,6 +16,8 @@ export default function LoginScreen() {
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const fadeAnim = useState(new Animated.Value(0))[0];
   const router = useRouter();
+  const { refreshMeals, clearMealsForNewUser } = useMeals();
+  const { reloadUser } = useUser();
 
   useEffect(() => {
     // Проверяем, есть ли уже токен
@@ -30,8 +35,9 @@ export default function LoginScreen() {
     }).start();
 
     // Автоматически скрываем и переходим через 1.5 секунды
-    setTimeout(() => {
+    setTimeout(async () => {
       setShowSuccessMessage(false);
+      
       // Проверяем данные пользователя для определения куда переходить
       AsyncStorage.getItem('user').then(userData => {
         if (userData) {
@@ -94,6 +100,20 @@ export default function LoginScreen() {
         console.log('Сохранение токена и данных пользователя...');
         await AsyncStorage.setItem('token', data.data.token);
         await AsyncStorage.setItem('user', JSON.stringify(data.data.user));
+        
+        // Проверяем что данные действительно сохранились
+        const savedToken = await AsyncStorage.getItem('token');
+        const savedUser = await AsyncStorage.getItem('user');
+        console.log('Проверка сохранения - token:', savedToken ? 'есть' : 'нет');
+        console.log('Проверка сохранения - user:', savedUser);
+        
+        console.log('Принудительно обновляем все контексты после логина...');
+        await clearDataForUserSwitch(data.data.user.id); // Очищаем данные для нового пользователя
+        clearMealsForNewUser(); // Очищаем контекст
+        await Promise.all([
+          reloadUser(),
+          refreshMeals()
+        ]);
         
         console.log('Данные пользователя сохранены, показываем уведомление...');
         showSuccessNotification();

@@ -15,13 +15,14 @@ export default function TabLayout() {
           tabBarInactiveTintColor: colors.neutral[400],
           tabBarStyle: {
             borderTopColor: colors.neutral[200],
-            height: 60,
-            paddingBottom: 8,
-            paddingTop: 8,
+            height: 70,
+            paddingBottom: 12,
+            paddingTop: 12,
           },
           tabBarLabelStyle: {
-            fontSize: 12,
+            fontSize: 14,
             fontFamily: 'Inter-Medium',
+            marginTop: 4,
           },
           headerShown: false,
         }}
@@ -31,7 +32,7 @@ export default function TabLayout() {
           options={{
             title: i18n.t('appName'),
             tabBarIcon: ({ color, size }) => (
-              <Camera size={size} color={color} />
+              <Camera size={28} color={color} />
             ),
           }}
         />
@@ -40,7 +41,7 @@ export default function TabLayout() {
           options={{
             title: i18n.t('historyTitle'),
             tabBarIcon: ({ color, size }) => (
-              <History size={size} color={color} />
+              <History size={28} color={color} />
             ),
           }}
         />
@@ -49,7 +50,7 @@ export default function TabLayout() {
           options={{
             title: i18n.t('settingsTitle'),
             tabBarIcon: ({ color, size }) => (
-              <SettingsIcon size={size} color={color} />
+              <SettingsIcon size={28} color={color} />
             ),
           }}
         />
