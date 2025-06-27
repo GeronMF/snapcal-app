@@ -34,7 +34,16 @@ export default function HomeScreen() {
   const [facing, setFacing] = useState<CameraType>('back');
   const [imageUri, setImageUri] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [analyzedData, setAnalyzedData] = useState<{ name: string; calories: number } | null>(null);
+  const [analyzedData, setAnalyzedData] = useState<{ 
+    name: string; 
+    calories: number; 
+    protein?: number; 
+    carbs?: number; 
+    fat?: number;
+    confidence?: number;
+    portions?: string;
+    regional?: boolean;
+  } | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
   const [showFavorites, setShowFavorites] = useState(false);
@@ -85,8 +94,9 @@ export default function HomeScreen() {
     setCommentModalVisible(false);
     setIsAnalyzing(true);
     try {
-      // Передаем комментарий в analyzeFood
-      const result = await analyzeFood(pendingPhotoUri, comment);
+      // Передаем комментарий и язык пользователя в analyzeFood
+      const userLanguage = user?.language || 'en';
+      const result = await analyzeFood(pendingPhotoUri, comment, userLanguage);
       setImageUri(pendingPhotoUri);
       setAnalyzedData(result);
     } catch (error) {
@@ -99,18 +109,18 @@ export default function HomeScreen() {
   
   // Handle meal confirmation
   const handleConfirmMeal = async (name: string, calories: number, comment: string) => {
-    if (!imageUri) return;
+    if (!imageUri || !analyzedData) return;
     
     try {
       setIsSaving(true);
       
-      // Add meal to storage
+      // Add meal to storage with AI data
       await addMeal({
         name,
         calories,
-        protein: 0,
-        carbs: 0,
-        fat: 0,
+        protein: analyzedData.protein || 0,
+        carbs: analyzedData.carbs || 0,
+        fat: analyzedData.fat || 0,
         userId: user?.id || '',
         comment,
         imageUri,

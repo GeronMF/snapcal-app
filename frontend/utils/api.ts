@@ -21,7 +21,9 @@ class ApiClient {
   // Получение токена авторизации
   private async getAuthToken(): Promise<string | null> {
     try {
-      return await AsyncStorage.getItem('token');
+      const token = await AsyncStorage.getItem('token');
+      console.log('🔑 Auth token retrieved:', token ? `${token.substring(0, 20)}...` : 'null');
+      return token;
     } catch (error) {
       console.error('Error getting auth token:', error);
       return null;
@@ -106,6 +108,73 @@ class ApiClient {
     return this.request<void>(`/api/meals/${id}`, {
       method: 'DELETE',
     });
+  }
+
+  // AI анализ изображения еды
+  async analyzeFood(imageUri: string, comment?: string, language?: string): Promise<ApiResponse<{
+    name: string;
+    calories: number;
+    protein: number;
+    carbs: number;
+    fat: number;
+    confidence: number;
+    portions: string;
+    regional?: boolean;
+  }>> {
+    const formData = new FormData();
+    
+    // Добавляем изображение
+    formData.append('image', {
+      uri: imageUri,
+      type: 'image/jpeg',
+      name: 'food.jpg',
+    } as any);
+    
+    // Добавляем комментарий если есть
+    if (comment) {
+      formData.append('comment', comment);
+    }
+    
+    // Добавляем язык если указан
+    if (language) {
+      formData.append('language', language);
+    }
+
+    const token = await this.getAuthToken();
+    const headers: Record<string, string> = {};
+
+    // Добавляем токен авторизации
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
+    }
+
+    // НЕ добавляем Content-Type для FormData - браузер сам установит правильный заголовок с boundary
+
+    console.log('AI Analysis Request:', `${this.baseURL}/api/ai/analyze`);
+    console.log('Using auth token:', token ? 'Yes' : 'No');
+
+    try {
+      const response = await fetch(`${this.baseURL}/api/ai/analyze`, {
+        method: 'POST',
+        headers,
+        body: formData,
+      });
+
+      console.log('AI Response status:', response.status);
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error(`HTTP error! status: ${response.status}, body: ${errorText}`);
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('AI Analysis successful:', data);
+      return data;
+    } catch (error) {
+      console.error('AI Analysis request failed:', error);
+      throw error;
+    }
   }
 }
 

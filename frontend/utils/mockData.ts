@@ -1,8 +1,10 @@
 import { Meal } from '../types';
 import { format } from 'date-fns';
 import { v4 as uuidv4 } from 'uuid';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { apiClient } from './api';
 
-// Mock meals for different dishes
+// Mock meals for different dishes (fallback)
 const mockMeals: { [key: string]: { name: string; calories: number } } = {
   pizza: { name: 'Pizza', calories: 285 },
   salad: { name: 'Caesar Salad', calories: 150 },
@@ -16,18 +18,56 @@ const mockMeals: { [key: string]: { name: string; calories: number } } = {
   default: { name: 'Unknown Meal', calories: 250 },
 };
 
-// Mock AI analysis result - in a real app, this would be an API call
-export async function analyzeFood(uri: string, comment?: string): Promise<{ name: string; calories: number }> {
-  return new Promise((resolve) => {
-    // Simulate API delay
-    setTimeout(() => {
-      // Random selection from mock meals to simulate AI response
-      const mockMealKeys = Object.keys(mockMeals);
-      const randomKey = mockMealKeys[Math.floor(Math.random() * mockMealKeys.length)];
-      
-      resolve(mockMeals[randomKey]);
-    }, 1500); // 1.5 second delay to simulate API call
-  });
+// Реальный AI анализ через API
+export async function analyzeFood(uri: string, comment?: string, language?: string): Promise<{ 
+  name: string; 
+  calories: number;
+  protein?: number;
+  carbs?: number;
+  fat?: number;
+  confidence?: number;
+  portions?: string;
+  regional?: boolean;
+}> {
+  try {
+    console.log('🔍 Starting AI food analysis...');
+    console.log('Image URI:', uri);
+    console.log('Comment:', comment);
+    console.log('Language:', language);
+    
+    // Проверяем наличие токена авторизации
+    const token = await AsyncStorage.getItem('token');
+    if (!token) {
+      console.warn('⚠️ No auth token found, using fallback');
+      throw new Error('No authentication token');
+    }
+    
+    const response = await apiClient.analyzeFood(uri, comment, language);
+    
+    if (response.success && response.data) {
+      console.log('✅ AI analysis successful:', response.data);
+      return response.data;
+    } else {
+      throw new Error(response.message || 'AI analysis failed');
+    }
+  } catch (error) {
+    console.error('❌ AI analysis error:', error);
+    
+    // Fallback to mock data
+    console.log('🔄 Using fallback mock data...');
+    const mockMealKeys = Object.keys(mockMeals);
+    const randomKey = mockMealKeys[Math.floor(Math.random() * mockMealKeys.length)];
+    
+    return {
+      ...mockMeals[randomKey],
+      protein: 15,
+      carbs: 30,
+      fat: 10,
+      confidence: 0.6,
+      portions: 'Estimated portion (fallback)',
+      regional: false
+    };
+  }
 }
 
 // Create a mock meal with the current timestamp
@@ -39,6 +79,10 @@ export function createMockMeal(imageUri: string, name: string, calories: number)
     imageUri,
     name,
     calories,
+    protein: 15,
+    carbs: 30,
+    fat: 10,
+    userId: '',
     timestamp: now.getTime(),
     date: format(now, 'yyyy-MM-dd'),
   };
@@ -64,6 +108,10 @@ export function generateMockMeals(count: number = 5): Meal[] {
       imageUri: 'https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg',
       name,
       calories,
+      protein: Math.round(calories * 0.15 / 4), // Примерно 15% калорий из белка
+      carbs: Math.round(calories * 0.50 / 4), // Примерно 50% калорий из углеводов
+      fat: Math.round(calories * 0.35 / 9), // Примерно 35% калорий из жиров
+      userId: '',
       timestamp: date.getTime(),
       date: format(date, 'yyyy-MM-dd'),
     });

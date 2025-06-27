@@ -95,11 +95,29 @@ router.get('/:id', protect, async (req, res, next) => {
 // @access  Private
 router.post('/', protect, async (req, res, next) => {
   try {
-    const { name, calories, protein = 0, carbs = 0, fat = 0, imageUri, comment, date } = req.body;
+    const { 
+      name, 
+      calories, 
+      protein = 0, 
+      carbs = 0, 
+      fat = 0, 
+      imageUri, 
+      comment, 
+      date,
+      // New AI-related fields
+      language,
+      ai_confidence,
+      ai_provider,
+      portions,
+      regional
+    } = req.body;
 
     if (!name || calories === undefined) {
       return res.status(400).json({ success: false, error: 'Name and calories are required' });
     }
+
+    // Get user language from request, user profile, or default to English
+    const userLanguage = language || req.user?.language || 'en';
 
     const newMeal = {
       id: uuidv4(),
@@ -112,13 +130,20 @@ router.post('/', protect, async (req, res, next) => {
       image_uri: imageUri,
       comment,
       date: date || new Date().toISOString().split('T')[0],
-      timestamp: Date.now()
+      timestamp: Date.now(),
+      // AI fields
+      language: userLanguage,
+      ai_confidence: ai_confidence || 0.0,
+      ai_provider: ai_provider || 'manual',
+      portions: portions || null,
+      regional: regional || false
     };
 
     await query('INSERT INTO meals SET ?', newMeal);
 
     res.status(201).json({ success: true, data: newMeal });
   } catch (error) {
+    console.error('Create meal error:', error);
     next(error);
   }
 });
