@@ -114,7 +114,7 @@ export default function HomeScreen() {
     try {
       setIsSaving(true);
       
-      // Add meal to storage with AI data
+      // Add meal to storage with all AI data
       await addMeal({
         name,
         calories,
@@ -124,6 +124,12 @@ export default function HomeScreen() {
         userId: user?.id || '',
         comment,
         imageUri,
+        // AI analysis fields
+        confidence: analyzedData.confidence,
+        portions: analyzedData.portions,
+        language: user?.language || 'en',
+        provider: 'openai',
+        regional: analyzedData.regional,
       });
       
       // Reset state
@@ -187,7 +193,7 @@ export default function HomeScreen() {
   // Render camera permission denied UI
   if (!permission.granted) {
     return (
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         <View style={styles.centered}>
           <Text style={styles.permissionText}>{i18n.t('cameraPermissionDenied')}</Text>
           <TouchableOpacity 
@@ -197,12 +203,12 @@ export default function HomeScreen() {
             <Text style={styles.permissionButtonText}>{i18n.t('next')}</Text>
           </TouchableOpacity>
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
   
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerTitle}>{i18n.t('appName')}</Text>
       </View>
@@ -226,6 +232,7 @@ export default function HomeScreen() {
             onToggleFavorite={handleToggleFavorite}
             emptyText={i18n.t('noMealsYet')}
             useScrollView={true}
+            showNutrients={false}
           />
         </View>
       </ScrollView>
@@ -280,6 +287,12 @@ export default function HomeScreen() {
             imageUri={imageUri || ''}
             mealName={analyzedData?.name || ''}
             calories={analyzedData?.calories || 0}
+            protein={analyzedData?.protein}
+            carbs={analyzedData?.carbs}
+            fat={analyzedData?.fat}
+            confidence={analyzedData?.confidence}
+            portions={analyzedData?.portions}
+            regional={analyzedData?.regional}
             isLoading={isSaving}
             onConfirm={handleConfirmMeal}
             onCancel={handleCancelMeal}
@@ -358,13 +371,13 @@ export default function HomeScreen() {
               <Text style={styles.noFavoritesText}>{i18n.t('noFavorites')}</Text>
             ) : (
               favoriteMeals.map((meal, idx) => (
-                <TouchableOpacity
+                <MealCard 
                   key={meal.id + '-' + idx}
-                  onPress={() => handleAddFromFavorites(meal)}
-                  activeOpacity={0.7}
-                >
-                  <MealCard meal={meal} compact={true} disableTouch={true} />
-                </TouchableOpacity>
+                  meal={meal} 
+                  compact={true} 
+                  showNutrients={true}
+                  onSelect={handleAddFromFavorites}
+                />
               ))
             )}
           </ScrollView>
@@ -377,7 +390,7 @@ export default function HomeScreen() {
         onSubmit={handleCommentSubmit}
         onCancel={() => { setCommentModalVisible(false); setPendingPhotoUri(null); }}
       />
-    </SafeAreaView>
+    </View>
   );
 }
 

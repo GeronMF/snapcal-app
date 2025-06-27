@@ -157,7 +157,7 @@ export default function HistoryScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerTitle}>{i18n.t('historyTitle')}</Text>
       </View>
@@ -230,7 +230,7 @@ export default function HistoryScreen() {
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 

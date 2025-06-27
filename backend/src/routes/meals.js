@@ -58,6 +58,7 @@ router.get('/', protect, async (req, res, next) => {
 
     const result = await query(
       `SELECT id, name, calories, protein, carbs, fat, image_uri, comment, 
+              confidence, language, ai_provider, portions, regional,
               is_favorite, date, timestamp, created_at
        FROM meals 
        ${whereClause}
@@ -72,9 +73,14 @@ router.get('/', protect, async (req, res, next) => {
         id: meal.id,
         name: meal.name,
         calories: meal.calories,
-        protein: parseFloat(meal.protein),
-        carbs: parseFloat(meal.carbs),
-        fat: parseFloat(meal.fat),
+        protein: parseFloat(meal.protein) || 0,
+        carbs: parseFloat(meal.carbs) || 0,
+        fat: parseFloat(meal.fat) || 0,
+        confidence: parseFloat(meal.confidence) || 0,
+        language: meal.language,
+        provider: meal.ai_provider,
+        portions: meal.portions,
+        regional: meal.regional,
         imageUri: meal.image_uri,
         comment: meal.comment,
         isFavorite: meal.is_favorite,
@@ -97,6 +103,7 @@ router.get('/:id', protect, async (req, res, next) => {
 
     const result = await query(
       `SELECT id, name, calories, protein, carbs, fat, image_uri, comment, 
+              confidence, language, ai_provider, portions, regional,
               is_favorite, date, timestamp, created_at
        FROM meals 
        WHERE id = $1 AND user_id = $2`,
@@ -118,9 +125,14 @@ router.get('/:id', protect, async (req, res, next) => {
         id: meal.id,
         name: meal.name,
         calories: meal.calories,
-        protein: parseFloat(meal.protein),
-        carbs: parseFloat(meal.carbs),
-        fat: parseFloat(meal.fat),
+        protein: parseFloat(meal.protein) || 0,
+        carbs: parseFloat(meal.carbs) || 0,
+        fat: parseFloat(meal.fat) || 0,
+        confidence: parseFloat(meal.confidence) || 0,
+        language: meal.language,
+        provider: meal.ai_provider,
+        portions: meal.portions,
+        regional: meal.regional,
         imageUri: meal.image_uri,
         comment: meal.comment,
         isFavorite: meal.is_favorite,
@@ -145,6 +157,11 @@ router.post('/', protect, async (req, res, next) => {
       protein = 0, 
       carbs = 0, 
       fat = 0, 
+      confidence = 0,
+      language = 'en',
+      provider = 'openai',
+      portions,
+      regional = false,
       imageUri, 
       comment, 
       date 
@@ -161,10 +178,10 @@ router.post('/', protect, async (req, res, next) => {
     const timestamp = Date.now();
 
     const result = await query(
-      `INSERT INTO meals (user_id, name, calories, protein, carbs, fat, image_uri, comment, date, timestamp)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
-       RETURNING id, name, calories, protein, carbs, fat, image_uri, comment, is_favorite, date, timestamp, created_at`,
-      [req.user.id, name, calories, protein, carbs, fat, imageUri, comment, mealDate, timestamp]
+      `INSERT INTO meals (user_id, name, calories, protein, carbs, fat, confidence, language, ai_provider, portions, regional, image_uri, comment, date, timestamp)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+       RETURNING id, name, calories, protein, carbs, fat, confidence, language, ai_provider, portions, regional, image_uri, comment, is_favorite, date, timestamp, created_at`,
+      [req.user.id, name, calories, protein, carbs, fat, confidence, language, provider, portions, regional, imageUri, comment, mealDate, timestamp]
     );
 
     const meal = result.rows[0];
@@ -175,9 +192,14 @@ router.post('/', protect, async (req, res, next) => {
         id: meal.id,
         name: meal.name,
         calories: meal.calories,
-        protein: parseFloat(meal.protein),
-        carbs: parseFloat(meal.carbs),
-        fat: parseFloat(meal.fat),
+        protein: parseFloat(meal.protein) || 0,
+        carbs: parseFloat(meal.carbs) || 0,
+        fat: parseFloat(meal.fat) || 0,
+        confidence: parseFloat(meal.confidence) || 0,
+        language: meal.language,
+        provider: meal.ai_provider,
+        portions: meal.portions,
+        regional: meal.regional,
         imageUri: meal.image_uri,
         comment: meal.comment,
         isFavorite: meal.is_favorite,
@@ -280,7 +302,7 @@ router.put('/:id', protect, async (req, res, next) => {
       `UPDATE meals 
        SET ${updateFields.join(', ')} 
        WHERE id = $${paramCount} AND user_id = $${paramCount + 1}
-       RETURNING id, name, calories, protein, carbs, fat, image_uri, comment, is_favorite, date, timestamp, created_at`,
+       RETURNING id, name, calories, protein, carbs, fat, confidence, language, ai_provider, portions, regional, image_uri, comment, is_favorite, date, timestamp, created_at`,
       values
     );
 
@@ -292,9 +314,14 @@ router.put('/:id', protect, async (req, res, next) => {
         id: updatedMeal.id,
         name: updatedMeal.name,
         calories: updatedMeal.calories,
-        protein: parseFloat(updatedMeal.protein),
-        carbs: parseFloat(updatedMeal.carbs),
-        fat: parseFloat(updatedMeal.fat),
+        protein: parseFloat(updatedMeal.protein) || 0,
+        carbs: parseFloat(updatedMeal.carbs) || 0,
+        fat: parseFloat(updatedMeal.fat) || 0,
+        confidence: parseFloat(updatedMeal.confidence) || 0,
+        language: updatedMeal.language,
+        provider: updatedMeal.ai_provider,
+        portions: updatedMeal.portions,
+        regional: updatedMeal.regional,
         imageUri: updatedMeal.image_uri,
         comment: updatedMeal.comment,
         isFavorite: updatedMeal.is_favorite,

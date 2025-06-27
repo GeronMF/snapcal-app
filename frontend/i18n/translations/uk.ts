@@ -108,4 +108,22 @@ export default {
   fillDataForCalories: 'Заповніть дані для розрахунку денної норми калорій',
   saveProfile: 'Зберегти профіль',
   profileSetupSuccess: 'Профіль успішно налаштовано!',
+  
+  // AI Analysis
+  aiAnalysis: 'Аналіз ІІ',
+  aiConfidence: 'Точність ІІ',
+  time: 'Час',
+  calories: 'Калорії',
+  accuracy: 'Точність',
+  regional: 'Регіональна',
+  portionSize: 'Розмір порції',
+  nutrients: 'Поживні речовини',
+  protein: 'Білки',
+  carbs: 'Вуглеводи',
+  fat: 'Жири',
+  favorites: 'Обране',
+  addToFavorites: 'Додати до обраного',
+  removeFromFavorites: 'Видалити з обраного',
+  chooseOption: 'Виберіть варіант',
+  noFavorites: 'Немає обраних страв',
 };

@@ -108,4 +108,22 @@ export default {
   fillDataForCalories: 'Complete sus datos para calcular las necesidades calóricas diarias',
   saveProfile: 'Guardar perfil',
   profileSetupSuccess: '¡Configuración del perfil exitosa!',
+  
+  // AI Analysis
+  aiAnalysis: 'Análisis IA',
+  aiConfidence: 'Confianza IA',
+  time: 'Tiempo',
+  calories: 'Calorías',
+  accuracy: 'Precisión',
+  regional: 'Regional',
+  portionSize: 'Tamaño de porción',
+  nutrients: 'Nutrientes',
+  protein: 'Proteínas',
+  carbs: 'Carbohidratos',
+  fat: 'Grasas',
+  favorites: 'Favoritos',
+  addToFavorites: 'Agregar a favoritos',
+  removeFromFavorites: 'Quitar de favoritos',
+  chooseOption: 'Elegir opción',
+  noFavorites: 'No hay comidas favoritas',
 };

@@ -112,4 +112,17 @@ export default {
   fillDataForCalories: 'Fill in your data to calculate daily calorie needs',
   saveProfile: 'Save Profile',
   profileSetupSuccess: 'Profile setup successful!',
+  
+  // AI Analysis
+  aiAnalysis: 'AI Analysis',
+  aiConfidence: 'AI Confidence',
+  time: 'Time',
+  calories: 'Calories',
+  accuracy: 'Accuracy',
+  regional: 'Regional',
+  portionSize: 'Portion Size',
+  nutrients: 'Nutrients',
+  protein: 'Protein',
+  carbs: 'Carbs',
+  fat: 'Fat',
 };

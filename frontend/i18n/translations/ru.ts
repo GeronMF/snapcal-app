@@ -114,4 +114,17 @@ export default {
   fillDataForCalories: 'Заполните данные для расчёта дневной нормы калорий',
   saveProfile: 'Сохранить профиль',
   profileSetupSuccess: 'Профиль успешно настроен!',
+  
+  // AI Analysis
+  aiAnalysis: 'Анализ ИИ',
+  aiConfidence: 'Точность ИИ',
+  time: 'Время',
+  calories: 'Калории',
+  accuracy: 'Точность',
+  regional: 'Региональное',
+  portionSize: 'Размер порции',
+  nutrients: 'Питательные вещества',
+  protein: 'Белки',
+  carbs: 'Углеводы',
+  fat: 'Жиры',
 };

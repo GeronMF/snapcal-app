@@ -27,6 +27,12 @@ export type Meal = {
   date: string; // YYYY-MM-DD format
   isFavorite?: boolean;
   comment?: string;
+  // AI analysis fields
+  confidence?: number; // AI confidence (0-1)
+  portions?: string; // Portion description
+  language?: string; // Analysis language
+  provider?: string; // AI provider (openai, fallback)
+  regional?: boolean; // Regional dish flag
 };
 
 export type Language = 'en' | 'ru' | 'pl' | 'uk' | 'es';

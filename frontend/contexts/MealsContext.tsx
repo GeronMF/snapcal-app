@@ -139,7 +139,7 @@ export const MealsProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     }
   };
 
-  // Восстанавливаем локальные пути изображений из ID
+  // Восстанавливаем локальные пути изображений из ID и нормализуем данные
   const restoreLocalImagePaths = async (serverMeals: Meal[]): Promise<Meal[]> => {
     const restoredMeals = await Promise.all(
       serverMeals.map(async (meal) => {
@@ -147,6 +147,16 @@ export const MealsProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         const imageUri = meal.imageUri || (meal as any).image_uri;
         
         console.log('MealsContext: Processing meal from server:', meal.name, 'imageUri:', meal.imageUri, 'image_uri:', (meal as any).image_uri);
+        
+        // Нормализуем числовые поля (они могут приходить как строки)
+        const normalizedMeal = {
+          ...meal,
+          calories: typeof meal.calories === 'string' ? parseFloat(meal.calories) || 0 : meal.calories || 0,
+          protein: typeof meal.protein === 'string' ? parseFloat(meal.protein) || 0 : meal.protein || 0,
+          carbs: typeof meal.carbs === 'string' ? parseFloat(meal.carbs) || 0 : meal.carbs || 0,
+          fat: typeof meal.fat === 'string' ? parseFloat(meal.fat) || 0 : meal.fat || 0,
+          confidence: typeof meal.confidence === 'string' ? parseFloat(meal.confidence) || 0 : meal.confidence || 0,
+        };
         
         // Если imageUri это ID (не содержит file:// или http), восстанавливаем локальный путь
         if (imageUri && !imageUri.includes('://')) {
@@ -156,11 +166,11 @@ export const MealsProvider: React.FC<{ children: ReactNode }> = ({ children }) =
           const localPath = await getLocalImagePath(imageUri);
           if (localPath) {
             console.log('MealsContext: Restored local path:', localPath);
-            return { ...meal, imageUri: localPath };
+            return { ...normalizedMeal, imageUri: localPath };
           } else {
             console.log('MealsContext: Could not find local path for ID:', imageUri);
             // Оставляем без изображения
-            return { ...meal, imageUri: undefined };
+            return { ...normalizedMeal, imageUri: undefined };
           }
         } else if (!imageUri) {
           console.log('MealsContext: Meal has no imageUri or image_uri');
@@ -168,7 +178,7 @@ export const MealsProvider: React.FC<{ children: ReactNode }> = ({ children }) =
           console.log('MealsContext: Meal has full imageUri:', imageUri);
         }
         
-        return { ...meal, imageUri };
+        return { ...normalizedMeal, imageUri };
       })
     );
     

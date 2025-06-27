@@ -4,17 +4,17 @@
 
 -- Add new columns to meals table
 ALTER TABLE `meals` 
-ADD COLUMN `language` VARCHAR(5) DEFAULT 'en' AFTER `comment`,
-ADD COLUMN `ai_confidence` DECIMAL(3,2) DEFAULT 0.00 AFTER `language`,
-ADD COLUMN `ai_provider` VARCHAR(50) DEFAULT 'openai' AFTER `ai_confidence`,
+ADD COLUMN `confidence` DECIMAL(3,2) DEFAULT 0.00 AFTER `comment`,
+ADD COLUMN `language` VARCHAR(5) DEFAULT 'en' AFTER `confidence`,
+ADD COLUMN `ai_provider` VARCHAR(50) DEFAULT 'openai' AFTER `language`,
 ADD COLUMN `portions` TEXT AFTER `ai_provider`,
 ADD COLUMN `regional` BOOLEAN DEFAULT FALSE AFTER `portions`;
 
+-- Add index for confidence filtering
+CREATE INDEX `idx_meals_confidence` ON `meals` (`confidence`);
+
 -- Add index for language-based queries
 CREATE INDEX `idx_meals_language` ON `meals` (`language`);
-
--- Add index for confidence filtering
-CREATE INDEX `idx_meals_confidence` ON `meals` (`ai_confidence`);
 
 -- Add index for regional foods
 CREATE INDEX `idx_meals_regional` ON `meals` (`regional`);

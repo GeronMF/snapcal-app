@@ -12,6 +12,7 @@ type MealListProps = {
   emptyText?: string;
   compact?: boolean;
   useScrollView?: boolean;
+  showNutrients?: boolean;
 };
 
 const MealList: React.FC<MealListProps> = ({ 
@@ -21,6 +22,7 @@ const MealList: React.FC<MealListProps> = ({
   emptyText = i18n.t('noMealsYet'),
   compact = false,
   useScrollView = false,
+  showNutrients = false,
 }) => {
   // Render empty state
   if (!meals.length) {
@@ -41,6 +43,7 @@ const MealList: React.FC<MealListProps> = ({
             onDelete={onDeleteMeal}
             onToggleFavorite={onToggleFavorite}
             compact={compact}
+            showNutrients={showNutrients}
           />
         ))}
       </View>
@@ -57,6 +60,7 @@ const MealList: React.FC<MealListProps> = ({
           onDelete={onDeleteMeal}
           onToggleFavorite={onToggleFavorite}
           compact={compact}
+          showNutrients={showNutrients}
         />
       )}
       contentContainerStyle={styles.listContainer}

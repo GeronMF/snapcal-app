@@ -124,15 +124,16 @@ export default function SettingsScreen() {
   };
   
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>{i18n.t('settingsTitle')}</Text>
-      </View>
-      
+    <View style={styles.container}>
       <ScrollView 
+        style={styles.scrollView}
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>{i18n.t('settingsTitle')}</Text>
+        </View>
+        
         {/* Profile Settings */}
         <View style={styles.section}>
           <TouchableOpacity 
@@ -400,7 +401,7 @@ export default function SettingsScreen() {
           {user && user.name ? ` (${user.name})` : ''}
         </Text>
       </TouchableOpacity>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -408,6 +409,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.neutral[50],
+  },
+  scrollView: {
+    flex: 1,
   },
   header: {
     paddingTop: Platform.OS === 'android' ? 40 : 0,

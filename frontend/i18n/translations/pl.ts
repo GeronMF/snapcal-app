@@ -110,4 +110,22 @@ export default {
   fillDataForCalories: 'Wypełnij dane, aby obliczyć dzienne zapotrzebowanie kaloryczne',
   saveProfile: 'Zapisz profil',
   profileSetupSuccess: 'Konfiguracja profilu zakończona sukcesem!',
+  
+  // AI Analysis
+  aiAnalysis: 'Analiza AI',
+  aiConfidence: 'Pewność AI',
+  time: 'Czas',
+  calories: 'Kalorie',
+  accuracy: 'Dokładność',
+  regional: 'Regionalne',
+  portionSize: 'Rozmiar porcji',
+  nutrients: 'Składniki odżywcze',
+  protein: 'Białko',
+  carbs: 'Węglowodany',
+  fat: 'Tłuszcze',
+  favorites: 'Ulubione',
+  addToFavorites: 'Dodaj do ulubionych',
+  removeFromFavorites: 'Usuń z ulubionych',
+  chooseOption: 'Wybierz opcję',
+  noFavorites: 'Brak ulubionych posiłków',
 };
