@@ -73,6 +73,10 @@ export const MealsProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         // Проверяем тип ошибки
         if (error instanceof TypeError && error.message.includes('Network request failed')) {
           console.log('MealsContext: Network error - server may be unavailable, continuing with local data');
+        } else if (error instanceof Error && error.message.includes('401')) {
+          console.log('MealsContext: Authentication error (401) - user needs to login');
+          // Для ошибки 401 просто работаем с локальными данными
+          // Пользователь увидит экран входа при следующем запуске
         } else {
           console.log('MealsContext: API error:', error);
         }
