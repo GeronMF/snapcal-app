@@ -7,6 +7,21 @@ const aiService = require('../services/aiAnalysisService');
 
 const router = express.Router();
 
+// Middleware для установки таймаута на AI запросы
+const setAITimeout = (req, res, next) => {
+  // Устанавливаем таймаут 2 минуты для AI анализа
+  req.setTimeout(120000, () => {
+    console.error('⏰ AI request timeout after 2 minutes');
+    if (!res.headersSent) {
+      res.status(408).json({
+        success: false,
+        error: 'AI анализ занимает слишком много времени. Попробуйте позже.'
+      });
+    }
+  });
+  next();
+};
+
 // Configure multer for AI analysis
 const storage = multer.memoryStorage();
 
@@ -33,7 +48,7 @@ const upload = multer({
 // @desc    Analyze food image
 // @route   POST /api/ai/analyze
 // @access  Private
-router.post('/analyze', protect, upload.single('image'), async (req, res, next) => {
+router.post('/analyze', protect, setAITimeout, upload.single('image'), async (req, res, next) => {
   try {
     if (!req.file) {
       return res.status(400).json({
@@ -71,6 +86,15 @@ router.post('/analyze', protect, upload.single('image'), async (req, res, next) 
     });
   } catch (error) {
     console.error('AI Analysis route error:', error);
+    
+    // Обработка таймаут ошибок
+    if (error.message && error.message.includes('timeout')) {
+      return res.status(408).json({
+        success: false,
+        error: 'AI анализ занимает слишком много времени. Попробуйте позже.'
+      });
+    }
+    
     next(error);
   }
 });

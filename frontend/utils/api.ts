@@ -154,12 +154,18 @@ class ApiClient {
     console.log('Using auth token:', token ? 'Yes' : 'No');
 
     try {
+      // Создаем контроллер для отмены запроса по таймауту
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 120000); // 2 минуты таймаут
+
       const response = await fetch(`${this.baseURL}/api/ai/analyze`, {
         method: 'POST',
         headers,
         body: formData,
+        signal: controller.signal,
       });
 
+      clearTimeout(timeoutId);
       console.log('AI Response status:', response.status);
 
       if (!response.ok) {
@@ -171,8 +177,21 @@ class ApiClient {
       const data = await response.json();
       console.log('AI Analysis successful:', data);
       return data;
-    } catch (error) {
+    } catch (error: any) {
       console.error('AI Analysis request failed:', error);
+      
+      // Улучшенная диагностика ошибок
+      if (error.name === 'AbortError') {
+        console.error('⏰ AI анализ превысил лимит времени (2 минуты)');
+        throw new Error('AI анализ занимает слишком много времени. Попробуйте позже.');
+      } else if (error instanceof TypeError && error.message.includes('Network request failed')) {
+        console.error('🌐 Проблема с сетевым подключением');
+        throw new Error('Проблема с интернет-соединением. Проверьте подключение.');
+      } else if (error instanceof TypeError && error.message.includes('timeout')) {
+        console.error('⏰ Превышен лимит времени ожидания');
+        throw new Error('Сервер AI не отвечает. Попробуйте позже.');
+      }
+      
       throw error;
     }
   }

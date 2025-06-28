@@ -62,6 +62,21 @@ class AIAnalysisService {
     } catch (error) {
       console.error('❌ AI Analysis error:', error.message);
       
+      // Специальная обработка таймаут ошибок
+      if (error.message && (
+        error.message.includes('timeout') || 
+        error.message.includes('timed out') ||
+        error.message.includes('ETIMEDOUT') ||
+        error.code === 'ETIMEDOUT'
+      )) {
+        console.error('⏰ AI анализ превысил лимит времени');
+        if (this.fallbackEnabled) {
+          console.log('🔄 Using fallback due to timeout');
+          return this.getFallbackResult(comment, userLanguage);
+        }
+        throw new Error('AI анализ занимает слишком много времени. Попробуйте позже.');
+      }
+      
       if (this.fallbackEnabled) {
         console.log('🔄 Using fallback analysis');
         return this.getFallbackResult(comment, userLanguage);
@@ -100,14 +115,15 @@ class AIAnalysisService {
               type: "image_url",
               image_url: {
                 url: `data:image/jpeg;base64,${base64Image}`,
-                detail: "high"
+                detail: "low"
               }
             }
           ]
         }
       ],
       max_tokens: parseInt(process.env.AI_MAX_TOKENS) || 500,
-      temperature: 0.3
+      temperature: 0.3,
+      timeout: 90000
     });
 
     const content = response.choices[0].message.content;
@@ -131,14 +147,14 @@ class AIAnalysisService {
    */
   async optimizeImage(imageBuffer) {
     try {
-      // Resize and compress image to reduce API costs
+      // Resize and compress image to reduce API costs and processing time
       const optimized = await sharp(imageBuffer)
-        .resize(800, 600, { 
+        .resize(512, 384, {  // Уменьшено с 800x600 для ускорения
           fit: 'inside',
           withoutEnlargement: true 
         })
         .jpeg({ 
-          quality: 85,
+          quality: 80, // Уменьшено с 85 для ускорения
           progressive: true 
         })
         .toBuffer();

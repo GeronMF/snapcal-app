@@ -1,0 +1,213 @@
+﻿<!DOCTYPE html>
+<html lang="ru" data-lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">SnapCal - AI Определение калорийности пищи</title>
+    <meta name="description" id="page-description" content="Определяйте калорийность пищи с помощью AI">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <script src="translations.js"></script>
+    
+    <style>
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+            position: relative;
+        }
+        
+        .hero-section h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .language-selector {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            z-index: 100;
+        }
+        
+        .language-selector select {
+            background: white;
+            color: #333;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .features-section {
+            padding: 4rem 0;
+            background: #f8f9fa;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .download-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+        
+        .download-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            display: inline-block;
+            margin: 0.5rem;
+        }
+        
+        .download-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            text-decoration: none;
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+            
+            .language-selector {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin-bottom: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="language-selector">
+        <select id="languageSelect">
+            <option value="ru">🇷🇺 Русский</option>
+            <option value="en">🇺🇸 English</option>
+            <option value="uk">🇺🇦 Українська</option>
+            <option value="pl">🇵🇱 Polski</option>
+            <option value="es">🇪🇸 Español</option>
+        </select>
+    </div>
+
+    <div id="app">
+        <section class="hero-section">
+            <div class="container">
+                <h1 data-translate="hero.title">🍽️ SnapCal</h1>
+                <p data-translate="hero.subtitle">Определение калорийности пищи с помощью AI</p>
+                <p data-translate="hero.description">Просто сфотографируйте еду и получите мгновенную информацию о питательности</p>
+            </div>
+        </section>
+
+        <section class="features-section">
+            <div class="container">
+                <h2 data-translate="features.title">🌟 Возможности приложения</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🤖</div>
+                        <h3 data-translate="features.ai.title">AI Анализ</h3>
+                        <p data-translate="features.ai.description">Передовые алгоритмы искусственного интеллекта для точного определения калорийности</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📸</div>
+                        <h3 data-translate="features.photo.title">Фото анализ</h3>
+                        <p data-translate="features.photo.description">Просто сфотографируйте блюдо - никаких сложных вводов данных</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3 data-translate="features.instant.title">Мгновенный результат</h3>
+                        <p data-translate="features.instant.description">Получайте информацию о калориях, белках, жирах и углеводах за секунды</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🌍</div>
+                        <h3 data-translate="features.multilang.title">5 языков</h3>
+                        <p data-translate="features.multilang.description">Поддержка русского, английского, украинского, польского и испанского языков</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="how-it-works-section" style="padding: 4rem 0; background: white;">
+            <div class="container">
+                <h2 data-translate="how.title" style="text-align: center; margin-bottom: 3rem;">🔄 Как это работает</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                    <div style="text-align: center; padding: 2rem;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">📱</div>
+                        <h3 data-translate="how.step1.title">Шаг 1</h3>
+                        <p data-translate="how.step1.description">Сфотографируйте вашу еду</p>
+                    </div>
+                    <div style="text-align: center; padding: 2rem;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🤖</div>
+                        <h3 data-translate="how.step2.title">Шаг 2</h3>
+                        <p data-translate="how.step2.description">AI анализирует изображение</p>
+                    </div>
+                    <div style="text-align: center; padding: 2rem;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
+                        <h3 data-translate="how.step3.title">Шаг 3</h3>
+                        <p data-translate="how.step3.description">Получите полную информацию о питательности</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="download-section" id="download">
+            <div class="container">
+                <h2 data-translate="download.title">📲 Скачать приложение</h2>
+                <p data-translate="download.description">Получите полный функционал SnapCal на вашем мобильном устройстве</p>
+                <a href="#" class="download-btn" data-translate="download.ios">📱 Скачать для iOS</a>
+                <a href="#" class="download-btn" data-translate="download.android">🤖 Скачать для Android</a>
+                <p style="margin-top: 2rem; opacity: 0.8;">
+                    <span data-translate="download.coming">Скоро в App Store и Google Play</span>
+                </p>
+            </div>
+        </section>
+
+        <footer>
+            <div class="container">
+                <p>&copy; 2025 SnapCal. <span data-translate="footer.rights">Все права защищены</span>.</p>
+                <p>
+                    <a href="/terms" style="color: rgba(255,255,255,0.8); text-decoration: none;">
+                        <span data-translate="footer.terms">📋 Условия использования</span>
+                    </a> • 
+                    🤖 Powered by AI • 🍽️ Nutrition Analysis • 📱 Mobile First
+                </p>
+            </div>
+        </footer>
+    </div>
+
+
+</body>
+</html>

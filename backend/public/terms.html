@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Terms of Service - SnapCal</title>
+    <meta name="description" content="Terms of Service for SnapCal - AI-powered calorie tracking made simple">
+    <meta name="keywords" content="SnapCal, terms of service, calorie tracker, AI nutrition, food tracking">
+    
+    <meta property="og:title" content="Terms of Service - SnapCal">
+    <meta property="og:description" content="Terms of Service for SnapCal - AI-powered calorie tracking made simple">
+    <meta property="og:url" content="https://snapcal.fun/terms">
+    <meta property="og:type" content="website">
+    
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <script src="terms-translations.js"></script>
+    
+    <style>
+        /* Дополнительные стили для Terms страницы */
+        .terms-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .terms-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 16px;
+            margin-top: 2rem;
+        }
+        
+        .terms-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .terms-nav {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .terms-nav h3 {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .terms-nav ol {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 0;
+        }
+        
+        .terms-nav ol li {
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .terms-nav ol li a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .terms-nav ol li a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+        
+        .terms-content {
+            background: white;
+            border-radius: 16px;
+            padding: 3rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .terms-content h2 {
+            color: #333;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .terms-content h3 {
+            color: #555;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .terms-content p {
+            color: #666;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+        
+        .terms-content ul {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+        
+        .terms-content ul li {
+            color: #666;
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+        
+        .terms-content a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .terms-content a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+        
+        .contact-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .contact-section h2 {
+            border: none;
+            color: white;
+            margin-bottom: 1rem;
+        }
+        
+        .contact-section a {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+        }
+        
+        .contact-section a:hover {
+            color: white;
+        }
+        
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+        }
+        
+        .back-button:hover {
+            transform: translateY(-2px);
+            color: white;
+            text-decoration: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .back-button::before {
+            content: "←";
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .language-selector {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1000;
+        }
+        
+        .language-selector select {
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            color: #667eea;
+        }
+        
+        @media (max-width: 768px) {
+            .terms-container {
+                padding: 1rem;
+            }
+            
+            .terms-header h1 {
+                font-size: 2rem;
+            }
+            
+            .terms-content {
+                padding: 2rem 1.5rem;
+            }
+            
+            .terms-nav {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="language-selector">
+        <select id="languageSelect">
+            <option value="ru">🇷🇺 Русский</option>
+            <option value="en">🇺🇸 English</option>
+            <option value="uk">🇺🇦 Українська</option>
+            <option value="pl">🇵🇱 Polski</option>
+            <option value="es">🇪🇸 Español</option>
+        </select>
+    </div>
+
+    <div class="terms-container">
+        <a href="/" class="back-button" data-translate="back">Назад к приложению</a>
+        
+        <div class="terms-header">
+            <h1 data-translate="terms.title">📋 Terms of Service</h1>
+            <p data-translate="terms.subtitle">Условия использования SnapCal</p>
+        </div>
+
+        <div class="terms-nav">
+            <h3 data-translate="nav.title">📑 Содержание</h3>
+            <ol>
+                <li><a href="#services" data-translate="nav.services">Наши услуги</a></li>
+                <li><a href="#ip" data-translate="nav.ip">Права интеллектуальной собственности</a></li>
+                <li><a href="#userreps" data-translate="nav.userreps">Заявления пользователей</a></li>
+                <li><a href="#prohibited" data-translate="nav.prohibited">Запрещенные действия</a></li>
+                <li><a href="#ugc" data-translate="nav.ugc">Пользовательский контент</a></li>
+                <li><a href="#license" data-translate="nav.license">Лицензия на контент</a></li>
+                <li><a href="#sitemanage" data-translate="nav.sitemanage">Управление сервисами</a></li>
+                <li><a href="#terms" data-translate="nav.terms">Срок действия и прекращение</a></li>
+                <li><a href="#modifications" data-translate="nav.modifications">Изменения и прерывания</a></li>
+                <li><a href="#law" data-translate="nav.law">Применимое право</a></li>
+                <li><a href="#disputes" data-translate="nav.disputes">Разрешение споров</a></li>
+                <li><a href="#corrections" data-translate="nav.corrections">Исправления</a></li>
+                <li><a href="#disclaimer" data-translate="nav.disclaimer">Отказ от ответственности</a></li>
+                <li><a href="#liability" data-translate="nav.liability">Ограничение ответственности</a></li>
+                <li><a href="#indemnification" data-translate="nav.indemnification">Возмещение ущерба</a></li>
+                <li><a href="#userdata" data-translate="nav.userdata">Пользовательские данные</a></li>
+                <li><a href="#electronic" data-translate="nav.electronic">Электронные коммуникации</a></li>
+                <li><a href="#misc" data-translate="nav.misc">Прочее</a></li>
+                <li><a href="#contact" data-translate="nav.contact">Связаться с нами</a></li>
+            </ol>
+        </div>
+
+        <div class="terms-content">
+            <h2><strong>AGREEMENT TO OUR LEGAL TERMS</strong></h2>
+
+            <p>We are SnapCal ("<strong>Company</strong>," "<strong>we</strong>," "<strong>us</strong>," "<strong>our</strong>").</p>
+
+            <p>We operate the SnapCal mobile application and website, as well as any other related products and services that refer or link to these legal terms ("<strong>Legal Terms</strong>") (collectively, the "<strong>Services</strong>").</p>
+
+            <p>You can contact us by email at <a href="mailto:support@snapcal.fun">support@snapcal.fun</a>.</p>
+
+            <p>These Legal Terms constitute a legally binding agreement made between you, whether personally or on behalf of an entity ("<strong>you</strong>"), and SnapCal, concerning your access to and use of the Services. You agree that by accessing the Services, you have read, understood, and agreed to be bound by all of these Legal Terms. IF YOU DO NOT AGREE WITH ALL OF THESE LEGAL TERMS, THEN YOU ARE EXPRESSLY PROHIBITED FROM USING THE SERVICES AND YOU MUST DISCONTINUE USE IMMEDIATELY.</p>
+
+            <p>Supplemental terms and conditions or documents that may be posted on the Services from time to time are hereby expressly incorporated herein by reference. We reserve the right, in our sole discretion, to make changes or modifications to these Legal Terms at any time and for any reason.</p>
+
+            <h2 id="services"><strong>1. OUR SERVICES</strong></h2>
+
+            <p>SnapCal is an AI-powered calorie tracking application that allows users to photograph their food and receive automated nutritional analysis. Our Services include mobile applications, web interfaces, and related features designed to help users track their nutrition and maintain healthy eating habits.</p>
+
+            <p>The information provided when using the Services is not intended for distribution to or use by any person or entity in any jurisdiction or country where such distribution or use would be contrary to law or regulation or which would subject us to any registration requirement within such jurisdiction or country.</p>
+
+            <h2 id="ip"><strong>2. INTELLECTUAL PROPERTY RIGHTS</strong></h2>
+
+            <h3><strong>Our intellectual property</strong></h3>
+
+            <p>We are the owner or the licensee of all intellectual property rights in our Services, including all source code, databases, functionality, software, website designs, audio, video, text, photographs, and graphics in the Services (collectively, the "Content"), as well as the trademarks, service marks, and logos contained therein (the "Marks").</p>
+
+            <p>Our Content and Marks are protected by copyright and trademark laws (and various other intellectual property rights and unfair competition laws) and treaties in the United States and around the world.</p>
+
+            <p>The Content and Marks are provided in or through the Services "AS IS" for your personal, non-commercial use or internal business purpose only.</p>
+
+            <h3><strong>Your use of our Services</strong></h3>
+
+            <p>Subject to your compliance with these Legal Terms, including the "<a href="#prohibited">PROHIBITED ACTIVITIES</a>" section below, we grant you a non-exclusive, non-transferable, revocable license to:</p>
+            <ul>
+                <li>access the Services; and</li>
+                <li>download or print a copy of any portion of the Content to which you have properly gained access,</li>
+            </ul>
+            <p>solely for your personal, non-commercial use or internal business purpose.</p>
+
+            <p>Except as set out in this section or elsewhere in our Legal Terms, no part of the Services and no Content or Marks may be copied, reproduced, aggregated, republished, uploaded, posted, publicly displayed, encoded, translated, transmitted, distributed, sold, licensed, or otherwise exploited for any commercial purpose whatsoever, without our express prior written permission.</p>
+
+            <h2 id="userreps"><strong>3. USER REPRESENTATIONS</strong></h2>
+
+            <p>By using the Services, you represent and warrant that: (1) you have the legal capacity and you agree to comply with these Legal Terms; (2) you are not a minor in the jurisdiction in which you reside; (3) you will not access the Services through automated or non-human means, whether through a bot, script, or otherwise; (4) you will not use the Services for any illegal or unauthorized purpose; and (5) your use of the Services will not violate any applicable law or regulation.</p>
+
+            <p>If you provide any information that is untrue, inaccurate, not current, or incomplete, we have the right to suspend or terminate your account and refuse any and all current or future use of the Services (or any portion thereof).</p>
+
+            <h2 id="prohibited"><strong>4. PROHIBITED ACTIVITIES</strong></h2>
+
+            <p>You may not access or use the Services for any purpose other than that for which we make the Services available. The Services may not be used in connection with any commercial endeavors except those that are specifically endorsed or approved by us.</p>
+
+            <p>As a user of the Services, you agree not to:</p>
+            <ul>
+                <li>Systematically retrieve data or other content from the Services to create or compile, directly or indirectly, a collection, compilation, database, or directory without written permission from us.</li>
+                <li>Trick, defraud, or mislead us and other users, especially in any attempt to learn sensitive account information such as user passwords.</li>
+                <li>Circumvent, disable, or otherwise interfere with security-related features of the Services, including features that prevent or restrict the use or copying of any Content or enforce limitations on the use of the Services and/or the Content contained therein.</li>
+                <li>Disparage, tarnish, or otherwise harm, in our opinion, us and/or the Services.</li>
+                <li>Use any information obtained from the Services in order to harass, abuse, or harm another person.</li>
+                <li>Make improper use of our support services or submit false reports of abuse or misconduct.</li>
+                <li>Use the Services in a manner inconsistent with any applicable laws or regulations.</li>
+                <li>Engage in unauthorized framing of or linking to the Services.</li>
+                <li>Upload or transmit (or attempt to upload or to transmit) viruses, Trojan horses, or other material, including excessive use of capital letters and spamming (continuous posting of repetitive text), that interferes with any party's uninterrupted use and enjoyment of the Services or modifies, impairs, disrupts, alters, or interferes with the use, features, functions, operation, or maintenance of the Services.</li>
+                <li>Engage in any automated use of the system, such as using scripts to send comments or messages, or using any data mining, robots, or similar data gathering and extraction tools.</li>
+                <li>Delete the copyright or other proprietary rights notice from any Content.</li>
+                <li>Attempt to impersonate another user or person or use the username of another user.</li>
+                <li>Upload or transmit (or attempt to upload or to transmit) any material that acts as a passive or active information collection or transmission mechanism, including without limitation, clear graphics interchange formats ("gifs"), 1×1 pixels, web bugs, cookies, or other similar devices (sometimes referred to as "spyware" or "passive collection mechanisms" or "pcms").</li>
+                <li>Interfere with, disrupt, or create an undue burden on the Services or the networks or services connected to the Services.</li>
+                <li>Harass, annoy, intimidate, or threaten any of our employees or agents engaged in providing any portion of the Services to you.</li>
+                <li>Attempt to bypass any measures of the Services designed to prevent or restrict access to the Services, or any portion of the Services.</li>
+                <li>Copy or adapt the Services' software, including but not limited to Flash, PHP, HTML, JavaScript, or other code.</li>
+                <li>Except as permitted by applicable law, decipher, decompile, disassemble, or reverse engineer any of the software comprising or in any way making up a part of the Services.</li>
+                <li>Except as may be the result of standard search engine or Internet browser usage, use, launch, develop, or distribute any automated system, including without limitation, any spider, robot, cheat utility, scraper, or offline reader that accesses the Services, or use or launch any unauthorized script or other software.</li>
+                <li>Use a buying agent or purchasing agent to make purchases on the Services.</li>
+                <li>Make any unauthorized use of the Services, including collecting usernames and/or email addresses of users by electronic or other means for the purpose of sending unsolicited email, or creating user accounts by automated means or under false pretenses.</li>
+                <li>Use the Services as part of any effort to compete with us or otherwise use the Services and/or the Content for any revenue-generating endeavor or commercial enterprise.</li>
+            </ul>
+
+            <h2 id="ugc"><strong>5. USER GENERATED CONTRIBUTIONS</strong></h2>
+
+            <p>The Services may allow you to submit photos, personal data, and other content for nutritional analysis. Any such submissions constitute User Contributions and are subject to these Legal Terms.</p>
+
+            <h2 id="license"><strong>6. CONTRIBUTION LICENSE</strong></h2>
+
+            <p>You and Services agree that we may access, store, process, and use any information and personal data that you provide and your choices (including settings).</p>
+
+            <p>By submitting suggestions or other feedback regarding the Services, you agree that we can use and share such feedback for any purpose without compensation to you.</p>
+
+            <h2 id="sitemanage"><strong>7. SERVICES MANAGEMENT</strong></h2>
+
+            <p>We reserve the right, but not the obligation, to: (1) monitor the Services for violations of these Legal Terms; (2) take appropriate legal action against anyone who, in our sole discretion, violates the law or these Legal Terms; (3) in our sole discretion and without limitation, refuse, restrict access to, limit the availability of, or disable any of your Contributions or any portion thereof; (4) in our sole discretion and without limitation, notice, or liability, remove from the Services or otherwise disable all files and content that are excessive in size or are in any way burdensome to our systems; and (5) otherwise manage the Services in a manner designed to protect our rights and property and to facilitate the proper functioning of the Services.</p>
+
+            <h2 id="terms"><strong>8. TERM AND TERMINATION</strong></h2>
+
+            <p>These Legal Terms shall remain in full force and effect while you use the Services. WITHOUT LIMITING ANY OTHER PROVISION OF THESE LEGAL TERMS, WE RESERVE THE RIGHT TO, IN OUR SOLE DISCRETION AND WITHOUT NOTICE OR LIABILITY, DENY ACCESS TO AND USE OF THE SERVICES (INCLUDING BLOCKING CERTAIN IP ADDRESSES), TO ANY PERSON FOR ANY REASON OR FOR NO REASON, INCLUDING WITHOUT LIMITATION FOR BREACH OF ANY REPRESENTATION, WARRANTY, OR COVENANT CONTAINED IN THESE LEGAL TERMS OR OF ANY APPLICABLE LAW OR REGULATION. WE MAY TERMINATE YOUR USE OR PARTICIPATION IN THE SERVICES OR DELETE ANY CONTENT OR INFORMATION THAT YOU POSTED AT ANY TIME, WITHOUT WARNING, IN OUR SOLE DISCRETION.</p>
+
+            <h2 id="modifications"><strong>9. MODIFICATIONS AND INTERRUPTIONS</strong></h2>
+
+            <p>We reserve the right to change, modify, or remove the contents of the Services at any time or for any reason at our sole discretion without notice. However, we have no obligation to update any information on our Services. We will not be liable to you or any third party for any modification, price change, suspension, or discontinuance of the Services.</p>
+
+            <h2 id="law"><strong>10. GOVERNING LAW</strong></h2>
+
+            <p>These Legal Terms shall be governed by and defined following the laws of the United States. SnapCal and yourself irrevocably consent that the courts of the United States shall have exclusive jurisdiction to resolve any dispute which may arise in connection with these Legal Terms.</p>
+
+            <h2 id="disputes"><strong>11. DISPUTE RESOLUTION</strong></h2>
+
+            <h3><strong>Informal Negotiations</strong></h3>
+
+            <p>To expedite resolution and control the cost of any dispute, controversy, or claim related to these Legal Terms, each party agrees to first attempt to negotiate any dispute informally for at least thirty (30) days before initiating arbitration.</p>
+
+            <h2 id="corrections"><strong>12. CORRECTIONS</strong></h2>
+
+            <p>There may be information on the Services that contains typographical errors, inaccuracies, or omissions, including descriptions, pricing, availability, and various other information. We reserve the right to correct any errors, inaccuracies, or omissions and to change or update the information on the Services at any time, without prior notice.</p>
+
+            <h2 id="disclaimer"><strong>13. DISCLAIMER</strong></h2>
+
+            <p>THE SERVICES ARE PROVIDED ON AN AS-IS AND AS-AVAILABLE BASIS. YOU AGREE THAT YOUR USE OF THE SERVICES WILL BE AT YOUR SOLE RISK. TO THE FULLEST EXTENT PERMITTED BY LAW, WE DISCLAIM ALL WARRANTIES, EXPRESS OR IMPLIED, IN CONNECTION WITH THE SERVICES AND YOUR USE THEREOF, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. WE MAKE NO WARRANTIES OR REPRESENTATIONS ABOUT THE ACCURACY OR COMPLETENESS OF THE SERVICES' CONTENT OR THE CONTENT OF ANY WEBSITES OR MOBILE APPLICATIONS LINKED TO THE SERVICES AND WE WILL ASSUME NO LIABILITY OR RESPONSIBILITY FOR ANY (1) ERRORS, MISTAKES, OR INACCURACIES OF CONTENT AND MATERIALS, (2) PERSONAL INJURY OR PROPERTY DAMAGE, OF ANY NATURE WHATSOEVER, RESULTING FROM YOUR ACCESS TO AND USE OF THE SERVICES.</p>
+
+            <p><strong>⚠️ Important Note:</strong> SnapCal provides nutritional estimates using AI technology. These estimates are for informational purposes only and should not be considered as medical advice. For specific dietary requirements or health concerns, please consult with a qualified healthcare professional.</p>
+
+            <h2 id="liability"><strong>14. LIMITATIONS OF LIABILITY</strong></h2>
+
+            <p>IN NO EVENT WILL WE OR OUR DIRECTORS, EMPLOYEES, OR AGENTS BE LIABLE TO YOU OR ANY THIRD PARTY FOR ANY DIRECT, INDIRECT, CONSEQUENTIAL, EXEMPLARY, INCIDENTAL, SPECIAL, OR PUNITIVE DAMAGES, INCLUDING LOST PROFIT, LOST REVENUE, LOSS OF DATA, OR OTHER DAMAGES ARISING FROM YOUR USE OF THE SERVICES, EVEN IF WE HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.</p>
+
+            <h2 id="indemnification"><strong>15. INDEMNIFICATION</strong></h2>
+
+            <p>You agree to defend, indemnify, and hold us harmless, including our subsidiaries, affiliates, and all of our respective officers, agents, partners, and employees, from and against any loss, damage, liability, claim, or demand, including reasonable attorneys' fees and expenses, made by any third party due to or arising out of: (1) use of the Services; (2) breach of these Legal Terms; (3) any breach of your representations and warranties set forth in these Legal Terms; (4) your violation of the rights of a third party, including but not limited to intellectual property rights; or (5) any overt harmful act toward any other user of the Services with whom you connected via the Services.</p>
+
+            <h2 id="userdata"><strong>16. USER DATA</strong></h2>
+
+            <p>We will maintain certain data that you transmit to the Services for the purpose of managing the performance of the Services, as well as data relating to your use of the Services. Although we perform regular routine backups of data, you are solely responsible for all data that you transmit or that relates to any activity you have undertaken using the Services. You agree that we shall have no liability to you for any loss or corruption of any such data, and you hereby waive any right of action against us arising from any such loss or corruption of such data.</p>
+
+            <h2 id="electronic"><strong>17. ELECTRONIC COMMUNICATIONS, TRANSACTIONS, AND SIGNATURES</strong></h2>
+
+            <p>Visiting the Services, sending us emails, and completing online forms constitute electronic communications. You consent to receive electronic communications, and you agree that all agreements, notices, disclosures, and other communications we provide to you electronically, via email and on the Services, satisfy any legal requirement that such communication be in writing.</p>
+
+            <h2 id="misc"><strong>18. MISCELLANEOUS</strong></h2>
+
+            <p>These Legal Terms and any policies or operating rules posted by us on the Services or in respect to the Services constitute the entire agreement and understanding between you and us. Our failure to exercise or enforce any right or provision of these Legal Terms shall not operate as a waiver of such right or provision. These Legal Terms operate to the fullest extent permissible by law. We may assign any or all of our rights and obligations to others at any time. We shall not be responsible or liable for any loss, damage, delay, or failure to act caused by any cause beyond our reasonable control.</p>
+        </div>
+
+        <div class="contact-section" id="contact">
+            <h2>📞 Contact Us</h2>
+            <p>In order to resolve a complaint regarding the Services or to receive further information regarding use of the Services, please contact us at:</p>
+            <p><strong>SnapCal</strong><br>
+            <strong>Email:</strong> <a href="mailto:support@snapcal.fun">support@snapcal.fun</a><br>
+            <strong>Website:</strong> <a href="https://snapcal.fun">https://snapcal.fun</a></p>
+        </div>
+
+        <footer style="text-align: center; padding: 2rem 0; color: #666;">
+            <p>&copy; 2025 SnapCal. Все права защищены.</p>
+            <p>🤖 Powered by AI • 🍽️ Nutrition Analysis • 📱 Mobile First</p>
+        </footer>
+    </div>
+
+
+</body>
+</html> 

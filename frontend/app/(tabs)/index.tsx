@@ -8,7 +8,8 @@ import {
   Platform,
   Modal,
   ActivityIndicator,
-  ScrollView
+  ScrollView,
+  Image
 } from 'react-native';
 import { CameraView, CameraType, useCameraPermissions } from 'expo-camera';
 import { Camera, X } from 'lucide-react-native';
@@ -309,7 +310,11 @@ export default function HomeScreen() {
       >
         <View style={styles.loadingOverlay}>
           <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color={colors.primary[500]} />
+            <Image 
+              source={require('@/assets/images/ai-loading.gif')} 
+              style={styles.loadingGif}
+              resizeMode="contain"
+            />
             <Text style={styles.loadingText}>{i18n.t('analyzing')}</Text>
           </View>
         </View>
@@ -524,6 +529,10 @@ const styles = StyleSheet.create({
     color: colors.neutral[800],
     marginTop: 16,
     fontFamily: 'Inter-Medium',
+  },
+  loadingGif: {
+    width: 200,
+    height: 200,
   },
   optionsContainer: {
     backgroundColor: colors.white,

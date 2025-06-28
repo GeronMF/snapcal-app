@@ -1,0 +1,176 @@
+const termsTranslations = {
+    ru: {
+        'back': 'Назад к приложению',
+        'terms.title': '📋 Условия использования',
+        'terms.subtitle': 'Условия использования SnapCal',
+        'nav.title': '📑 Содержание',
+        'nav.services': 'Наши услуги',
+        'nav.ip': 'Права интеллектуальной собственности',
+        'nav.userreps': 'Заявления пользователей',
+        'nav.prohibited': 'Запрещенные действия',
+        'nav.ugc': 'Пользовательский контент',
+        'nav.license': 'Лицензия на контент',
+        'nav.sitemanage': 'Управление сервисами',
+        'nav.terms': 'Срок действия и прекращение',
+        'nav.modifications': 'Изменения и прерывания',
+        'nav.law': 'Применимое право',
+        'nav.disputes': 'Разрешение споров',
+        'nav.corrections': 'Исправления',
+        'nav.disclaimer': 'Отказ от ответственности',
+        'nav.liability': 'Ограничение ответственности',
+        'nav.indemnification': 'Возмещение ущерба',
+        'nav.userdata': 'Пользовательские данные',
+        'nav.electronic': 'Электронные коммуникации',
+        'nav.misc': 'Прочее',
+        'nav.contact': 'Связаться с нами'
+    },
+    en: {
+        'back': 'Back to App',
+        'terms.title': '📋 Terms of Service',
+        'terms.subtitle': 'SnapCal Terms of Service',
+        'nav.title': '📑 Table of Contents',
+        'nav.services': 'Our Services',
+        'nav.ip': 'Intellectual Property Rights',
+        'nav.userreps': 'User Representations',
+        'nav.prohibited': 'Prohibited Activities',
+        'nav.ugc': 'User Generated Contributions',
+        'nav.license': 'Contribution License',
+        'nav.sitemanage': 'Services Management',
+        'nav.terms': 'Term and Termination',
+        'nav.modifications': 'Modifications and Interruptions',
+        'nav.law': 'Governing Law',
+        'nav.disputes': 'Dispute Resolution',
+        'nav.corrections': 'Corrections',
+        'nav.disclaimer': 'Disclaimer',
+        'nav.liability': 'Limitations of Liability',
+        'nav.indemnification': 'Indemnification',
+        'nav.userdata': 'User Data',
+        'nav.electronic': 'Electronic Communications',
+        'nav.misc': 'Miscellaneous',
+        'nav.contact': 'Contact Us'
+    },
+    uk: {
+        'back': 'Назад до додатку',
+        'terms.title': '📋 Умови використання',
+        'terms.subtitle': 'Умови використання SnapCal',
+        'nav.title': '📑 Зміст',
+        'nav.services': 'Наші послуги',
+        'nav.ip': 'Права інтелектуальної власності',
+        'nav.userreps': 'Заяви користувачів',
+        'nav.prohibited': 'Заборонені дії',
+        'nav.ugc': 'Користувацький контент',
+        'nav.license': 'Ліцензія на контент',
+        'nav.sitemanage': 'Управління сервісами',
+        'nav.terms': 'Термін дії та припинення',
+        'nav.modifications': 'Зміни та переривання',
+        'nav.law': 'Застосовне право',
+        'nav.disputes': 'Вирішення спорів',
+        'nav.corrections': 'Виправлення',
+        'nav.disclaimer': 'Відмова від відповідальності',
+        'nav.liability': 'Обмеження відповідальності',
+        'nav.indemnification': 'Відшкодування збитків',
+        'nav.userdata': 'Дані користувача',
+        'nav.electronic': 'Електронні комунікації',
+        'nav.misc': 'Інше',
+        'nav.contact': 'Зв\'язатися з нами'
+    },
+    pl: {
+        'back': 'Powrót do aplikacji',
+        'terms.title': '📋 Warunki korzystania',
+        'terms.subtitle': 'Warunki korzystania SnapCal',
+        'nav.title': '📑 Spis treści',
+        'nav.services': 'Nasze usługi',
+        'nav.ip': 'Prawa własności intelektualnej',
+        'nav.userreps': 'Oświadczenia użytkowników',
+        'nav.prohibited': 'Zabronione działania',
+        'nav.ugc': 'Treści użytkowników',
+        'nav.license': 'Licencja na treści',
+        'nav.sitemanage': 'Zarządzanie usługami',
+        'nav.terms': 'Okres obowiązywania i rozwiązanie',
+        'nav.modifications': 'Modyfikacje i przerwy',
+        'nav.law': 'Prawo właściwe',
+        'nav.disputes': 'Rozwiązywanie sporów',
+        'nav.corrections': 'Korekty',
+        'nav.disclaimer': 'Zrzeczenie się odpowiedzialności',
+        'nav.liability': 'Ograniczenia odpowiedzialności',
+        'nav.indemnification': 'Odszkodowanie',
+        'nav.userdata': 'Dane użytkownika',
+        'nav.electronic': 'Komunikacja elektroniczna',
+        'nav.misc': 'Różne',
+        'nav.contact': 'Skontaktuj się z nami'
+    },
+    es: {
+        'back': 'Volver a la aplicación',
+        'terms.title': '📋 Términos de servicio',
+        'terms.subtitle': 'Términos de servicio de SnapCal',
+        'nav.title': '📑 Índice',
+        'nav.services': 'Nuestros servicios',
+        'nav.ip': 'Derechos de propiedad intelectual',
+        'nav.userreps': 'Declaraciones del usuario',
+        'nav.prohibited': 'Actividades prohibidas',
+        'nav.ugc': 'Contenido del usuario',
+        'nav.license': 'Licencia de contenido',
+        'nav.sitemanage': 'Gestión de servicios',
+        'nav.terms': 'Término y terminación',
+        'nav.modifications': 'Modificaciones e interrupciones',
+        'nav.law': 'Ley aplicable',
+        'nav.disputes': 'Resolución de disputas',
+        'nav.corrections': 'Correcciones',
+        'nav.disclaimer': 'Descargo de responsabilidad',
+        'nav.liability': 'Limitaciones de responsabilidad',
+        'nav.indemnification': 'Indemnización',
+        'nav.userdata': 'Datos del usuario',
+        'nav.electronic': 'Comunicaciones electrónicas',
+        'nav.misc': 'Varios',
+        'nav.contact': 'Contáctanos'
+    }
+};
+
+let currentLang = 'ru';
+
+function changeLanguage() {
+    const select = document.getElementById('languageSelect');
+    currentLang = select.value;
+    
+    document.documentElement.lang = currentLang;
+    document.documentElement.setAttribute('data-lang', currentLang);
+    
+    updateTranslations();
+    localStorage.setItem('snapcal-lang', currentLang);
+}
+
+function updateTranslations() {
+    const elements = document.querySelectorAll('[data-translate]');
+    elements.forEach(element => {
+        const key = element.getAttribute('data-translate');
+        if (termsTranslations[currentLang] && termsTranslations[currentLang][key]) {
+            element.textContent = termsTranslations[currentLang][key];
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const savedLang = localStorage.getItem('snapcal-lang') || 'ru';
+    currentLang = savedLang;
+    const languageSelect = document.getElementById('languageSelect');
+    languageSelect.value = savedLang;
+    languageSelect.addEventListener('change', changeLanguage);
+    
+    changeLanguage();
+});
+
+// Smooth scrolling for anchor links
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+}); 

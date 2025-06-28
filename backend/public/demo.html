@@ -1,0 +1,214 @@
+﻿<!DOCTYPE html>
+<html lang="ru" data-lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SnapCal Demo - Попробуйте AI анализ</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <script src="demo-translations.js"></script>
+    
+    <style>
+        .demo-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        .language-selector {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1000;
+        }
+        
+        .language-selector select {
+            background: white;
+            color: #333;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .demo-content {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .upload-area {
+            border: 3px dashed #667eea;
+            border-radius: 16px;
+            padding: 3rem;
+            text-align: center;
+            background: #f8f9fa;
+            margin: 2rem 0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .upload-area:hover {
+            border-color: #764ba2;
+            background: #e9ecef;
+        }
+        
+        .upload-area.dragover {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+        
+        .upload-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        
+        .demo-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 1rem 0.5rem;
+        }
+        
+        .demo-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .demo-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .result-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+        
+        .loading-section {
+            text-align: center;
+            padding: 2rem;
+            display: none;
+        }
+        
+        .loading-gif {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1rem;
+            border-radius: 12px;
+        }
+        
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            background: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            margin: 1rem;
+        }
+        
+        .back-button:hover {
+            background: #5a6268;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .preview-image {
+            max-width: 300px;
+            max-height: 300px;
+            border-radius: 12px;
+            margin: 1rem 0;
+        }
+        
+        .nutrition-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .nutrition-item {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .nutrition-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="language-selector">
+        <select id="languageSelect">
+            <option value="ru">🇷🇺 Русский</option>
+            <option value="en">🇺🇸 English</option>
+            <option value="uk">🇺🇦 Українська</option>
+            <option value="pl">🇵🇱 Polski</option>
+            <option value="es">🇪🇸 Español</option>
+        </select>
+    </div>
+
+    <div class="demo-header">
+        <div class="container">
+            <h1 data-translate="demo.title">🧪 SnapCal Demo</h1>
+            <p data-translate="demo.description">Попробуйте AI анализ калорийности прямо сейчас</p>
+        </div>
+    </div>
+
+    <div class="demo-content">
+        <a href="/" class="back-button" data-translate="back">← Назад к главной</a>
+        
+        <div class="upload-area" id="uploadArea">
+            <div class="upload-icon">📸</div>
+            <h3 data-translate="upload.title">Загрузите фото еды</h3>
+            <p data-translate="upload.description">Нажмите или перетащите изображение сюда</p>
+            <input type="file" id="fileInput" accept="image/*" style="display: none;">
+        </div>
+        
+        <div id="previewSection" style="display: none; text-align: center;">
+            <img id="previewImage" class="preview-image">
+            <div>
+                <button class="demo-button" id="analyzeBtn" data-translate="analyze">
+                    🤖 Анализировать с AI
+                </button>
+                <button class="demo-button" id="resetBtn" data-translate="reset">
+                    🔄 Выбрать другое фото
+                </button>
+            </div>
+        </div>
+        
+        <div id="loadingSection" class="loading-section">
+            <img src="ai-loading.gif" alt="AI Loading..." class="loading-gif">
+            <h3 data-translate="loading.title">Анализируем изображение...</h3>
+            <p data-translate="loading.description">AI определяет калории и питательные вещества</p>
+        </div>
+        
+        <div id="resultSection" class="result-section">
+            <h3 data-translate="result.title">📊 Результат анализа</h3>
+            <div id="resultContent"></div>
+        </div>
+    </div>
+
+
+</body>
+</html>

@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const compression = require('compression');
 const rateLimit = require('express-rate-limit');
+const path = require('path');
 require('dotenv').config();
 console.log('DB_NAME:', process.env.DB_NAME);
 
@@ -63,6 +64,9 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // Static files
 app.use('/uploads', express.static('uploads'));
 
+// Serve web app static files
+app.use(express.static('public'));
+
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.json({ 
@@ -78,9 +82,24 @@ app.use('/api/users', userRoutes);
 app.use('/api/meals', mealRoutes);
 app.use('/api/ai', aiRoutes);
 
-// 404 handler
-app.use('*', (req, res) => {
-  res.status(404).json({ error: 'Route not found' });
+// Terms page route
+app.get('/terms', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/terms.html'));
+});
+
+// Demo page route
+app.get('/demo', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/demo.html'));
+});
+
+// Serve web app for all non-API routes (SPA fallback)
+app.get('*', (req, res) => {
+  // Если запрос не к API, отдаем index.html
+  if (!req.path.startsWith('/api/')) {
+    res.sendFile(path.join(__dirname, '../public/index.html'));
+  } else {
+    res.status(404).json({ error: 'API route not found' });
+  }
 });
 
 // Error handling middleware
