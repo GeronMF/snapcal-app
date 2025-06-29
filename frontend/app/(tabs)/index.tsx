@@ -25,6 +25,7 @@ import { analyzeFood } from '@/utils/mockData';
 import i18n from '@/i18n';
 import colors from '@/constants/colors';
 import CommentModal from '@/components/CommentModal';
+import AILoadingModal from '@/components/AILoadingModal';
 
 export default function HomeScreen() {
   const { user, setUserData } = useUser();
@@ -302,23 +303,10 @@ export default function HomeScreen() {
         </View>
       </Modal>
       
-      {/* Loading Modal */}
-      <Modal
+      {/* AI Loading Modal */}
+      <AILoadingModal 
         visible={isAnalyzing}
-        transparent
-        animationType="fade"
-      >
-        <View style={styles.loadingOverlay}>
-          <View style={styles.loadingContainer}>
-            <Image 
-              source={require('@/assets/images/ai-loading.gif')} 
-              style={styles.loadingGif}
-              resizeMode="contain"
-            />
-            <Text style={styles.loadingText}>{i18n.t('analyzing')}</Text>
-          </View>
-        </View>
-      </Modal>
+      />
 
       {/* Options Modal */}
       <Modal
@@ -511,29 +499,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
   },
-  loadingOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  loadingContainer: {
-    backgroundColor: colors.white,
-    borderRadius: 16,
-    padding: 24,
-    alignItems: 'center',
-    width: '80%',
-  },
-  loadingText: {
-    fontSize: 16,
-    color: colors.neutral[800],
-    marginTop: 16,
-    fontFamily: 'Inter-Medium',
-  },
-  loadingGif: {
-    width: 200,
-    height: 200,
-  },
+
   optionsContainer: {
     backgroundColor: colors.white,
     marginHorizontal: 20,
