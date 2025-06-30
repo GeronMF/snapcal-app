@@ -16,14 +16,18 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.snapcal.app",
-      "icon": "./assets/images/icon.png"
+      "icon": "./assets/images/icon.png",
+      "infoPlist": {
+        "CFBundleIconName": "AppIcon"
+      }
     },
     "android": {
       "package": "com.snapcal.app",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#14B8A6"
-      }
+      },
+      "icon": "./assets/images/icon.png"
     },
     "web": {
       "bundler": "metro",

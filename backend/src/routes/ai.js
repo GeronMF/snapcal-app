@@ -9,16 +9,8 @@ const router = express.Router();
 
 // Middleware для установки таймаута на AI запросы
 const setAITimeout = (req, res, next) => {
-  // Устанавливаем таймаут 2 минуты для AI анализа
-  req.setTimeout(120000, () => {
-    console.error('⏰ AI request timeout after 2 minutes');
-    if (!res.headersSent) {
-      res.status(408).json({
-        success: false,
-        error: 'AI анализ занимает слишком много времени. Попробуйте позже.'
-      });
-    }
-  });
+  // Убираем таймаут на уровне запроса - пусть обрабатывается на уровне OpenAI
+  console.log('🔍 AI request started at:', new Date().toISOString());
   next();
 };
 
@@ -58,14 +50,18 @@ router.post('/analyze', protect, setAITimeout, upload.single('image'), async (re
     }
 
     const { comment = '', language } = req.body;
-    
+
     // Get user language from request, user profile, or default to English
     const userLanguage = language || req.user?.language || 'en';
-    
+
     console.log(`🔍 AI Analysis request: language=${userLanguage}, comment="${comment}"`);
+    console.log(`📄 File size: ${req.file.buffer.length} bytes`);
 
     // Analyze the image using AI service
+    const startTime = Date.now();
     const analysis = await aiService.analyzeImage(req.file.buffer, comment, userLanguage);
+    const endTime = Date.now();
+    console.log(`⏱️ Total analysis time: ${endTime - startTime}ms`);
 
     res.json({
       success: true,
@@ -86,7 +82,7 @@ router.post('/analyze', protect, setAITimeout, upload.single('image'), async (re
     });
   } catch (error) {
     console.error('AI Analysis route error:', error);
-    
+
     // Обработка таймаут ошибок
     if (error.message && error.message.includes('timeout')) {
       return res.status(408).json({
@@ -94,7 +90,7 @@ router.post('/analyze', protect, setAITimeout, upload.single('image'), async (re
         error: 'AI анализ занимает слишком много времени. Попробуйте позже.'
       });
     }
-    
+
     next(error);
   }
 });
@@ -105,15 +101,15 @@ router.post('/analyze', protect, setAITimeout, upload.single('image'), async (re
 router.get('/status', protect, async (req, res, next) => {
   try {
     const status = await aiService.getStatus();
-    
+
     res.json({
       success: true,
       data: {
         ...status,
         version: '2.0.0',
         features: [
-          'food-recognition', 
-          'calorie-estimation', 
+          'food-recognition',
+          'calorie-estimation',
           'nutrition-analysis',
           'multilingual-support',
           'comment-processing',

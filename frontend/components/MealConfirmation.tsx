@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
-import { 
-  View, 
-  Text, 
-  StyleSheet, 
-  Image, 
-  TouchableOpacity, 
-  TextInput,
+import {
   ActivityIndicator,
+  Image,
+  Keyboard,
   KeyboardAvoidingView,
   Platform,
-  Keyboard,
   ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import i18n from '../i18n';
 import colors from '../constants/colors';
+import i18n from '../i18n';
 
 type MealConfirmationProps = {
   imageUri: string;
@@ -75,8 +75,8 @@ const MealConfirmation: React.FC<MealConfirmationProps> = ({
   };
 
   // Format number with one decimal place
-  const formatNumber = (num: number | null | undefined) => {
-    if (isNaN(num as number) || num === null || num === undefined) return '0';
+  const formatNumber = (num: number | null | undefined): string => {
+    if (num === null || num === undefined || isNaN(num as number)) return '0';
     const numValue = typeof num === 'string' ? parseFloat(num) : num;
     if (isNaN(numValue)) return '0';
     return (Math.round(numValue * 10) / 10).toString();
@@ -87,21 +87,21 @@ const MealConfirmation: React.FC<MealConfirmationProps> = ({
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.keyboardAvoid}
     >
-      <ScrollView 
+      <ScrollView
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.container}>
           <Text style={styles.title}>{i18n.t('confirmMeal')}</Text>
-          
-          <Image 
-            source={{ uri: imageUri }} 
+
+          <Image
+            source={{ uri: imageUri }}
             style={styles.image}
             resizeMode="cover"
           />
 
           {/* AI Analysis Info */}
-          {confidence && (
+          {(confidence !== undefined && confidence !== null) && (
             <View style={styles.aiInfoContainer}>
               <View style={styles.aiHeader}>
                 <Text style={styles.aiTitle}>{i18n.t('aiAnalysis')}</Text>
@@ -142,7 +142,7 @@ const MealConfirmation: React.FC<MealConfirmationProps> = ({
               )}
             </View>
           )}
-          
+
           <View style={styles.formContainer}>
             <Text style={styles.label}>{i18n.t('appName')}</Text>
             <TextInput
@@ -152,7 +152,7 @@ const MealConfirmation: React.FC<MealConfirmationProps> = ({
               placeholder="Meal name"
               placeholderTextColor={colors.neutral[400]}
             />
-            
+
             <Text style={styles.label}>{i18n.t('mealCalories')}</Text>
             <TextInput
               style={styles.input}
@@ -162,7 +162,7 @@ const MealConfirmation: React.FC<MealConfirmationProps> = ({
               placeholderTextColor={colors.neutral[400]}
               keyboardType="numeric"
             />
-            
+
             <Text style={styles.label}>{i18n.t('comment')}</Text>
             <TextInput
               style={styles.input}
@@ -177,10 +177,10 @@ const MealConfirmation: React.FC<MealConfirmationProps> = ({
               {i18n.t('commentExample')}
             </Text>
           </View>
-          
+
           <View style={styles.buttonContainer}>
-            <TouchableOpacity 
-              style={[styles.button, styles.cancelButton]} 
+            <TouchableOpacity
+              style={[styles.button, styles.cancelButton]}
               onPress={onCancel}
               disabled={isLoading}
             >
@@ -188,9 +188,9 @@ const MealConfirmation: React.FC<MealConfirmationProps> = ({
                 {i18n.t('cancel')}
               </Text>
             </TouchableOpacity>
-            
-            <TouchableOpacity 
-              style={[styles.button, styles.confirmButton]} 
+
+            <TouchableOpacity
+              style={[styles.button, styles.confirmButton]}
               onPress={handleConfirm}
               disabled={isLoading}
             >

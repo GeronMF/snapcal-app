@@ -60,7 +60,7 @@ class ApiClient {
       return data;
     } catch (error) {
       console.error('API request failed:', error);
-      
+
       // Добавляем детальную диагностику
       if (error instanceof TypeError && error.message.includes('Network request failed')) {
         console.error('Network error details:');
@@ -71,7 +71,7 @@ class ApiClient {
         console.error('  3. CORS or firewall blocking the request');
         console.error('  4. Invalid URL or SSL certificate issues');
       }
-      
+
       throw error;
     }
   }
@@ -122,19 +122,19 @@ class ApiClient {
     regional?: boolean;
   }>> {
     const formData = new FormData();
-    
+
     // Добавляем изображение
     formData.append('image', {
       uri: imageUri,
       type: 'image/jpeg',
       name: 'food.jpg',
     } as any);
-    
+
     // Добавляем комментарий если есть
     if (comment) {
       formData.append('comment', comment);
     }
-    
+
     // Добавляем язык если указан
     if (language) {
       formData.append('language', language);
@@ -156,7 +156,7 @@ class ApiClient {
     try {
       // Создаем контроллер для отмены запроса по таймауту
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 120000); // 2 минуты таймаут
+      const timeoutId = setTimeout(() => controller.abort(), 90000); // 90 секунд таймаут
 
       const response = await fetch(`${this.baseURL}/api/ai/analyze`, {
         method: 'POST',
@@ -179,19 +179,22 @@ class ApiClient {
       return data;
     } catch (error: any) {
       console.error('AI Analysis request failed:', error);
-      
+
       // Улучшенная диагностика ошибок
       if (error.name === 'AbortError') {
-        console.error('⏰ AI анализ превысил лимит времени (2 минуты)');
+        console.error('⏰ AI анализ превысил лимит времени (90 секунд)');
         throw new Error('AI анализ занимает слишком много времени. Попробуйте позже.');
       } else if (error instanceof TypeError && error.message.includes('Network request failed')) {
         console.error('🌐 Проблема с сетевым подключением');
         throw new Error('Проблема с интернет-соединением. Проверьте подключение.');
-      } else if (error instanceof TypeError && error.message.includes('timeout')) {
+      } else if (error instanceof TypeError && (
+        error.message.includes('timeout') ||
+        error.message.includes('timed out')
+      )) {
         console.error('⏰ Превышен лимит времени ожидания');
         throw new Error('Сервер AI не отвечает. Попробуйте позже.');
       }
-      
+
       throw error;
     }
   }

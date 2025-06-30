@@ -6,17 +6,18 @@ const { AI_PROMPTS, REGIONAL_FOODS } = require('../config/aiPrompts');
 class AIAnalysisService {
   constructor() {
     this.openai = new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY
+      apiKey: process.env.OPENAI_API_KEY,
+      timeout: 60000 // 60 секунд таймаут только для OpenAI
     });
-    
+
     // Simple in-memory cache for development
     this.cache = new Map();
     this.maxCacheSize = 1000;
     this.cacheEnabled = process.env.AI_CACHE_ENABLED === 'true';
-    
+
     // Fallback enabled by default
     this.fallbackEnabled = process.env.AI_FALLBACK_ENABLED !== 'false';
-    
+
     console.log('🤖 AI Analysis Service initialized');
     console.log('Cache enabled:', this.cacheEnabled);
     console.log('Fallback enabled:', this.fallbackEnabled);
@@ -32,7 +33,7 @@ class AIAnalysisService {
   async analyzeImage(imageBuffer, comment = '', userLanguage = 'en') {
     try {
       console.log(`🔍 Starting AI analysis for language: ${userLanguage}`);
-      
+
       // Check cache first
       if (this.cacheEnabled) {
         const cachedResult = this.getCachedResult(imageBuffer, comment, userLanguage);
@@ -44,27 +45,27 @@ class AIAnalysisService {
 
       // Optimize image for API
       const optimizedImage = await this.optimizeImage(imageBuffer);
-      
+
       // Get analysis from OpenAI
       const result = await this.processWithOpenAI(optimizedImage, comment, userLanguage);
-      
+
       // Validate and enhance result
       const finalResult = this.validateAndEnhanceResult(result, userLanguage);
-      
+
       // Cache the result
       if (this.cacheEnabled) {
         this.setCachedResult(imageBuffer, comment, userLanguage, finalResult);
       }
-      
+
       console.log('✅ AI analysis completed successfully');
       return finalResult;
-      
+
     } catch (error) {
       console.error('❌ AI Analysis error:', error.message);
-      
+
       // Специальная обработка таймаут ошибок
       if (error.message && (
-        error.message.includes('timeout') || 
+        error.message.includes('timeout') ||
         error.message.includes('timed out') ||
         error.message.includes('ETIMEDOUT') ||
         error.code === 'ETIMEDOUT'
@@ -76,27 +77,27 @@ class AIAnalysisService {
         }
         throw new Error('AI анализ занимает слишком много времени. Попробуйте позже.');
       }
-      
+
       if (this.fallbackEnabled) {
         console.log('🔄 Using fallback analysis');
         return this.getFallbackResult(comment, userLanguage);
       }
-      
+
       throw error;
     }
   }
 
   /**
-   * Process image with OpenAI GPT-4 Vision
-   */
+ * Process image with OpenAI GPT-4 Vision
+ */
   async processWithOpenAI(imageBuffer, comment, userLanguage) {
     const prompts = this.getPrompts(userLanguage);
     const base64Image = imageBuffer.toString('base64');
-    
+
     const userPrompt = prompts.user.replace('{comment}', comment || 'Нет комментария');
-    
+
     console.log(`🚀 Sending request to OpenAI (${userLanguage})`);
-    
+
     const response = await this.openai.chat.completions.create({
       model: process.env.AI_MODEL || "gpt-4-vision-preview",
       messages: [
@@ -122,8 +123,7 @@ class AIAnalysisService {
         }
       ],
       max_tokens: parseInt(process.env.AI_MAX_TOKENS) || 500,
-      temperature: 0.3,
-      timeout: 90000
+      temperature: 0.3
     });
 
     const content = response.choices[0].message.content;
@@ -149,19 +149,19 @@ class AIAnalysisService {
     try {
       // Resize and compress image to reduce API costs and processing time
       const optimized = await sharp(imageBuffer)
-        .resize(512, 384, {  // Уменьшено с 800x600 для ускорения
+        .resize(512, 384, {
           fit: 'inside',
-          withoutEnlargement: true 
+          withoutEnlargement: true
         })
-        .jpeg({ 
-          quality: 80, // Уменьшено с 85 для ускорения
-          progressive: true 
+        .jpeg({
+          quality: 85,
+          progressive: true
         })
         .toBuffer();
-      
+
       console.log(`📸 Image optimized: ${imageBuffer.length} -> ${optimized.length} bytes`);
       return optimized;
-      
+
     } catch (error) {
       console.warn('⚠️ Image optimization failed, using original:', error.message);
       return imageBuffer;
@@ -195,10 +195,10 @@ class AIAnalysisService {
 
     // Check if food is in regional database
     const regionalFoods = REGIONAL_FOODS[userLanguage] || [];
-    const isRegionalFood = regionalFoods.some(food => 
+    const isRegionalFood = regionalFoods.some(food =>
       validated.name.toLowerCase().includes(food.toLowerCase())
     );
-    
+
     if (isRegionalFood) {
       validated.confidence = Math.min(validated.confidence + 0.1, 1.0);
       validated.regional = true;
@@ -225,13 +225,13 @@ class AIAnalysisService {
       .update(imageBuffer)
       .digest('hex')
       .substring(0, 16);
-    
+
     const commentHash = crypto
       .createHash('md5')
       .update(comment || '')
       .digest('hex')
       .substring(0, 8);
-    
+
     return `${imageHash}_${commentHash}_${language}`;
   }
 
@@ -240,21 +240,21 @@ class AIAnalysisService {
    */
   getCachedResult(imageBuffer, comment, language) {
     if (!this.cacheEnabled) return null;
-    
+
     const key = this.generateCacheKey(imageBuffer, comment, language);
     const cached = this.cache.get(key);
-    
+
     if (cached) {
       const age = Date.now() - cached.timestamp;
       const maxAge = parseInt(process.env.AI_CACHE_TTL) || 86400000; // 24 hours
-      
+
       if (age < maxAge) {
         return cached.result;
       } else {
         this.cache.delete(key);
       }
     }
-    
+
     return null;
   }
 
@@ -263,13 +263,13 @@ class AIAnalysisService {
    */
   setCachedResult(imageBuffer, comment, language, result) {
     if (!this.cacheEnabled) return;
-    
+
     // Clean cache if it's getting too large
     if (this.cache.size >= this.maxCacheSize) {
       const firstKey = this.cache.keys().next().value;
       this.cache.delete(firstKey);
     }
-    
+
     const key = this.generateCacheKey(imageBuffer, comment, language);
     this.cache.set(key, {
       result,
@@ -282,7 +282,7 @@ class AIAnalysisService {
    */
   getFallbackResult(comment, userLanguage) {
     console.log('🔄 Generating fallback result');
-    
+
     // Fallback food database by language
     const fallbackFoods = {
       ru: [
@@ -318,7 +318,7 @@ class AIAnalysisService {
     // Try to match comment
     if (comment) {
       const commentLower = comment.toLowerCase();
-      const matchedFood = foods.find(food => 
+      const matchedFood = foods.find(food =>
         food.name.toLowerCase().includes(commentLower) ||
         commentLower.includes(food.name.toLowerCase().split(' ')[0])
       );
@@ -327,7 +327,7 @@ class AIAnalysisService {
 
     // Add some variation
     const variation = 0.9 + Math.random() * 0.2;
-    
+
     return {
       name: selectedFood.name,
       calories: Math.round(selectedFood.calories * variation),
@@ -349,7 +349,7 @@ class AIAnalysisService {
     try {
       // Test OpenAI connection
       const testResponse = await this.openai.models.list();
-      
+
       return {
         status: 'operational',
         provider: 'openai',
