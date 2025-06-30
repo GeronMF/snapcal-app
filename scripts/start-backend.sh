@@ -10,20 +10,30 @@ NC='\033[0m' # No Color
 
 echo -e "${GREEN}🚀 Запуск бэкенда SnapCal...${NC}"
 
+# Загружаем переменные окружения
+if [ -f ".env" ]; then
+    export $(cat .env | grep -v '^#' | xargs)
+else
+    echo -e "${RED}❌ Ошибка: файл .env не найден!${NC}"
+    echo -e "${YELLOW}📝 Создайте файл .env на основе env.example${NC}"
+    echo -e "${YELLOW}💡 Или используйте ручное подключение: ssh user@host -p port${NC}"
+    exit 1
+fi
+
 # Проверка доступности sshpass
 if ! command -v sshpass &> /dev/null; then
     echo -e "${YELLOW}⚠️  sshpass не установлен. Установите его для автоматизации:${NC}"
     echo "Ubuntu/Debian: sudo apt-get install sshpass"
     echo "macOS: brew install hudochenkov/sshpass/sshpass"
     echo -e "${YELLOW}Используйте обычное SSH подключение:${NC}"
-    echo "ssh snapcalfun@decloud2376.zahid.host -p 32762"
+    echo "ssh ${SSH_USER}@${SSH_HOST} -p ${SSH_PORT}"
     exit 1
 fi
 
 # SSH подключение с автоматическим выполнением команд
 echo -e "${GREEN}📡 Подключение к серверу...${NC}"
 
-sshpass -p '5c3c0bcc-8b91-45c9-8610-9dc02ad53cb5' ssh -p 32762 snapcalfun@decloud2376.zahid.host << 'EOF'
+sshpass -p "${SSH_PASSWORD}" ssh -p ${SSH_PORT} ${SSH_USER}@${SSH_HOST} << 'EOF'
 echo "🔍 Проверка статуса сервера..."
 
 # Переход в папку проекта

@@ -2,6 +2,27 @@
 
 Write-Host "🚀 Запуск бэкенда SnapCal..." -ForegroundColor Green
 
+# Загружаем переменные окружения из .env файла
+if (Test-Path ".env") {
+  Get-Content ".env" | Where-Object { $_ -match "^\s*[^#]" } | ForEach-Object {
+    $key, $value = $_ -split "=", 2
+    if ($key -and $value) {
+      [Environment]::SetEnvironmentVariable($key.Trim(), $value.Trim(), "Process")
+    }
+  }
+    
+  $SSH_HOST = $env:SSH_HOST
+  $SSH_PORT = $env:SSH_PORT
+  $SSH_USER = $env:SSH_USER
+  $SSH_PASSWORD = $env:SSH_PASSWORD
+}
+else {
+  Write-Host "❌ Ошибка: файл .env не найден!" -ForegroundColor Red
+  Write-Host "📝 Создайте файл .env на основе env.example" -ForegroundColor Yellow
+  Write-Host "💡 Или используйте ручное подключение: ssh user@host -p port" -ForegroundColor Yellow
+  exit 1
+}
+
 # Проверка наличия plink (PuTTY)
 $plinkPath = Get-Command plink -ErrorAction SilentlyContinue
 
@@ -9,7 +30,7 @@ if (-not $plinkPath) {
   Write-Host "⚠️  Plink (PuTTY) не найден. Установите PuTTY:" -ForegroundColor Yellow
   Write-Host "https://www.putty.org/" -ForegroundColor Cyan
   Write-Host "Или используйте обычное SSH подключение:" -ForegroundColor Yellow
-  Write-Host "ssh snapcalfun@decloud2376.zahid.host -p 32762" -ForegroundColor White
+  Write-Host "ssh $SSH_USER@$SSH_HOST -p $SSH_PORT" -ForegroundColor White
   exit 1
 }
 
@@ -47,7 +68,7 @@ $serverScript | Out-File -FilePath $tempScript -Encoding UTF8
 
 try {
   # Выполнение через plink
-  & plink -ssh -P 32762 -pw "5c3c0bcc-8b91-45c9-8610-9dc02ad53cb5" snapcalfun@decloud2376.zahid.host -m $tempScript
+  & plink -ssh -P $SSH_PORT -pw $SSH_PASSWORD $SSH_USER@$SSH_HOST -m $tempScript
     
   Write-Host "✅ Подключение завершено" -ForegroundColor Green
   Write-Host "📋 Следующие шаги:" -ForegroundColor Yellow
@@ -58,7 +79,7 @@ try {
 catch {
   Write-Host "❌ Ошибка подключения: $_" -ForegroundColor Red
   Write-Host "Попробуйте подключиться вручную:" -ForegroundColor Yellow
-  Write-Host "ssh snapcalfun@decloud2376.zahid.host -p 32762" -ForegroundColor White
+  Write-Host "ssh $SSH_USER@$SSH_HOST -p $SSH_PORT" -ForegroundColor White
 }
 finally {
   # Удаление временного файла

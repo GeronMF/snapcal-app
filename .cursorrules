@@ -16,8 +16,7 @@
 - Мультиязычность: поддержка 5 языков (en, es, pl, ru, uk)
 
 ## Доступ к продакшн серверу
-- **SSH подключение**: `ssh snapcalfun@decloud2376.zahid.host -p 32762`
-- **Пароль**: `5c3c0bcc-8b91-45c9-8610-9dc02ad53cb5`
+- **SSH подключение**: данные в файле .env (SSH_HOST, SSH_PORT, SSH_USER, SSH_PASSWORD)
 - **Путь к бэкенду**: `/home/snapcalfun/www/backend`
 - **Домен**: snapcal.fun
 - **Порт приложения**: 3333
