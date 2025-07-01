@@ -17,9 +17,9 @@ const adminAuth = (req, res, next) => {
   const username = credentials[0];
   const password = credentials[1];
 
-  // Проверяем учетные данные
-  const ADMIN_USERNAME = 'Geron';
-  const ADMIN_PASSWORD = 'zWU-Nyq-Ruj-J4u';
+  // Проверяем учетные данные из переменных окружения
+  const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin';
+  const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'changeme';
 
   if (username !== ADMIN_USERNAME || password !== ADMIN_PASSWORD) {
     res.setHeader('WWW-Authenticate', 'Basic realm="SnapCal Admin"');
