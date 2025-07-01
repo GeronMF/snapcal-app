@@ -4,7 +4,9 @@ const path = require('path');
 const fs = require('fs');
 const { protect } = require('../middleware/auth-mysql');
 const { requestLogger, aiRequestLogger } = require('../middleware/requestLogger');
-const aiService = require('../services/aiAnalysisService');
+const aiProviderManager = require('../services/aiProviders/AIProviderManager');
+const AISettingsService = require('../services/AISettingsService');
+const { query } = require('../config/database');
 
 const router = express.Router();
 
@@ -67,11 +69,25 @@ router.post('/analyze', protect, requestLogger, aiRequestLogger, setAITimeout, u
       console.log(`📄 [${requestId}] File size: ${req.file.buffer.length} bytes`);
       console.log(`👤 [${requestId}] User ID: ${req.user?.id || 'unknown'}`);
 
-      // Analyze the image using AI service
+      // Analyze the image using AI Provider Manager
       const analysisStartTime = Date.now();
-      const analysis = await aiService.analyzeImage(req.file.buffer, comment, userLanguage);
+      const analysis = await aiProviderManager.analyzeImage(req.file.buffer, userLanguage, comment);
       const analysisEndTime = Date.now();
       console.log(`⏱️ [${requestId}] Total analysis time: ${analysisEndTime - analysisStartTime}ms`);
+      
+      // Log AI usage statistics
+      try {
+        const aiSettings = new AISettingsService();
+        await aiSettings.logAIUsage({
+          provider: analysis.provider,
+          userId: req.user?.id,
+          success: true,
+          responseTime: analysisEndTime - analysisStartTime,
+          language: userLanguage
+        });
+      } catch (logError) {
+        console.error(`⚠️ [${requestId}] Failed to log AI usage:`, logError.message);
+      }
 
       const totalTime = Date.now() - startTime;
       console.log(`✅ [${requestId}] AI Analysis route completed successfully in ${totalTime}ms`);
@@ -97,6 +113,21 @@ router.post('/analyze', protect, requestLogger, aiRequestLogger, setAITimeout, u
       const totalTime = Date.now() - startTime;
       console.error(`❌ [${requestId}] AI Analysis route error after ${totalTime}ms:`, error.message);
       console.error(`🔍 [${requestId}] Error stack:`, error.stack?.split('\n').slice(0, 3).join('\n'));
+      
+      // Log failed AI usage
+      try {
+        const aiSettings = new AISettingsService();
+        await aiSettings.logAIUsage({
+          provider: 'unknown',
+          userId: req.user?.id,
+          success: false,
+          responseTime: totalTime,
+          errorMessage: error.message,
+          language: req.body.language || 'en'
+        });
+      } catch (logError) {
+        console.error(`⚠️ [${requestId}] Failed to log AI error:`, logError.message);
+      }
 
       // Обработка таймаут ошибок
       if (error.message && error.message.includes('timeout')) {
@@ -133,27 +164,26 @@ router.post('/analyze', protect, requestLogger, aiRequestLogger, setAITimeout, u
   }
 );
 
-// @desc    Get AI service status
+// @desc    Get AI service status (public, basic info)
 // @route   GET /api/ai/status
-// @access  Private
-router.get('/status', protect, async (req, res, next) => {
+// @access  Public
+router.get('/status', async (req, res, next) => {
   try {
-    const status = await aiService.getStatus();
+    const providersStatus = await aiProviderManager.getProvidersStatus();
+    const activeProvider = aiProviderManager.getActiveProviderInfo();
 
     res.json({
-      success: true,
-      data: {
-        ...status,
-        version: '2.0.0',
-        features: [
-          'food-recognition',
-          'calorie-estimation',
-          'nutrition-analysis',
-          'multilingual-support',
-          'comment-processing',
-          'regional-foods'
-        ]
-      }
+      status: 'OK',
+      activeProvider: activeProvider?.name || 'unknown',
+      providers: providersStatus.map(p => ({
+        name: p.name,
+        enabled: p.enabled,
+        available: p.available,
+        active: p.active,
+        priority: p.priority
+      })),
+      responseTime: Date.now(),
+      version: '3.0.0'
     });
   } catch (error) {
     console.error('AI Status route error:', error);

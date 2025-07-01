@@ -12,14 +12,42 @@ const authRoutes = require('./routes/auth-mysql');
 const userRoutes = require('./routes/users-mysql');
 const mealRoutes = require('./routes/meals-mysql');
 const aiRoutes = require('./routes/ai');
+const adminAiRoutes = require('./routes/admin-ai');
 const { errorHandler } = require('./middleware/errorHandler');
 const { connectDB } = require('./config/database');
+
+// Import AI services
+const aiProviderManager = require('./services/aiProviders/AIProviderManager');
+const AISettingsService = require('./services/AISettingsService');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Connect to database
 connectDB();
+
+// Initialize AI Provider Manager
+async function initializeAI() {
+  try {
+    console.log('🤖 Initializing AI Provider Manager...');
+    
+    const aiSettings = new AISettingsService();
+    
+    // Get AI configuration from database
+    const config = await aiSettings.getAIManagerConfig();
+    
+    // Initialize AI Manager with config
+    await aiProviderManager.initialize(config);
+    
+    console.log('✅ AI Provider Manager initialized successfully');
+  } catch (error) {
+    console.error('❌ Failed to initialize AI Provider Manager:', error);
+    // Don't crash the server, just log the error
+  }
+}
+
+// Initialize AI after a short delay to ensure DB is ready
+setTimeout(initializeAI, 2000);
 
 // Trust proxy for production (behind nginx)
 if (process.env.NODE_ENV === 'production') {
@@ -64,8 +92,14 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // Static files
 app.use('/uploads', express.static('uploads'));
 
-// Serve web app static files
-app.use(express.static('public'));
+// Serve web app static files with proper MIME types
+app.use(express.static('public', {
+  setHeaders: (res, path) => {
+    if (path.endsWith('.js')) {
+      res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+    }
+  }
+}));
 
 // Health check endpoint
 app.get('/health', (req, res) => {
@@ -81,6 +115,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/meals', mealRoutes);
 app.use('/api/ai', aiRoutes);
+app.use('/api/admin/ai', adminAiRoutes);
 
 // Terms page route
 app.get('/terms', (req, res) => {
@@ -90,6 +125,27 @@ app.get('/terms', (req, res) => {
 // Demo page route
 app.get('/demo', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/demo.html'));
+});
+
+// AI Admin panel JavaScript file with proper headers
+app.get('/admin-ai.js', (req, res) => {
+  res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.sendFile(path.join(__dirname, '../public/admin-ai.js'));
+});
+
+// AI Admin panel route (disable CSP for admin panel)
+app.get('/admin/ai', (req, res) => {
+  // Отключаем CSP для админ-панели
+  res.removeHeader('Content-Security-Policy');
+  res.removeHeader('X-Content-Security-Policy');
+  res.removeHeader('X-WebKit-CSP');
+  
+  // Устанавливаем менее строгие заголовки безопасности для админ-панели
+  res.setHeader('Content-Security-Policy', "default-src 'self' 'unsafe-inline' 'unsafe-eval'; script-src 'self' 'unsafe-inline' 'unsafe-eval';");
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  
+  res.sendFile(path.join(__dirname, '../public/admin-ai.html'));
 });
 
 // Serve web app for all non-API routes (SPA fallback)
@@ -116,6 +172,10 @@ process.on('SIGTERM', () => {
   console.log('SIGTERM signal received: closing HTTP server');
   server.close(() => {
     console.log('HTTP server closed');
+    
+    // Shutdown AI Provider Manager
+    aiProviderManager.shutdown();
+    
     // Close database connections
     const { pool } = require('./config/database');
     if (pool) {
