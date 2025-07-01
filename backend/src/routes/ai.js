@@ -3,6 +3,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const { protect } = require('../middleware/auth-mysql');
+const { requestLogger, aiRequestLogger } = require('../middleware/requestLogger');
 const aiService = require('../services/aiAnalysisService');
 
 const router = express.Router();
@@ -40,60 +41,97 @@ const upload = multer({
 // @desc    Analyze food image
 // @route   POST /api/ai/analyze
 // @access  Private
-router.post('/analyze', protect, setAITimeout, upload.single('image'), async (req, res, next) => {
-  try {
-    if (!req.file) {
-      return res.status(400).json({
-        success: false,
-        error: 'No image file provided'
-      });
-    }
-
-    const { comment = '', language } = req.body;
-
-    // Get user language from request, user profile, or default to English
-    const userLanguage = language || req.user?.language || 'en';
-
-    console.log(`🔍 AI Analysis request: language=${userLanguage}, comment="${comment}"`);
-    console.log(`📄 File size: ${req.file.buffer.length} bytes`);
-
-    // Analyze the image using AI service
-    const startTime = Date.now();
-    const analysis = await aiService.analyzeImage(req.file.buffer, comment, userLanguage);
-    const endTime = Date.now();
-    console.log(`⏱️ Total analysis time: ${endTime - startTime}ms`);
-
-    res.json({
-      success: true,
-      data: {
-        name: analysis.name,
-        calories: analysis.calories,
-        protein: analysis.protein,
-        carbs: analysis.carbs,
-        fat: analysis.fat,
-        confidence: analysis.confidence,
-        portions: analysis.portions,
-        comment: comment,
-        language: analysis.language,
-        provider: analysis.provider,
-        regional: analysis.regional || false,
-        timestamp: analysis.timestamp
+router.post('/analyze', protect, requestLogger, aiRequestLogger, setAITimeout, upload.single('image'),
+  async (req, res, next) => {
+    // Используем requestId из middleware
+    const requestId = req.requestId || Math.random().toString(36).substring(7);
+    const startTime = req.startTime || Date.now();
+    
+    try {
+      console.log(`🔍 [${requestId}] AI Analysis processing started`);
+      
+      if (!req.file) {
+        console.error(`❌ [${requestId}] No image file provided`);
+        return res.status(400).json({
+          success: false,
+          error: 'No image file provided'
+        });
       }
-    });
-  } catch (error) {
-    console.error('AI Analysis route error:', error);
 
-    // Обработка таймаут ошибок
-    if (error.message && error.message.includes('timeout')) {
-      return res.status(408).json({
-        success: false,
-        error: 'AI анализ занимает слишком много времени. Попробуйте позже.'
+      const { comment = '', language } = req.body;
+
+      // Get user language from request, user profile, or default to English
+      const userLanguage = language || req.user?.language || 'en';
+
+      console.log(`🔍 [${requestId}] AI Analysis request: language=${userLanguage}, comment="${comment}"`);
+      console.log(`📄 [${requestId}] File size: ${req.file.buffer.length} bytes`);
+      console.log(`👤 [${requestId}] User ID: ${req.user?.id || 'unknown'}`);
+
+      // Analyze the image using AI service
+      const analysisStartTime = Date.now();
+      const analysis = await aiService.analyzeImage(req.file.buffer, comment, userLanguage);
+      const analysisEndTime = Date.now();
+      console.log(`⏱️ [${requestId}] Total analysis time: ${analysisEndTime - analysisStartTime}ms`);
+
+      const totalTime = Date.now() - startTime;
+      console.log(`✅ [${requestId}] AI Analysis route completed successfully in ${totalTime}ms`);
+
+      res.json({
+        success: true,
+        data: {
+          name: analysis.name,
+          calories: analysis.calories,
+          protein: analysis.protein,
+          carbs: analysis.carbs,
+          fat: analysis.fat,
+          confidence: analysis.confidence,
+          portions: analysis.portions,
+          comment: comment,
+          language: analysis.language,
+          provider: analysis.provider,
+          regional: analysis.regional || false,
+          timestamp: analysis.timestamp
+        }
       });
-    }
+    } catch (error) {
+      const totalTime = Date.now() - startTime;
+      console.error(`❌ [${requestId}] AI Analysis route error after ${totalTime}ms:`, error.message);
+      console.error(`🔍 [${requestId}] Error stack:`, error.stack?.split('\n').slice(0, 3).join('\n'));
 
-    next(error);
+      // Обработка таймаут ошибок
+      if (error.message && error.message.includes('timeout')) {
+        console.error(`⏰ [${requestId}] Timeout error detected`);
+        return res.status(408).json({
+          success: false,
+          error: 'AI анализ занимает слишком много времени. Попробуйте позже.',
+          code: 'TIMEOUT'
+        });
+      }
+
+      // Обработка ошибок сети
+      if (error.message && (error.message.includes('Network') || error.message.includes('connection'))) {
+        console.error(`🌐 [${requestId}] Network error detected`);
+        return res.status(503).json({
+          success: false,
+          error: 'Проблема с соединением к AI сервису. Попробуйте позже.',
+          code: 'NETWORK_ERROR'
+        });
+      }
+
+      // Обработка ошибок OpenAI API
+      if (error.status) {
+        console.error(`🔴 [${requestId}] OpenAI API error: ${error.status}`);
+        return res.status(503).json({
+          success: false,
+          error: 'Временная проблема с AI сервисом. Попробуйте позже.',
+          code: 'AI_SERVICE_ERROR'
+        });
+      }
+
+      next(error);
+    }
   }
-});
+);
 
 // @desc    Get AI service status
 // @route   GET /api/ai/status

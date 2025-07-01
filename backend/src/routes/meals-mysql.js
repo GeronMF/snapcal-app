@@ -131,7 +131,7 @@ router.post('/', protect, async (req, res, next) => {
       comment,
       date: date || new Date().toISOString().split('T')[0],
       timestamp: Date.now(),
-      // AI fields
+      // AI fields - сохраняем правильные значения
       language: userLanguage,
       ai_confidence: ai_confidence || 0.0,
       ai_provider: ai_provider || 'manual',

@@ -90,6 +90,12 @@ class ApiClient {
     imageUri?: string;
     comment?: string;
     date?: string;
+    // AI поля
+    language?: string;
+    ai_confidence?: number;
+    ai_provider?: string;
+    portions?: string;
+    regional?: boolean;
   }): Promise<ApiResponse<Meal>> {
     return this.request<Meal>('/api/meals', {
       method: 'POST',
@@ -153,50 +159,101 @@ class ApiClient {
     console.log('AI Analysis Request:', `${this.baseURL}/api/ai/analyze`);
     console.log('Using auth token:', token ? 'Yes' : 'No');
 
-    try {
-      // Создаем контроллер для отмены запроса по таймауту
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 90000); // 90 секунд таймаут
+    // Увеличиваем таймауты для более стабильной работы
+    const AI_TIMEOUT = 120000; // 2 минуты
+    const RETRY_ATTEMPTS = 2;
+    const RETRY_DELAY = 2000; // 2 секунды между попытками
 
-      const response = await fetch(`${this.baseURL}/api/ai/analyze`, {
-        method: 'POST',
-        headers,
-        body: formData,
-        signal: controller.signal,
-      });
+    for (let attempt = 1; attempt <= RETRY_ATTEMPTS; attempt++) {
+      try {
+        console.log(`🔍 Попытка ${attempt}/${RETRY_ATTEMPTS} AI анализа...`);
+        
+        // Создаем контроллер для отмены запроса по таймауту
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => {
+          console.log(`⏰ Таймаут ${AI_TIMEOUT}ms на попытке ${attempt}`);
+          controller.abort();
+        }, AI_TIMEOUT);
 
-      clearTimeout(timeoutId);
-      console.log('AI Response status:', response.status);
+        const response = await fetch(`${this.baseURL}/api/ai/analyze`, {
+          method: 'POST',
+          headers,
+          body: formData,
+          signal: controller.signal,
+        });
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error(`HTTP error! status: ${response.status}, body: ${errorText}`);
-        throw new Error(`HTTP error! status: ${response.status}`);
+        clearTimeout(timeoutId);
+        console.log(`AI Response status: ${response.status} (попытка ${attempt})`);
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error(`HTTP error! status: ${response.status}, body: ${errorText}`);
+          
+          // Если 408 (Request Timeout) или 504 (Gateway Timeout), попробуем еще раз
+          if ((response.status === 408 || response.status === 504) && attempt < RETRY_ATTEMPTS) {
+            console.log(`⏳ Таймаут сервера, ждем ${RETRY_DELAY}ms перед повтором...`);
+            await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
+            continue;
+          }
+          
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log('AI Analysis successful:', data);
+        return data;
+        
+      } catch (error: any) {
+        console.error(`AI Analysis request failed (попытка ${attempt}):`, error);
+
+        // Улучшенная диагностика ошибок
+        if (error.name === 'AbortError') {
+          console.error(`⏰ AI анализ превысил лимит времени (${AI_TIMEOUT}ms) на попытке ${attempt}`);
+          
+          if (attempt < RETRY_ATTEMPTS) {
+            console.log(`⏳ Ждем ${RETRY_DELAY}ms перед повтором...`);
+            await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
+            continue;
+          }
+          
+          throw new Error('AI анализ занимает слишком много времени. Попробуйте позже.');
+        } else if (error instanceof TypeError && error.message.includes('Network request failed')) {
+          console.error('🌐 Проблема с сетевым подключением');
+          
+          if (attempt < RETRY_ATTEMPTS) {
+            console.log(`🔄 Повторяем из-за сетевой ошибки через ${RETRY_DELAY}ms...`);
+            await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
+            continue;
+          }
+          
+          throw new Error('Проблема с интернет-соединением. Проверьте подключение.');
+        } else if (error instanceof TypeError && (
+          error.message.includes('timeout') ||
+          error.message.includes('timed out')
+        )) {
+          console.error('⏰ Превышен лимит времени ожидания');
+          
+          if (attempt < RETRY_ATTEMPTS) {
+            console.log(`⏳ Повторяем из-за таймаута через ${RETRY_DELAY}ms...`);
+            await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
+            continue;
+          }
+          
+          throw new Error('Сервер AI не отвечает. Попробуйте позже.');
+        }
+
+        // Если это последняя попытка, пробрасываем ошибку
+        if (attempt === RETRY_ATTEMPTS) {
+          throw error;
+        }
+        
+        console.log(`🔄 Повторяем запрос через ${RETRY_DELAY}ms...`);
+        await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
       }
-
-      const data = await response.json();
-      console.log('AI Analysis successful:', data);
-      return data;
-    } catch (error: any) {
-      console.error('AI Analysis request failed:', error);
-
-      // Улучшенная диагностика ошибок
-      if (error.name === 'AbortError') {
-        console.error('⏰ AI анализ превысил лимит времени (90 секунд)');
-        throw new Error('AI анализ занимает слишком много времени. Попробуйте позже.');
-      } else if (error instanceof TypeError && error.message.includes('Network request failed')) {
-        console.error('🌐 Проблема с сетевым подключением');
-        throw new Error('Проблема с интернет-соединением. Проверьте подключение.');
-      } else if (error instanceof TypeError && (
-        error.message.includes('timeout') ||
-        error.message.includes('timed out')
-      )) {
-        console.error('⏰ Превышен лимит времени ожидания');
-        throw new Error('Сервер AI не отвечает. Попробуйте позже.');
-      }
-
-      throw error;
     }
+
+    // Этот код никогда не должен выполниться, но для безопасности
+    throw new Error('Все попытки AI анализа завершились неудачей');
   }
 }
 

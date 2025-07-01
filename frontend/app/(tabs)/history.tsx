@@ -1,21 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  View, 
-  Text, 
-  StyleSheet, 
-  SafeAreaView, 
-  Platform,
-  TouchableOpacity,
-  ScrollView
-} from 'react-native';
+import MealList from '@/components/MealList';
+import colors from '@/constants/colors';
 import { useMeals } from '@/contexts/MealsContext';
 import { useUser } from '@/contexts/UserContext';
-import MealList from '@/components/MealList';
-import { Calendar } from 'react-native-calendars';
-import { format } from 'date-fns';
 import i18n from '@/i18n';
-import colors from '@/constants/colors';
 import { calculateCaloriesConsumed } from '@/utils/calorieCalculator';
+import { format } from 'date-fns';
+import React, { useEffect, useState } from 'react';
+import {
+    Platform,
+    ScrollView,
+    StyleSheet,
+    Text,
+    View
+} from 'react-native';
+import { Calendar } from 'react-native-calendars';
 
 export default function HistoryScreen() {
   const { meals, removeMeal, toggleFavorite } = useMeals();
@@ -37,6 +35,11 @@ export default function HistoryScreen() {
         mealsByDate[normalizedDate] = [];
       }
       mealsByDate[normalizedDate].push(meal);
+    });
+    
+    // Сортируем блюда в каждой дате по времени (новые сверху)
+    Object.keys(mealsByDate).forEach(date => {
+      mealsByDate[date].sort((a, b) => b.timestamp - a.timestamp);
     });
     
     // Create marked dates object for calendar with color coding

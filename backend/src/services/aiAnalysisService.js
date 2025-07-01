@@ -31,23 +31,31 @@ class AIAnalysisService {
    * @returns {Promise<Object>} Analysis result
    */
   async analyzeImage(imageBuffer, comment = '', userLanguage = 'en') {
+    const startTime = Date.now();
+    const requestId = Math.random().toString(36).substring(7);
+    
     try {
-      console.log(`🔍 Starting AI analysis for language: ${userLanguage}`);
+      console.log(`🔍 [${requestId}] Starting AI analysis for language: ${userLanguage}`);
+      console.log(`📊 [${requestId}] Image size: ${imageBuffer.length} bytes, comment: "${comment}"`);
 
       // Check cache first
       if (this.cacheEnabled) {
         const cachedResult = this.getCachedResult(imageBuffer, comment, userLanguage);
         if (cachedResult) {
-          console.log('📦 Returning cached result');
+          console.log(`📦 [${requestId}] Returning cached result in ${Date.now() - startTime}ms`);
           return cachedResult;
         }
       }
 
       // Optimize image for API
+      const optimizeStart = Date.now();
       const optimizedImage = await this.optimizeImage(imageBuffer);
+      console.log(`📸 [${requestId}] Image optimized in ${Date.now() - optimizeStart}ms`);
 
       // Get analysis from OpenAI
+      const aiStart = Date.now();
       const result = await this.processWithOpenAI(optimizedImage, comment, userLanguage);
+      console.log(`🤖 [${requestId}] OpenAI processing completed in ${Date.now() - aiStart}ms`);
 
       // Validate and enhance result
       const finalResult = this.validateAndEnhanceResult(result, userLanguage);
@@ -57,11 +65,19 @@ class AIAnalysisService {
         this.setCachedResult(imageBuffer, comment, userLanguage, finalResult);
       }
 
-      console.log('✅ AI analysis completed successfully');
+      const totalTime = Date.now() - startTime;
+      console.log(`✅ [${requestId}] AI analysis completed successfully in ${totalTime}ms`);
       return finalResult;
 
     } catch (error) {
-      console.error('❌ AI Analysis error:', error.message);
+      const totalTime = Date.now() - startTime;
+      console.error(`❌ [${requestId}] AI Analysis error after ${totalTime}ms:`, error.message);
+      console.error(`🔍 [${requestId}] Error details:`, {
+        name: error.name,
+        code: error.code,
+        status: error.status,
+        stack: error.stack?.split('\n')[0]
+      });
 
       // Специальная обработка таймаут ошибок
       if (error.message && (
@@ -70,16 +86,26 @@ class AIAnalysisService {
         error.message.includes('ETIMEDOUT') ||
         error.code === 'ETIMEDOUT'
       )) {
-        console.error('⏰ AI анализ превысил лимит времени');
+        console.error(`⏰ [${requestId}] AI анализ превысил лимит времени`);
         if (this.fallbackEnabled) {
-          console.log('🔄 Using fallback due to timeout');
+          console.log(`🔄 [${requestId}] Using fallback due to timeout`);
           return this.getFallbackResult(comment, userLanguage);
         }
         throw new Error('AI анализ занимает слишком много времени. Попробуйте позже.');
       }
 
+      // Обработка ошибок OpenAI API
+      if (error.status) {
+        console.error(`🔴 [${requestId}] OpenAI API error: status ${error.status}`);
+        if (error.status === 429) {
+          console.error(`⚠️ [${requestId}] Rate limit exceeded`);
+        } else if (error.status >= 500) {
+          console.error(`🚨 [${requestId}] OpenAI server error`);
+        }
+      }
+
       if (this.fallbackEnabled) {
-        console.log('🔄 Using fallback analysis');
+        console.log(`🔄 [${requestId}] Using fallback analysis`);
         return this.getFallbackResult(comment, userLanguage);
       }
 

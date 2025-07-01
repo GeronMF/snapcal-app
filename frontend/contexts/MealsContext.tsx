@@ -1,10 +1,10 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { Meal } from '../types';
-import { getMeals, saveMeal, getMealsByDate, deleteMeal, getCurrentUserId, getUserMealsKey, saveImageMapping, getLocalImagePath } from '../utils/storage';
-import { apiClient } from '../utils/api';
-import { format } from 'date-fns';
-import { v4 as uuidv4 } from 'uuid';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { format } from 'date-fns';
+import React, { ReactNode, createContext, useContext, useEffect, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import { Meal } from '../types';
+import { apiClient } from '../utils/api';
+import { deleteMeal, getCurrentUserId, getLocalImagePath, getMealsByDate, getUserMealsKey, saveImageMapping, saveMeal } from '../utils/storage';
 
 type MealsContextType = {
   meals: Meal[];
@@ -60,8 +60,11 @@ export const MealsProvider: React.FC<{ children: ReactNode }> = ({ children }) =
           // Восстанавливаем локальные пути изображений
           const mealsWithLocalImages = await restoreLocalImagePaths(serverMeals);
           
-          setMeals(mealsWithLocalImages);
-          updateDerivedState(mealsWithLocalImages);
+          // Сортируем блюда по времени, новые сверху
+          const sortedMeals = mealsWithLocalImages.sort((a, b) => b.timestamp - a.timestamp);
+          
+          setMeals(sortedMeals);
+          updateDerivedState(sortedMeals);
           
           // Сохраняем в локальное хранилище
           await saveMealsToStorage(mealsWithLocalImages);
@@ -111,7 +114,10 @@ export const MealsProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         const parsed = JSON.parse(storedMeals);
         console.log('MealsContext: Parsed', parsed.length, 'meals from storage');
         console.log('MealsContext: Storage meals:', parsed.map((m: Meal) => `${m.name} (${m.date}, fav: ${m.isFavorite})`));
-        return parsed;
+        
+        // Сортируем по времени, новые сверху
+        const sortedMeals = parsed.sort((a: Meal, b: Meal) => b.timestamp - a.timestamp);
+        return sortedMeals;
       } else {
         console.log('MealsContext: No stored meals found');
         return [];
@@ -149,13 +155,19 @@ export const MealsProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         console.log('MealsContext: Processing meal from server:', meal.name, 'imageUri:', meal.imageUri, 'image_uri:', (meal as any).image_uri);
         
         // Нормализуем числовые поля (они могут приходить как строки)
+        const serverMeal = meal as any;
         const normalizedMeal = {
           ...meal,
           calories: typeof meal.calories === 'string' ? parseFloat(meal.calories) || 0 : meal.calories || 0,
           protein: typeof meal.protein === 'string' ? parseFloat(meal.protein) || 0 : meal.protein || 0,
           carbs: typeof meal.carbs === 'string' ? parseFloat(meal.carbs) || 0 : meal.carbs || 0,
           fat: typeof meal.fat === 'string' ? parseFloat(meal.fat) || 0 : meal.fat || 0,
-          confidence: typeof meal.confidence === 'string' ? parseFloat(meal.confidence) || 0 : meal.confidence || 0,
+          // Маппим AI поля с сервера в frontend формат
+          confidence: serverMeal.ai_confidence || meal.confidence || 0,
+          language: serverMeal.language || meal.language,
+          provider: serverMeal.ai_provider || meal.provider,
+          portions: serverMeal.portions || meal.portions,
+          regional: serverMeal.regional || meal.regional || false,
         };
         
         // Если imageUri это ID (не содержит file:// или http), восстанавливаем локальный путь
@@ -193,11 +205,14 @@ export const MealsProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     const today = format(new Date(), 'yyyy-MM-dd');
     console.log('MealsContext: Today is', today);
     
-    // Нормализуем даты для корректного сравнения
-    const todaysMeals = allMeals.filter(meal => {
-      const mealDate = meal.date.includes('T') ? meal.date.split('T')[0] : meal.date;
-      return mealDate === today;
-    });
+    // Нормализуем даты для корректного сравнения и сортируем по времени
+    const todaysMeals = allMeals
+      .filter(meal => {
+        const mealDate = meal.date.includes('T') ? meal.date.split('T')[0] : meal.date;
+        return mealDate === today;
+      })
+      .sort((a, b) => b.timestamp - a.timestamp); // Новые блюда сверху
+    
     console.log('MealsContext: Found', todaysMeals.length, 'meals for today');
     console.log('MealsContext: Today meals:', todaysMeals.map(m => `${m.name} (${m.date})`));
     
@@ -257,6 +272,12 @@ export const MealsProvider: React.FC<{ children: ReactNode }> = ({ children }) =
           imageUri: imageId, // Отправляем только ID изображения
           comment: newMeal.comment,
           date: newMeal.date,
+          // AI данные
+          language: newMeal.language,
+          ai_confidence: newMeal.confidence,
+          ai_provider: newMeal.provider,
+          portions: newMeal.portions,
+          regional: newMeal.regional,
         });
         
         console.log('MealsContext: Sent to server:', {
@@ -276,8 +297,8 @@ export const MealsProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         console.log('Failed to save meal to server, keeping local copy:', error);
       }
       
-      // Update local state
-      const updatedMeals = [...meals, newMeal];
+      // Update local state - добавляем новое блюдо в начало списка
+      const updatedMeals = [newMeal, ...meals];
       setMeals(updatedMeals);
       updateDerivedState(updatedMeals);
     } catch (error) {
@@ -402,8 +423,8 @@ export const MealsProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         console.log('Failed to save favorite meal to server:', error);
       }
       
-      // Update local state
-      const updatedMeals = [...meals, newMeal];
+      // Update local state - добавляем новое блюдо в начало списка
+      const updatedMeals = [newMeal, ...meals];
       setMeals(updatedMeals);
       updateDerivedState(updatedMeals);
     } catch (error) {

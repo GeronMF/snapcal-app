@@ -94,7 +94,9 @@ export async function getMeals(): Promise<Meal[]> {
 export async function getMealsByDate(date: string): Promise<Meal[]> {
   try {
     const meals = await getMeals();
-    return meals.filter(meal => meal.date === date);
+    return meals
+      .filter(meal => meal.date === date)
+      .sort((a, b) => b.timestamp - a.timestamp); // Новые блюда сверху
   } catch (error) {
     console.error('Error getting meals by date:', error);
     return [];

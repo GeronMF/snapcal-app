@@ -47,6 +47,7 @@ const initializeTables = async () => {
         weight DECIMAL(5,2),
         activity_level VARCHAR(50),
         goal VARCHAR(20),
+        daily_calories INT DEFAULT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
       )
@@ -64,6 +65,11 @@ const initializeTables = async () => {
         fat DECIMAL(5,2) DEFAULT 0,
         image_uri TEXT,
         comment TEXT,
+        confidence DECIMAL(3,2) DEFAULT 0.00,
+        language VARCHAR(5) DEFAULT 'en',
+        ai_provider VARCHAR(50) DEFAULT 'manual',
+        portions TEXT,
+        regional BOOLEAN DEFAULT FALSE,
         is_favorite BOOLEAN DEFAULT FALSE,
         date DATE NOT NULL,
         timestamp BIGINT NOT NULL,
@@ -77,6 +83,10 @@ const initializeTables = async () => {
     await pool.query('CREATE INDEX IF NOT EXISTS idx_meals_user_id ON meals(user_id)');
     await pool.query('CREATE INDEX IF NOT EXISTS idx_meals_date ON meals(date)');
     await pool.query('CREATE INDEX IF NOT EXISTS idx_users_email ON users(email)');
+    await pool.query('CREATE INDEX IF NOT EXISTS idx_meals_confidence ON meals(confidence)');
+    await pool.query('CREATE INDEX IF NOT EXISTS idx_meals_language ON meals(language)');
+    await pool.query('CREATE INDEX IF NOT EXISTS idx_meals_ai_provider ON meals(ai_provider)');
+    await pool.query('CREATE INDEX IF NOT EXISTS idx_meals_regional ON meals(regional)');
 
     console.log('✅ Database tables initialized successfully');
   } catch (error) {
