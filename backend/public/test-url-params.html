@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Тест URL параметров</title>
+</head>
+<body>
+    <h1>Тест чтения URL параметров</h1>
+    <div id="results"></div>
+    
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const langParam = urlParams.get('lang');
+        
+        const results = document.getElementById('results');
+        results.innerHTML = `
+            <p><strong>Полный URL:</strong> ${window.location.href}</p>
+            <p><strong>Search params:</strong> ${window.location.search}</p>
+            <p><strong>Lang параметр:</strong> ${langParam}</p>
+            <p><strong>Все параметры:</strong></p>
+            <ul>
+        `;
+        
+        for (const [key, value] of urlParams) {
+            results.innerHTML += `<li>${key}: ${value}</li>`;
+        }
+        
+        results.innerHTML += '</ul>';
+        
+        console.log('URL:', window.location.href);
+        console.log('Search:', window.location.search);
+        console.log('Lang param:', langParam);
+    </script>
+</body>
+</html> 

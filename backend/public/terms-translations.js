@@ -22,7 +22,11 @@ const termsTranslations = {
         'nav.userdata': 'Пользовательские данные',
         'nav.electronic': 'Электронные коммуникации',
         'nav.misc': 'Прочее',
-        'nav.contact': 'Связаться с нами'
+        'nav.contact': 'Связаться с нами',
+        'contact.title': '📞 Связаться с нами',
+        'contact.text': 'Чтобы решить жалобу относительно Сервисов или получить дополнительную информацию об использовании Сервисов, пожалуйста, свяжитесь с нами:',
+        'contact.email': 'Email:',
+        'contact.website': 'Website:'
     },
     en: {
         'back': 'Back to App',
@@ -47,7 +51,11 @@ const termsTranslations = {
         'nav.userdata': 'User Data',
         'nav.electronic': 'Electronic Communications',
         'nav.misc': 'Miscellaneous',
-        'nav.contact': 'Contact Us'
+        'nav.contact': 'Contact Us',
+        'contact.title': '📞 Contact Us',
+        'contact.text': 'In order to resolve a complaint regarding the Services or to receive further information regarding use of the Services, please contact us at:',
+        'contact.email': 'Email:',
+        'contact.website': 'Website:'
     },
     uk: {
         'back': 'Назад до додатку',
@@ -72,7 +80,11 @@ const termsTranslations = {
         'nav.userdata': 'Дані користувача',
         'nav.electronic': 'Електронні комунікації',
         'nav.misc': 'Інше',
-        'nav.contact': 'Зв\'язатися з нами'
+        'nav.contact': 'Зв\'язатися з нами',
+        'contact.title': '📞 Зв\'язатися з нами',
+        'contact.text': 'Щоб вирішити скаргу щодо Сервісів або отримати додаткову інформацію щодо використання Сервісів, будь ласка, зв\'яжіться з нами:',
+        'contact.email': 'Email:',
+        'contact.website': 'Website:'
     },
     pl: {
         'back': 'Powrót do aplikacji',
@@ -97,7 +109,11 @@ const termsTranslations = {
         'nav.userdata': 'Dane użytkownika',
         'nav.electronic': 'Komunikacja elektroniczna',
         'nav.misc': 'Różne',
-        'nav.contact': 'Skontaktuj się z nami'
+        'nav.contact': 'Skontaktuj się z nami',
+        'contact.title': '📞 Skontaktuj się z nami',
+        'contact.text': 'Aby rozwiązać skargę dotyczącą Usług lub otrzymać dalsze informacje dotyczące korzystania z Usług, skontaktuj się z nami:',
+        'contact.email': 'Email:',
+        'contact.website': 'Website:'
     },
     es: {
         'back': 'Volver a la aplicación',
@@ -122,7 +138,11 @@ const termsTranslations = {
         'nav.userdata': 'Datos del usuario',
         'nav.electronic': 'Comunicaciones electrónicas',
         'nav.misc': 'Varios',
-        'nav.contact': 'Contáctanos'
+        'nav.contact': 'Contáctanos',
+        'contact.title': '📞 Contáctanos',
+        'contact.text': 'Para resolver una queja sobre los Servicios o recibir más información sobre el uso de los Servicios, contáctanos en:',
+        'contact.email': 'Email:',
+        'contact.website': 'Website:'
     }
 };
 
@@ -147,6 +167,16 @@ function updateTranslations() {
             element.textContent = termsTranslations[currentLang][key];
         }
     });
+    
+    // Обновляем основной контент
+    updateMainContent();
+}
+
+function updateMainContent() {
+    const contentElement = document.getElementById('terms-main-content');
+    if (contentElement && termsContent && termsContent[currentLang]) {
+        contentElement.innerHTML = termsContent[currentLang];
+    }
 }
 
 document.addEventListener('DOMContentLoaded', function() {

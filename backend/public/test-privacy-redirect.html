@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Privacy Redirect</title>
+</head>
+<body>
+    <h1>Тест редиректа на Privacy</h1>
+    <p>Тестируем ссылки:</p>
+    <ul>
+        <li><a href="/privacy">Ссылка на /privacy</a></li>
+        <li><a href="/privacy.html">Ссылка на /privacy.html</a></li>
+        <li><a href="privacy.html">Ссылка на privacy.html (относительная)</a></li>
+    </ul>
+    
+    <script>
+        console.log('Current URL:', window.location.href);
+        console.log('Test links loading...');
+    </script>
+</body>
+</html> 

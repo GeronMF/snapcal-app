@@ -25,7 +25,8 @@ const translations = {
         'download.android': '🤖 Скачать для Android',
         'download.coming': 'Скоро в App Store и Google Play',
         'footer.rights': 'Все права защищены',
-        'footer.terms': '📋 Условия использования'
+        'footer.terms': '📋 Условия использования',
+        'footer.privacy': '🔒 Политика конфиденциальности'
     },
     en: {
         'hero.title': '🍽️ SnapCal',
@@ -53,7 +54,8 @@ const translations = {
         'download.android': '🤖 Download for Android',
         'download.coming': 'Coming soon to App Store and Google Play',
         'footer.rights': 'All rights reserved',
-        'footer.terms': '📋 Terms of Service'
+        'footer.terms': '📋 Terms of Service',
+        'footer.privacy': '🔒 Privacy Policy'
     },
     uk: {
         'hero.title': '🍽️ SnapCal',
@@ -81,7 +83,8 @@ const translations = {
         'download.android': '🤖 Завантажити для Android',
         'download.coming': 'Незабаром в App Store та Google Play',
         'footer.rights': 'Всі права захищені',
-        'footer.terms': '📋 Умови використання'
+        'footer.terms': '📋 Умови використання',
+        'footer.privacy': '🔒 Політика конфіденційності'
     },
     pl: {
         'hero.title': '🍽️ SnapCal',
@@ -109,7 +112,8 @@ const translations = {
         'download.android': '🤖 Pobierz dla Android',
         'download.coming': 'Wkrótce w App Store i Google Play',
         'footer.rights': 'Wszystkie prawa zastrzeżone',
-        'footer.terms': '📋 Warunki korzystania'
+        'footer.terms': '📋 Warunki korzystania',
+        'footer.privacy': '🔒 Polityka prywatności'
     },
     es: {
         'hero.title': '🍽️ SnapCal',
@@ -137,7 +141,8 @@ const translations = {
         'download.android': '🤖 Descargar para Android',
         'download.coming': 'Próximamente en App Store y Google Play',
         'footer.rights': 'Todos los derechos reservados',
-        'footer.terms': '📋 Términos de servicio'
+        'footer.terms': '📋 Términos de servicio',
+        'footer.privacy': '🔒 Política de privacidad'
     }
 };
 
@@ -204,5 +209,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const languageSelect = document.getElementById('languageSelect');
     languageSelect.value = savedLang;
     languageSelect.addEventListener('change', changeLanguage);
+    
+
+    
     changeLanguage();
 }); 
