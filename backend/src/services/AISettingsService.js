@@ -266,7 +266,7 @@ class AISettingsService {
         SELECT 
           provider,
           COUNT(*) as total_requests,
-          SUM(success) as successful_requests,
+          SUM(CASE WHEN success = 1 OR success = true THEN 1 ELSE 0 END) as successful_requests,
           AVG(response_time) as avg_response_time,
           DATE(created_at) as date
         FROM ai_usage_stats 
@@ -275,7 +275,15 @@ class AISettingsService {
         ORDER BY date DESC, provider
       `, [days]);
 
-      return rows;
+      // Дополнительная валидация данных
+      const validatedRows = rows.map(row => ({
+        ...row,
+        total_requests: Math.max(0, parseInt(row.total_requests) || 0),
+        successful_requests: Math.max(0, Math.min(parseInt(row.successful_requests) || 0, parseInt(row.total_requests) || 0)),
+        avg_response_time: parseFloat(row.avg_response_time) || 0
+      }));
+
+      return validatedRows;
     } catch (error) {
       console.error('Ошибка получения статистики AI:', error);
       return [];

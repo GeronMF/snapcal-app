@@ -14,6 +14,7 @@ class OpenAIProvider extends BaseAIProvider {
 
     this.client = new OpenAI({
       apiKey: config.apiKey,
+      timeout: 20000, // 20 секунд таймаут для OpenAI запросов
     });
 
     this.model = config.model || 'gpt-4o-mini';

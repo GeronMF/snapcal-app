@@ -47,6 +47,11 @@ class GeminiProvider extends BaseAIProvider {
     this.logRequest({ language, comment });
 
     try {
+      // Валидируем изображение
+      if (!imageBuffer || imageBuffer.length < 100) {
+        throw new Error('Invalid or too small image buffer');
+      }
+
       // Получаем модель
       const model = this.genAI.getGenerativeModel({ 
         model: this.model,

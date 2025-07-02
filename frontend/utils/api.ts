@@ -159,10 +159,10 @@ class ApiClient {
     console.log('AI Analysis Request:', `${this.baseURL}/api/ai/analyze`);
     console.log('Using auth token:', token ? 'Yes' : 'No');
 
-    // Увеличиваем таймауты для более стабильной работы
-    const AI_TIMEOUT = 120000; // 2 минуты
+    // Разумные таймауты для пользователя
+    const AI_TIMEOUT = 20000; // 20 секунд - максимум что пользователь готов ждать
     const RETRY_ATTEMPTS = 2;
-    const RETRY_DELAY = 2000; // 2 секунды между попытками
+    const RETRY_DELAY = 2000; // 2 секунды между попытками // 2 секунды между попытками
 
     for (let attempt = 1; attempt <= RETRY_ATTEMPTS; attempt++) {
       try {

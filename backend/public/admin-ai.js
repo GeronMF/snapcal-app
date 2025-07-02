@@ -6,13 +6,25 @@ document.addEventListener('DOMContentLoaded', loadData);
 
 async function loadData() {
     try {
-        showLoading();
+        // Не показываем загрузку при обновлении, только при первой загрузке
+        if (!currentData) {
+            showLoading();
+        }
         
         // Загружаем статус системы
         await loadSystemStatus();
         
         // Загружаем статистику
         await loadStats();
+        
+        // Загружаем статистику пользователей
+        await loadUsersStats();
+        
+        // Загружаем статистику блюд
+        await loadMealsStats();
+        
+        // Отмечаем, что данные загружены
+        currentData = true;
         
     } catch (error) {
         console.error('Ошибка загрузки данных:', error);
@@ -51,6 +63,38 @@ async function loadStats() {
     } catch (error) {
         document.getElementById('statsInfo').innerHTML = 
             '<div class="error">Ошибка загрузки статистики</div>';
+    }
+}
+
+async function loadUsersStats() {
+    try {
+        const response = await fetch('/api/admin/ai/users-stats');
+        if (response.ok) {
+            const data = await response.json();
+            displayUsersStats(data.data);
+        } else {
+            document.getElementById('usersInfo').innerHTML = 
+                '<div class="error">Статистика пользователей недоступна</div>';
+        }
+    } catch (error) {
+        document.getElementById('usersInfo').innerHTML = 
+            '<div class="error">Ошибка загрузки статистики пользователей</div>';
+    }
+}
+
+async function loadMealsStats() {
+    try {
+        const response = await fetch('/api/admin/ai/meals-stats');
+        if (response.ok) {
+            const data = await response.json();
+            displayMealsStats(data.data);
+        } else {
+            document.getElementById('mealsInfo').innerHTML = 
+                '<div class="error">Статистика блюд недоступна</div>';
+        }
+    } catch (error) {
+        document.getElementById('mealsInfo').innerHTML = 
+            '<div class="error">Ошибка загрузки статистики блюд</div>';
     }
 }
 
@@ -153,18 +197,106 @@ function displayStats(stats) {
         return acc;
     }, {});
     
-    const statsHtml = Object.entries(grouped).map(([provider, data]) => `
-        <div class="stat-item">
-            <div class="stat-value">${data.total}</div>
-            <div class="stat-label">${provider.toUpperCase()}<br>запросов</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-value">${Math.round(data.successful / data.total * 100)}%</div>
-            <div class="stat-label">${provider.toUpperCase()}<br>успешно</div>
-        </div>
-    `).join('');
+    const statsHtml = Object.entries(grouped).map(([provider, data]) => {
+        // Безопасный расчет процента успеха
+        let successPercentage = 0;
+        if (data.total > 0 && data.successful >= 0) {
+            successPercentage = Math.min(Math.round((data.successful / data.total) * 100), 100);
+        }
+        
+        return `
+            <div class="stat-item">
+                <div class="stat-value">${data.total}</div>
+                <div class="stat-label">${provider.toUpperCase()}<br>запросов</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">${successPercentage}%</div>
+                <div class="stat-label">${provider.toUpperCase()}<br>успешно</div>
+            </div>
+        `;
+    }).join('');
     
     statsInfo.innerHTML = `<div class="stats-grid">${statsHtml}</div>`;
+}
+
+function displayUsersStats(data) {
+    const usersInfo = document.getElementById('usersInfo');
+    
+    if (!data || !data.usersByLanguage || data.usersByLanguage.length === 0) {
+        usersInfo.innerHTML = '<div>Данные о пользователях пока отсутствуют</div>';
+        return;
+    }
+
+    // Создаем карточку с общим количеством
+    const totalUserHtml = `
+        <div class="stat-item" style="grid-column: span 2; background: #e8f5e8; border: 2px solid #4CAF50;">
+            <div class="stat-value" style="color: #4CAF50; font-size: 2rem;">${data.totalUsers}</div>
+            <div class="stat-label" style="font-weight: 600;">Всего пользователей</div>
+        </div>
+    `;
+    
+    // Создаем карточки для каждого языка
+    const languageStats = data.usersByLanguage.map(item => {
+        const languageNames = {
+            'en': 'English',
+            'ru': 'Русский', 
+            'es': 'Español',
+            'pl': 'Polski',
+            'uk': 'Українська'
+        };
+        
+        const percentage = Math.round((item.count / data.totalUsers) * 100);
+        
+        return `
+            <div class="stat-item">
+                <div class="stat-value">${item.count}</div>
+                <div class="stat-label">${languageNames[item.language] || item.language}<br>${percentage}%</div>
+            </div>
+        `;
+    }).join('');
+    
+    usersInfo.innerHTML = `<div class="stats-grid">${totalUserHtml}${languageStats}</div>`;
+}
+
+function displayMealsStats(data) {
+    const mealsInfo = document.getElementById('mealsInfo');
+    
+    if (!data || data.totalMeals === 0) {
+        mealsInfo.innerHTML = '<div>Данные о блюдах пока отсутствуют</div>';
+        return;
+    }
+    
+    // Создаем карточку с общим количеством блюд
+    const totalMealsHtml = `
+        <div class="stat-item" style="grid-column: span 2; background: #fff3cd; border: 2px solid #ffc107;">
+            <div class="stat-value" style="color: #856404; font-size: 2rem;">${data.totalMeals}</div>
+            <div class="stat-label" style="font-weight: 600;">Всего блюд загружено</div>
+        </div>
+    `;
+    
+    // Статистика по провайдерам ИИ
+    let providerStats = '';
+    if (data.mealsByProvider && data.mealsByProvider.length > 0) {
+        providerStats = data.mealsByProvider.map(item => {
+            const providerNames = {
+                'openai': 'OpenAI',
+                'gemini': 'Gemini',
+                'manual': 'Ручной ввод',
+                'camera': 'Камера'
+            };
+            
+            const percentage = Math.round((item.count / data.totalMeals) * 100);
+            
+            return `
+                <div class="stat-item">
+                    <div class="stat-value">${item.count}</div>
+                    <div class="stat-label">${providerNames[item.ai_provider] || item.ai_provider}<br>${percentage}%</div>
+                </div>
+            `;
+        }).join('');
+    }
+    
+    mealsInfo.innerHTML = `<div class="stats-grid">${totalMealsHtml}${providerStats}</div>`;
 }
 
 async function switchProvider(provider) {
@@ -218,6 +350,8 @@ function showLoading() {
     document.getElementById('systemInfo').innerHTML = '<div class="loading">Загрузка...</div>';
     document.getElementById('providersInfo').innerHTML = '<div class="loading">Загрузка...</div>';
     document.getElementById('statsInfo').innerHTML = '<div class="loading">Загрузка...</div>';
+    document.getElementById('usersInfo').innerHTML = '<div class="loading">Загрузка...</div>';
+    document.getElementById('mealsInfo').innerHTML = '<div class="loading">Загрузка...</div>';
 }
 
 function showMessage(message, type = 'info') {

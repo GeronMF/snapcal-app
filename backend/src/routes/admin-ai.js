@@ -294,4 +294,82 @@ router.get('/stats', adminAuth, async (req, res, next) => {
   }
 });
 
+// @desc    Get users statistics by language
+// @route   GET /api/admin/ai/users-stats
+// @access  Admin only (Basic Auth)
+router.get('/users-stats', adminAuth, async (req, res, next) => {
+  try {
+    // Статистика пользователей по языкам
+    const [usersByLanguage] = await query(`
+      SELECT 
+        language, 
+        COUNT(*) as count
+      FROM users 
+      WHERE language IS NOT NULL 
+      GROUP BY language 
+      ORDER BY count DESC
+    `);
+
+    // Общее количество пользователей
+    const [totalUsers] = await query('SELECT COUNT(*) as total FROM users');
+
+    res.json({
+      success: true,
+      data: {
+        usersByLanguage,
+        totalUsers: totalUsers[0].total,
+        generated: new Date().toISOString()
+      }
+    });
+  } catch (error) {
+    console.error('Admin users stats error:', error);
+    next(error);
+  }
+});
+
+// @desc    Get meals statistics
+// @route   GET /api/admin/ai/meals-stats
+// @access  Admin only (Basic Auth)
+router.get('/meals-stats', adminAuth, async (req, res, next) => {
+  try {
+    // Общее количество загруженных блюд
+    const [totalMeals] = await query('SELECT COUNT(*) as total FROM meals');
+
+    // Количество блюд по провайдерам ИИ
+    const [mealsByProvider] = await query(`
+      SELECT 
+        ai_provider, 
+        COUNT(*) as count
+      FROM meals 
+      WHERE ai_provider IS NOT NULL 
+      GROUP BY ai_provider 
+      ORDER BY count DESC
+    `);
+
+    // Статистика по дням за последнюю неделю
+    const [mealsPerDay] = await query(`
+      SELECT 
+        DATE(created_at) as date,
+        COUNT(*) as count
+      FROM meals 
+      WHERE created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)
+      GROUP BY DATE(created_at)
+      ORDER BY date DESC
+    `);
+
+    res.json({
+      success: true,
+      data: {
+        totalMeals: totalMeals[0].total,
+        mealsByProvider,
+        mealsPerDay,
+        generated: new Date().toISOString()
+      }
+    });
+  } catch (error) {
+    console.error('Admin meals stats error:', error);
+    next(error);
+  }
+});
+
 module.exports = router; 

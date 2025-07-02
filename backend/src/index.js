@@ -40,9 +40,36 @@ async function initializeAI() {
     await aiProviderManager.initialize(config);
     
     console.log('✅ AI Provider Manager initialized successfully');
+    
+    // Отключаем прогрев - может вызывать проблемы с первыми запросами
+    // setTimeout(warmupAIProviders, 5000);
+    
   } catch (error) {
     console.error('❌ Failed to initialize AI Provider Manager:', error);
     // Don't crash the server, just log the error
+  }
+}
+
+async function warmupAIProviders() {
+  try {
+    console.log('🔥 Warming up AI providers...');
+    
+    // Создаем тестовое изображение (1x1 pixel PNG)
+    const testImageBuffer = Buffer.from([
+      0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, 0x00, 0x00, 0x00, 0x0D, 0x49, 0x48, 0x44, 0x52,
+      0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x08, 0x02, 0x00, 0x00, 0x00, 0x90, 0x77, 0x53,
+      0xDE, 0x00, 0x00, 0x00, 0x0C, 0x49, 0x44, 0x41, 0x54, 0x08, 0x57, 0x63, 0xF8, 0x0F, 0x00, 0x00,
+      0x01, 0x00, 0x01, 0x99, 0xE6, 0x8C, 0x88, 0x00, 0x00, 0x00, 0x00, 0x49, 0x45, 0x4E, 0x44, 0xAE,
+      0x42, 0x60, 0x82
+    ]);
+    
+    const warmupStart = Date.now();
+    await aiProviderManager.analyzeImage(testImageBuffer, 'en', 'warmup test');
+    const warmupTime = Date.now() - warmupStart;
+    
+    console.log(`🔥 AI providers warmed up in ${warmupTime}ms`);
+  } catch (error) {
+    console.log(`⚠️ AI warmup failed: ${error.message} (this is expected for warmup)`);
   }
 }
 
@@ -166,6 +193,13 @@ const server = app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT} in ${process.env.NODE_ENV} mode`);
   console.log(`📊 Health check: http://localhost:${PORT}/health`);
 });
+
+// Устанавливаем разумные таймауты сервера для AI запросов
+server.timeout = 30000; // 30 секунд общий таймаут сервера
+server.keepAliveTimeout = 25000; // 25 секунд keep-alive
+server.headersTimeout = 26000; // 26 секунд headers timeout
+
+console.log('⏰ Server timeouts configured: 30s timeout, 25s keep-alive');
 
 // Handle graceful shutdown
 process.on('SIGTERM', () => {

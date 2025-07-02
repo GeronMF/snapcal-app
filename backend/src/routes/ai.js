@@ -12,8 +12,12 @@ const router = express.Router();
 
 // Middleware для установки таймаута на AI запросы
 const setAITimeout = (req, res, next) => {
-  // Убираем таймаут на уровне запроса - пусть обрабатывается на уровне OpenAI
+  // Устанавливаем разумный таймаут для AI запросов
+  req.setTimeout(25000); // 25 секунд для AI анализа
+  res.setTimeout(25000);
+  
   console.log('🔍 AI request started at:', new Date().toISOString());
+  console.log('⏰ AI request timeout set to 25s');
   next();
 };
 
