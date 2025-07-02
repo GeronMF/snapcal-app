@@ -1,27 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  View, 
-  Text, 
-  StyleSheet, 
-  SafeAreaView, 
-  TouchableOpacity, 
-  Platform,
-  Switch,
-  ScrollView,
-  Alert
-} from 'react-native';
-import { useUser } from '@/contexts/UserContext';
-import { useMeals } from '@/contexts/MealsContext';
 import LanguageSelector from '@/components/LanguageSelector';
-import { Language, Goal } from '@/types';
-import { Gender, ActivityLevel } from '@/utils/calorieCalculator';
-import i18n from '@/i18n';
 import colors from '@/constants/colors';
-import { TextInput } from 'react-native-gesture-handler';
-import { ChevronDown, ChevronRight } from 'lucide-react-native';
+import { useMeals } from '@/contexts/MealsContext';
+import { useUser } from '@/contexts/UserContext';
+import i18n from '@/i18n';
+import { Goal, Language } from '@/types';
+import { ActivityLevel, Gender } from '@/utils/calorieCalculator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
-import { clearUserData } from '@/utils/storage';
+import { ChevronDown, ChevronRight } from 'lucide-react-native';
+import React, { useEffect, useState } from 'react';
+import {
+    Alert,
+    Linking,
+    Platform,
+    ScrollView,
+    StyleSheet,
+    Switch,
+    Text,
+    TouchableOpacity,
+    View
+} from 'react-native';
+import { TextInput } from 'react-native-gesture-handler';
 
 export default function SettingsScreen() {
   const { user, setUserData, updateLanguage, reloadUser } = useUser();
@@ -31,6 +30,7 @@ export default function SettingsScreen() {
   const [isProfileExpanded, setIsProfileExpanded] = useState(false);
   const [isNotificationsExpanded, setIsNotificationsExpanded] = useState(false);
   const [isLanguageExpanded, setIsLanguageExpanded] = useState(false);
+  const [isLegalExpanded, setIsLegalExpanded] = useState(false);
   
   const [age, setAge] = useState('');
   const [gender, setGender] = useState<Gender>('male');
@@ -60,6 +60,7 @@ export default function SettingsScreen() {
   const toggleProfileSection = () => setIsProfileExpanded(!isProfileExpanded);
   const toggleNotificationsSection = () => setIsNotificationsExpanded(!isNotificationsExpanded);
   const toggleLanguageSection = () => setIsLanguageExpanded(!isLanguageExpanded);
+  const toggleLegalSection = () => setIsLegalExpanded(!isLegalExpanded);
   
   // Handle language change
   const handleLanguageChange = (language: Language) => {
@@ -121,6 +122,21 @@ export default function SettingsScreen() {
   const toggleNotifications = () => {
     setNotificationsEnabled(!notificationsEnabled);
     // Here you would typically save this preference and register/unregister for notifications
+  };
+  
+  // Handle opening web links
+  const openTermsOfService = () => {
+    const currentLanguage = i18n.locale;
+    Linking.openURL(`https://snapcal.fun/terms?lang=${currentLanguage}`);
+  };
+  
+  const openPrivacyPolicy = () => {
+    const currentLanguage = i18n.locale;
+    Linking.openURL(`https://snapcal.fun/privacy.html?lang=${currentLanguage}`);
+  };
+  
+  const openContactUs = () => {
+    Linking.openURL('mailto:support@snapcal.fun');
   };
   
   return (
@@ -372,6 +388,46 @@ export default function SettingsScreen() {
           )}
         </View>
         
+        {/* Legal & Support */}
+        <View style={styles.section}>
+          <TouchableOpacity 
+            style={styles.sectionHeader} 
+            onPress={toggleLegalSection}
+          >
+            <Text style={styles.sectionTitle}>{i18n.t('legalAndSupport')}</Text>
+            {isLegalExpanded ? (
+              <ChevronDown size={20} color={colors.neutral[500]} />
+            ) : (
+              <ChevronRight size={20} color={colors.neutral[500]} />
+            )}
+          </TouchableOpacity>
+          
+          {isLegalExpanded && (
+            <View style={styles.sectionContent}>
+              <TouchableOpacity 
+                style={styles.linkButton}
+                onPress={openTermsOfService}
+              >
+                <Text style={styles.linkButtonText}>{i18n.t('termsOfService')}</Text>
+              </TouchableOpacity>
+              
+              <TouchableOpacity 
+                style={styles.linkButton}
+                onPress={openPrivacyPolicy}
+              >
+                <Text style={styles.linkButtonText}>{i18n.t('privacyPolicy')}</Text>
+              </TouchableOpacity>
+              
+              <TouchableOpacity 
+                style={styles.linkButton}
+                onPress={openContactUs}
+              >
+                <Text style={styles.linkButtonText}>{i18n.t('contactUs')}</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
+        
         {/* App Information */}
         <View style={styles.appInfo}>
           <Text style={styles.appVersion}>SnapCal v1.0.0</Text>
@@ -451,6 +507,7 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.neutral[100],
   },
   sectionTitle: {
+    flex: 1,
     fontSize: 16,
     fontWeight: '600',
     color: colors.neutral[800],
@@ -571,5 +628,19 @@ const styles = StyleSheet.create({
     color: colors.neutral[600],
     fontSize: 16,
     fontWeight: '500',
+  },
+  linkButton: {
+    backgroundColor: colors.primary[500],
+    borderRadius: 8,
+    padding: 12,
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  linkButtonText: {
+    color: colors.white,
+    fontSize: 16,
+    fontWeight: '500',
+    fontFamily: 'Inter-Medium',
+    textAlign: 'center',
   },
 });

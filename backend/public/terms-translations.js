@@ -180,10 +180,23 @@ function updateMainContent() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Читаем язык из URL параметра
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlLang = urlParams.get('lang');
+    
+    // Приоритет: URL параметр -> localStorage -> ru по умолчанию
     const savedLang = localStorage.getItem('snapcal-lang') || 'ru';
-    currentLang = savedLang;
+    currentLang = urlLang || savedLang;
+    
+    // Проверяем что язык поддерживается
+    if (!termsTranslations[currentLang]) {
+        currentLang = 'ru';
+    }
+    
+
+    
     const languageSelect = document.getElementById('languageSelect');
-    languageSelect.value = savedLang;
+    languageSelect.value = currentLang;
     languageSelect.addEventListener('change', changeLanguage);
     
     changeLanguage();

@@ -126,4 +126,11 @@ export default {
   removeFromFavorites: 'Quitar de favoritos',
   chooseOption: 'Elegir opción',
   noFavorites: 'No hay comidas favoritas',
+  optional: 'opcional',
+  
+  // Legal & Support
+  legalAndSupport: 'Legal y soporte',
+  termsOfService: '📋 Términos de servicio',
+  privacyPolicy: '🔒 Política de privacidad',
+  contactUs: '📞 Contáctanos',
 };

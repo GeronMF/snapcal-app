@@ -9,11 +9,12 @@ export default {
   delete: 'Delete',
   confirm: 'Confirm',
   done: 'Done',
+  optional: 'optional',
   
   // Onboarding
   welcome: 'Welcome to SnapCal!',
   onboardingTitle: 'Let\'s set up your profile',
-  selectLanguage: 'Select your language',
+  selectLanguage: 'Select Language',
   personalInfo: 'Personal Information',
   age: 'Age',
   gender: 'Gender',
@@ -26,50 +27,6 @@ export default {
   goalLose: 'Lose weight',
   goalMaintain: 'Maintain weight',
   goalGain: 'Gain weight',
-  
-  // Main Screen
-  takePicture: 'Take a photo of your meal',
-  dailyTarget: 'Daily Calorie Target',
-  remaining: 'Remaining',
-  consumed: 'Consumed',
-  todayMeals: 'Today\'s Meals',
-  noMealsYet: 'No meals recorded today',
-  analyzing: 'Analyzing your meal...',
-  confirmMeal: 'Confirm Meal',
-  mealCalories: 'Calories',
-  addToFavorites: 'Add to Favorites',
-  removeFromFavorites: 'Remove from Favorites',
-  favorites: 'Favorites',
-  addFromFavorites: 'Add from favorites',
-  chooseOption: 'Choose Option',
-  noFavorites: 'No favorite meals yet',
-  
-  // History
-  historyTitle: 'History',
-  noMealsHistory: 'No meal history yet',
-  caloriesConsumed: 'Calories consumed',
-  
-  // Settings
-  settingsTitle: 'Settings',
-  profileSettings: 'Profile Settings',
-  notificationSettings: 'Notification Settings',
-  enableNotifications: 'Enable Notifications',
-  reminderTime: 'Reminder Time',
-  languageSettings: 'Language Settings',
-  currentLanguage: 'Current language',
-  updateProfile: 'Update Profile',
-  
-  // Messages
-  mealSaved: 'Registration successful!',
-  registrationSuccess: 'User registered successfully!',
-  targetReached: 'You\'ve reached your daily calorie target!',
-  targetExceeded: 'You\'ve exceeded your daily calorie target!',
-  
-  // Errors
-  cameraPermissionDenied: 'Camera permission was denied',
-  formError: 'Please fill out all required fields',
-  loadingError: 'Error loading data',
-  
   activityLevel: 'Activity Level',
   activityLevels: {
     sedentary: 'Sedentary',
@@ -80,24 +37,69 @@ export default {
   },
   activityDescriptions: {
     sedentary: 'Little or no physical activity',
-    light: 'Light activity or exercise 1–3 times a week',
-    moderate: 'Moderate exercise or sports 3–5 times a week',
-    active: 'Intense workouts 6–7 times a week',
-    veryActive: 'Very intense workouts, physical work or training 2 times a day'
+    light: 'Light activity or exercise 1-3 times a week',
+    moderate: 'Moderate exercise or sports 3-5 times a week',
+    active: 'Intense workouts 6-7 times a week',
+    veryActive: 'Very intense workouts, physical job, or training twice a day'
   },
   goals: {
-    lose: 'Lose weight',
-    maintain: 'Maintain',
-    gain: 'Gain weight'
+    lose: 'Weight Loss',
+    maintain: 'Maintenance',
+    gain: 'Weight Gain'
   },
+  
+  // Main Screen
+  takePicture: 'Take Food Picture',
+  dailyTarget: 'Daily Calorie Target',
+  remaining: 'Remaining',
+  consumed: 'Consumed',
+  todayMeals: 'Today\'s Meals',
+  noMealsYet: 'No meals recorded today',
+  analyzing: 'Analyzing your food...',
+  confirmMeal: 'Confirm Meal',
+  mealCalories: 'Calories',
+  addToFavorites: 'Add to Favorites',
+  removeFromFavorites: 'Remove from Favorites',
+  favorites: 'Favorites',
+  addFromFavorites: 'Add from Favorites',
+  chooseOption: 'Choose Option',
+  noFavorites: 'No favorite dishes',
+  
+  // History
+  historyTitle: 'History',
+  noMealsHistory: 'Meal history is empty',
+  caloriesConsumed: 'Calories Consumed',
+  
+  // Settings
+  settingsTitle: 'Settings',
+  profileSettings: 'Profile Settings',
+  notificationSettings: 'Notification Settings',
+  enableNotifications: 'Enable Notifications',
+  reminderTime: 'Reminder Time',
+  languageSettings: 'Language Settings',
+  currentLanguage: 'Current Language',
+  updateProfile: 'Update Profile',
+  
+  // Messages
+  mealSaved: 'Meal saved successfully!',
+  targetReached: 'You\'ve reached your daily calorie target!',
+  targetExceeded: 'You\'ve exceeded your daily calorie target!',
+  registrationSuccess: 'User registered successfully!',
+  
+  // Errors
+  cameraPermissionDenied: 'Camera access was denied',
+  formError: 'Please fill in all required fields',
+  loadingError: 'Error loading data',
+  
+  // New translations
   comment: 'Comment',
-  commentPlaceholder: 'Add a comment to the meal...',
+  commentPlaceholder: 'Add a comment to the dish...',
   commentExample: 'Example: two spoons of sugar, or beef soup',
   name: 'Name',
   email: 'Email',
   password: 'Password',
   register: 'Register',
-  alreadyHaveAccount: 'Already have an account? Sign in',
+  alreadyHaveAccount: 'Already have an account? Sign In',
   loading: 'Loading...',
   error: 'Error',
   login: 'Login',
@@ -105,13 +107,13 @@ export default {
   noAccount: 'No account? Register',
   loginSuccess: 'Login successful!',
   loginError: 'Login error',
-  serverError: 'Unable to connect to server',
+  serverError: 'Could not connect to server',
   logout: 'Logout',
   profileSetup: 'Profile Setup',
-  setupProfile: 'Profile Setup',
-  fillDataForCalories: 'Fill in your data to calculate daily calorie needs',
+  setupProfile: 'Set Up Profile',
+  fillDataForCalories: 'Fill in the data to calculate daily calorie intake',
   saveProfile: 'Save Profile',
-  profileSetupSuccess: 'Profile setup successful!',
+  profileSetupSuccess: 'Profile set up successfully!',
   
   // AI Analysis
   aiAnalysis: 'AI Analysis',
@@ -125,4 +127,10 @@ export default {
   protein: 'Protein',
   carbs: 'Carbs',
   fat: 'Fat',
+  
+  // Legal & Support
+  legalAndSupport: 'Legal & Support',
+  termsOfService: '📋 Terms of Service',
+  privacyPolicy: '🔒 Privacy Policy',
+  contactUs: '📞 Contact Us',
 };
