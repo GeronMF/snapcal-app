@@ -50,6 +50,7 @@ export default {
   
   // Main Screen
   takePicture: 'Take Food Picture',
+  addFoodPortion: 'Add Food Portion',
   dailyTarget: 'Daily Calorie Target',
   remaining: 'Remaining',
   consumed: 'Consumed',
@@ -64,6 +65,10 @@ export default {
   addFromFavorites: 'Add from Favorites',
   chooseOption: 'Choose Option',
   noFavorites: 'No favorite dishes',
+  uploadFromGallery: 'Upload from Gallery',
+  describeWithText: 'Describe Food with Text',
+  textAnalysis: 'Text Analysis',
+  textDescriptionPlaceholder: 'Describe your food (e.g., oatmeal with honey and nuts, 200 grams)',
   
   // History
   historyTitle: 'History',

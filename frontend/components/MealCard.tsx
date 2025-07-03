@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, Alert, Modal, ScrollView, Dimensions } from 'react-native';
-import { Meal } from '../types';
 import { format } from 'date-fns';
-import { Trash2, Heart, HeartOff, X } from 'lucide-react-native';
-import i18n from '../i18n';
+import { Heart, HeartOff, Trash2, X } from 'lucide-react-native';
+import React, { useState } from 'react';
+import { Alert, Dimensions, Image, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import colors from '../constants/colors';
+import i18n from '../i18n';
+import { Meal } from '../types';
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -119,7 +119,7 @@ const MealCard: React.FC<MealCardProps> = ({
         source={{ 
           uri: (imageUri && imageUri.trim() !== '') 
             ? imageUri 
-            : 'https://images.pexels.com/photos/1583884/pexels-photo-1583884.jpeg?auto=compress&cs=tinysrgb&w=400' 
+            : 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=400' 
         }}
         style={[styles.image, compact && styles.compactImage]}
         resizeMode="cover"
@@ -134,8 +134,9 @@ const MealCard: React.FC<MealCardProps> = ({
               </View>
             ) : null}
           </View>
-          <Text style={styles.time}>{safeFormattedTime}</Text>
         </View>
+        
+        <Text style={styles.time}>{safeFormattedTime}</Text>
         
         <View style={styles.calorieContainer}>
           <Text style={styles.calories}>{safeCalories} kcal</Text>
@@ -202,7 +203,7 @@ const MealCard: React.FC<MealCardProps> = ({
                 source={{ 
                   uri: (imageUri && imageUri.trim() !== '') 
                     ? imageUri 
-                    : 'https://images.pexels.com/photos/1583884/pexels-photo-1583884.jpeg?auto=compress&cs=tinysrgb&w=400' 
+                    : 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=400' 
                 }}
                 style={styles.modalImage}
                 resizeMode="cover"
@@ -352,7 +353,6 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'flex-start',
     marginBottom: 4,
   },
@@ -382,7 +382,7 @@ const styles = StyleSheet.create({
   time: {
     fontSize: 12,
     color: colors.neutral[500],
-    marginLeft: 8,
+    marginTop: 2,
   },
   calorieContainer: {
     flexDirection: 'row',
@@ -422,7 +422,7 @@ const styles = StyleSheet.create({
   },
   statusIndicator: {
     position: 'absolute',
-    top: 8,
+    bottom: 8,
     right: 8,
   },
   modalOverlay: {

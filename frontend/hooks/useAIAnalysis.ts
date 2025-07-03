@@ -1,5 +1,5 @@
-import { useState, useCallback } from 'react';
 import { analyzeFood } from '@/utils/mockData';
+import { useCallback, useState } from 'react';
 
 interface AnalysisResult {
   name: string;
@@ -31,8 +31,14 @@ export const useAIAnalysis = () => {
       
       // Передаем комментарий и язык пользователя в analyzeFood
       const result = await analyzeFood(imageUri, comment, userLanguage);
-      
-      setAnalysisResult(result);
+      // Универсальная обработка результата (API и mock)
+      if (result && typeof result === 'object' && 'data' in result && result.data && Object.keys(result.data).length > 0) {
+        setAnalysisResult(result.data as AnalysisResult);
+      } else if (result && Object.keys(result).length > 0) {
+        setAnalysisResult(result as AnalysisResult);
+      } else {
+        setAnalysisResult(null);
+      }
       console.log('✅ Анализ завершен успешно');
       
       return result;

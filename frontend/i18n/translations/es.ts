@@ -29,6 +29,7 @@ export default {
   
   // Main Screen
   takePicture: 'Toma una foto de tu comida',
+  addFoodPortion: 'Agregar Porción de Comida',
   dailyTarget: 'Objetivo Diario de Calorías',
   remaining: 'Restante',
   consumed: 'Consumido',
@@ -126,6 +127,10 @@ export default {
   removeFromFavorites: 'Quitar de favoritos',
   chooseOption: 'Elegir opción',
   noFavorites: 'No hay comidas favoritas',
+  uploadFromGallery: 'Subir desde Galería',
+  describeWithText: 'Describir Comida con Texto',
+  textAnalysis: 'Análisis de Texto',
+  textDescriptionPlaceholder: 'Describe tu comida (ej., avena con miel y nueces, 200 gramos)',
   optional: 'opcional',
   
   // Legal & Support

@@ -49,6 +49,7 @@ export default {
   
   // Main Screen
   takePicture: 'Zrób zdjęcie posiłku',
+  addFoodPortion: 'Dodaj Porcję Jedzenia',
   dailyTarget: 'Dzienny cel kaloryczny',
   remaining: 'Pozostało',
   consumed: 'Spożyte',
@@ -128,6 +129,10 @@ export default {
   removeFromFavorites: 'Usuń z ulubionych',
   chooseOption: 'Wybierz opcję',
   noFavorites: 'Brak ulubionych posiłków',
+  uploadFromGallery: 'Wgraj z Galerii',
+  describeWithText: 'Opisz Jedzenie Tekstem',
+  textAnalysis: 'Analiza Tekstu',
+  textDescriptionPlaceholder: 'Opisz swoje jedzenie (np. płatki owsiane z miodem i orzechami, 200 gramów)',
   optional: 'opcjonalne',
   
   // Legal & Support

@@ -1,31 +1,34 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { 
-  View, 
-  Text, 
-  StyleSheet, 
-  SafeAreaView, 
-  TouchableOpacity, 
-  Platform,
-  Modal,
-  ActivityIndicator,
-  ScrollView,
-  Image
-} from 'react-native';
-import { CameraView, CameraType, useCameraPermissions } from 'expo-camera';
-import { Camera, X } from 'lucide-react-native';
-import { useUser } from '@/contexts/UserContext';
-import { useMeals } from '@/contexts/MealsContext';
-import { Meal } from '@/types';
-import ProgressBar from '@/components/ProgressBar';
+import AILoadingModal from '@/components/AILoadingModal';
 import CameraButton from '@/components/CameraButton';
-import MealList from '@/components/MealList';
+import CommentModal from '@/components/CommentModal';
 import MealCard from '@/components/MealCard';
 import MealConfirmation from '@/components/MealConfirmation';
-import { analyzeFood } from '@/utils/mockData';
-import i18n from '@/i18n';
+import MealList from '@/components/MealList';
+import ProgressBar from '@/components/ProgressBar';
 import colors from '@/constants/colors';
-import CommentModal from '@/components/CommentModal';
-import AILoadingModal from '@/components/AILoadingModal';
+import { useMeals } from '@/contexts/MealsContext';
+import { useUser } from '@/contexts/UserContext';
+import i18n from '@/i18n';
+import { Meal } from '@/types';
+import { analyzeFood } from '@/utils/mockData';
+import { CameraType, CameraView, useCameraPermissions } from 'expo-camera';
+import * as ImagePicker from 'expo-image-picker';
+import { Camera, Image as ImageIcon, Type, X } from 'lucide-react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import {
+    ActivityIndicator,
+    Alert,
+    KeyboardAvoidingView,
+    Modal,
+    Platform,
+    SafeAreaView,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View
+} from 'react-native';
 
 export default function HomeScreen() {
   const { user, setUserData } = useUser();
@@ -55,6 +58,10 @@ export default function HomeScreen() {
   const [commentModalVisible, setCommentModalVisible] = useState(false);
   const [pendingPhotoUri, setPendingPhotoUri] = useState<string | null>(null);
   const [pendingComment, setPendingComment] = useState('');
+  
+  // Новые состояния для текстового описания
+  const [textDescriptionModalVisible, setTextDescriptionModalVisible] = useState(false);
+  const [textDescription, setTextDescription] = useState('');
   
   // Request camera permission on mount
   useEffect(() => {
@@ -111,7 +118,7 @@ export default function HomeScreen() {
   
   // Handle meal confirmation
   const handleConfirmMeal = async (name: string, calories: number, comment: string) => {
-    if (!imageUri || !analyzedData) return;
+    if (!analyzedData) return;
     
     try {
       setIsSaving(true);
@@ -125,7 +132,7 @@ export default function HomeScreen() {
         fat: analyzedData.fat || 0,
         userId: user?.id || '',
         comment,
-        imageUri,
+        imageUri: imageUri === 'text-analysis' ? undefined : imageUri || undefined,
         // AI analysis fields
         confidence: analyzedData.confidence,
         portions: analyzedData.portions,
@@ -181,6 +188,82 @@ export default function HomeScreen() {
   const handleAddFromFavorites = async (meal: Meal) => {
     await addMealFromFavorite(meal);
     setShowFavorites(false);
+  };
+
+  // Новые функции для галереи и текстового описания
+  const handleSelectGallery = async () => {
+    try {
+      console.log('🔍 Открытие галереи...');
+      
+      // Запрашиваем разрешение на доступ к галерее
+      const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      console.log('📱 Результат разрешения галереи:', permissionResult);
+      
+      if (permissionResult.granted === false) {
+        Alert.alert(i18n.t('error'), 'Разрешение на доступ к галерее отклонено');
+        return;
+      }
+
+      // Открываем галерею
+      console.log('📸 Запуск launchImageLibraryAsync...');
+      const result = await ImagePicker.launchImageLibraryAsync();
+      console.log('📸 Результат выбора изображения:', result);
+
+      if (!result.canceled && result.assets[0]) {
+        console.log('✅ Изображение выбрано, обрабатываем...');
+        
+        // Разделяем операции по времени, чтобы избежать конфликта
+        setTimeout(() => {
+          setShowOptions(false);
+          console.log('✅ Модальное окно закрыто');
+          
+          setTimeout(() => {
+            setPendingPhotoUri(result.assets[0].uri);
+            console.log('✅ URI изображения установлен:', result.assets[0].uri);
+            
+            setTimeout(() => {
+              setCommentModalVisible(true);
+              console.log('✅ Модальное окно комментария открыто');
+            }, 200);
+          }, 100);
+        }, 100);
+      } else {
+        console.log('❌ Изображение не выбрано или отменено');
+      }
+    } catch (error) {
+      console.error('❌ Ошибка при открытии галереи:', error);
+      Alert.alert(i18n.t('error'), 'Ошибка при открытии галереи');
+    }
+  };
+
+  const handleSelectTextDescription = () => {
+    setShowOptions(false);
+    setTextDescriptionModalVisible(true);
+  };
+
+  const handleTextDescriptionSubmit = async () => {
+    if (!textDescription.trim()) {
+      Alert.alert(i18n.t('error'), 'Пожалуйста, введите описание еды');
+      return;
+    }
+
+    setTextDescriptionModalVisible(false);
+    setIsAnalyzing(true);
+    
+    try {
+      const userLanguage = user?.language || 'en';
+      // Анализируем текстовое описание - используем пустую строку вместо null
+      const result = await analyzeFood('', textDescription, userLanguage);
+      setImageUri('text-analysis'); // Специальное значение для текстового анализа
+      setAnalyzedData(result.data ? result.data : result); // Универсально для mock и API
+      setPendingComment(textDescription);
+    } catch (error) {
+      console.error('Error analyzing text description:', error);
+      Alert.alert(i18n.t('error'), 'Ошибка анализа описания');
+    } finally {
+      setIsAnalyzing(false);
+      setTextDescription('');
+    }
   };
   
   // Render camera permission UI
@@ -279,14 +362,14 @@ export default function HomeScreen() {
       
       {/* Meal Confirmation Modal */}
       <Modal
-        visible={!!imageUri && !!analyzedData}
+        visible={!!analyzedData && (!!imageUri || imageUri === 'text-analysis')}
         animationType="slide"
         transparent
         onRequestClose={handleCancelMeal}
       >
         <View style={styles.modalOverlay}>
           <MealConfirmation
-            imageUri={imageUri || ''}
+            imageUri={imageUri === 'text-analysis' ? '' : imageUri || ''}
             mealName={analyzedData?.name || ''}
             calories={analyzedData?.calories || 0}
             protein={analyzedData?.protein}
@@ -329,9 +412,25 @@ export default function HomeScreen() {
             
             <TouchableOpacity 
               style={styles.optionButton}
+              onPress={handleSelectGallery}
+            >
+              <ImageIcon size={24} color={colors.primary[500]} />
+              <Text style={styles.optionText}>{i18n.t('uploadFromGallery')}</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity 
+              style={styles.optionButton}
               onPress={handleSelectFavorites}
             >
               <Text style={styles.optionText}>{i18n.t('addFromFavorites')}</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity 
+              style={styles.optionButton}
+              onPress={handleSelectTextDescription}
+            >
+              <Type size={24} color={colors.primary[500]} />
+              <Text style={styles.optionText}>{i18n.t('describeWithText')}</Text>
             </TouchableOpacity>
             
             <TouchableOpacity 
@@ -383,6 +482,53 @@ export default function HomeScreen() {
         onSubmit={handleCommentSubmit}
         onCancel={() => { setCommentModalVisible(false); setPendingPhotoUri(null); }}
       />
+
+      {/* Text Description Modal */}
+      <Modal
+        visible={textDescriptionModalVisible}
+        transparent
+        animationType="slide"
+        onRequestClose={() => setTextDescriptionModalVisible(false)}
+      >
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={styles.modalOverlay}
+        >
+          <View style={styles.textModalContainer}>
+            <Text style={styles.textModalTitle}>{i18n.t('describeWithText')}</Text>
+            
+            <TextInput
+              style={styles.textInput}
+              value={textDescription}
+              onChangeText={setTextDescription}
+              placeholder={i18n.t('textDescriptionPlaceholder')}
+              placeholderTextColor={colors.neutral[400]}
+              multiline
+              numberOfLines={4}
+              textAlignVertical="top"
+            />
+            
+            <View style={styles.textModalButtons}>
+              <TouchableOpacity 
+                style={styles.textCancelButton}
+                onPress={() => {
+                  setTextDescriptionModalVisible(false);
+                  setTextDescription('');
+                }}
+              >
+                <Text style={styles.textCancelButtonText}>{i18n.t('cancel')}</Text>
+              </TouchableOpacity>
+              
+              <TouchableOpacity 
+                style={styles.textSubmitButton}
+                onPress={handleTextDescriptionSubmit}
+              >
+                <Text style={styles.textSubmitButtonText}>{i18n.t('confirm')}</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </KeyboardAvoidingView>
+      </Modal>
     </View>
   );
 }
@@ -496,7 +642,7 @@ const styles = StyleSheet.create({
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
     justifyContent: 'center',
   },
 
@@ -575,5 +721,62 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     padding: 40,
     fontFamily: 'Inter-Regular',
+  },
+
+  textModalContainer: {
+    backgroundColor: colors.white,
+    marginHorizontal: 20,
+    padding: 20,
+    borderRadius: 16,
+  },
+  textModalTitle: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: colors.neutral[800],
+    textAlign: 'center',
+    marginBottom: 20,
+    fontFamily: 'Inter-SemiBold',
+  },
+  textInput: {
+    height: 100,
+    borderWidth: 1,
+    borderColor: colors.neutral[200],
+    borderRadius: 8,
+    padding: 12,
+    fontSize: 16,
+    color: colors.neutral[800],
+    fontFamily: 'Inter-Regular',
+  },
+  textModalButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 20,
+    gap: 12,
+  },
+  textCancelButton: {
+    flex: 1,
+    backgroundColor: colors.neutral[100],
+    borderRadius: 8,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+  },
+  textCancelButtonText: {
+    fontSize: 16,
+    color: colors.neutral[600],
+    fontFamily: 'Inter-Medium',
+    textAlign: 'center',
+  },
+  textSubmitButton: {
+    flex: 2,
+    backgroundColor: colors.primary[500],
+    borderRadius: 8,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+  },
+  textSubmitButtonText: {
+    fontSize: 16,
+    color: colors.white,
+    fontFamily: 'Inter-Medium',
+    textAlign: 'center',
   },
 });

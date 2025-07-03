@@ -1,14 +1,14 @@
+import { Camera, FileText, Plus } from 'lucide-react-native';
 import React from 'react';
-import { 
-  TouchableOpacity, 
-  Text, 
-  StyleSheet, 
-  ActivityIndicator,
-  Dimensions
+import {
+    ActivityIndicator,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View
 } from 'react-native';
-import { Camera } from 'lucide-react-native';
-import i18n from '../i18n';
 import colors from '../constants/colors';
+import i18n from '../i18n';
 
 type CameraButtonProps = {
   onPress: () => void;
@@ -29,27 +29,37 @@ const CameraButton: React.FC<CameraButtonProps> = ({
       {isLoading ? (
         <ActivityIndicator size="large" color={colors.white} />
       ) : (
-        <>
+        <View style={styles.buttonContent}>
+          <Plus 
+            color={colors.white} 
+            size={36} 
+            strokeWidth={2.5}
+            style={styles.plusIcon}
+          />
           <Camera 
             color={colors.white} 
-            size={32} 
+            size={24} 
             strokeWidth={2.5}
+            style={styles.leftIcon}
           />
-          <Text style={styles.text}>{i18n.t('takePicture')}</Text>
-        </>
+          <Text style={styles.text}>{i18n.t('addFoodPortion')}</Text>
+          <FileText 
+            color={colors.white} 
+            size={24} 
+            strokeWidth={2.5}
+            style={styles.rightIcon}
+          />
+        </View>
       )}
     </TouchableOpacity>
   );
 };
 
-const { width } = Dimensions.get('window');
-const buttonSize = Math.min(width * 0.6, 240);
-
 const styles = StyleSheet.create({
   button: {
-    width: buttonSize,
-    height: buttonSize,
-    borderRadius: buttonSize / 2,
+    paddingVertical: 16,
+    paddingHorizontal: 24,
+    borderRadius: 12,
     backgroundColor: colors.primary[500],
     justifyContent: 'center',
     alignItems: 'center',
@@ -58,16 +68,30 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 8,
     elevation: 6,
-    alignSelf: 'center',
+    marginHorizontal: 16,
     marginVertical: 24,
+    minHeight: 60,
+  },
+  buttonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  plusIcon: {
+    marginRight: 8,
+  },
+  leftIcon: {
+    marginRight: 12,
   },
   text: {
     color: colors.white,
     fontSize: 16,
     fontWeight: '600',
     textAlign: 'center',
-    paddingHorizontal: 16,
-    marginTop: 12,
+    paddingHorizontal: 8,
+  },
+  rightIcon: {
+    marginLeft: 12,
   },
 });
 

@@ -29,6 +29,7 @@ export default {
   
   // Main Screen
   takePicture: 'Зробити фото їжі',
+  addFoodPortion: 'Додати Порцію Їжі',
   dailyTarget: 'Денна норма калорій',
   remaining: 'Залишилося',
   consumed: 'Спожито',
@@ -126,6 +127,10 @@ export default {
   removeFromFavorites: 'Видалити з обраного',
   chooseOption: 'Виберіть варіант',
   noFavorites: 'Немає обраних страв',
+  uploadFromGallery: 'Завантажити з Галереї',
+  describeWithText: 'Описати Їжу Текстом',
+  textAnalysis: 'Аналіз за Описом',
+  textDescriptionPlaceholder: 'Опишіть вашу їжу (наприклад: вівсяна каша з медом і горіхами, 200 грамів)',
   optional: 'не обов\'язково',
   
   // Legal & Support

@@ -50,6 +50,7 @@ export default {
   
   // Main Screen
   takePicture: 'Сделать фото еды',
+  addFoodPortion: 'Добавить порцию еды',
   dailyTarget: 'Дневная норма калорий',
   remaining: 'Осталось',
   consumed: 'Потреблено',
@@ -64,6 +65,10 @@ export default {
   addFromFavorites: 'Добавить из избранного',
   chooseOption: 'Выберите вариант',
   noFavorites: 'Нет избранных блюд',
+  uploadFromGallery: 'Загрузить из галереи',
+  describeWithText: 'Описать еду текстом',
+  textAnalysis: 'Анализ по описанию',
+  textDescriptionPlaceholder: 'Опишите вашу еду (например: овсяная каша с медом и орехами, 200 грамм)',
   
   // History
   historyTitle: 'История',

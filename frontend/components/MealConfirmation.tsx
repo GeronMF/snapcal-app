@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import {
-  ActivityIndicator,
-  Image,
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+    ActivityIndicator,
+    Image,
+    Keyboard,
+    KeyboardAvoidingView,
+    Platform,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
 } from 'react-native';
 import colors from '../constants/colors';
 import i18n from '../i18n';
@@ -94,11 +94,20 @@ const MealConfirmation: React.FC<MealConfirmationProps> = ({
         <View style={styles.container}>
           <Text style={styles.title}>{i18n.t('confirmMeal')}</Text>
 
-          <Image
-            source={{ uri: imageUri }}
-            style={styles.image}
-            resizeMode="cover"
-          />
+          {imageUri && imageUri.length > 0 && (
+            <Image
+              source={{ uri: imageUri }}
+              style={styles.image}
+              resizeMode="cover"
+            />
+          )}
+
+          {(!imageUri || imageUri.length === 0) && (
+            <View style={styles.textAnalysisContainer}>
+              <Text style={styles.textAnalysisIcon}>📝</Text>
+              <Text style={styles.textAnalysisText}>{i18n.t('textAnalysis')}</Text>
+            </View>
+          )}
 
           {/* AI Analysis Info */}
           {(confidence !== undefined && confidence !== null) && (
@@ -225,7 +234,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 12,
     elevation: 5,
-    marginTop: 100,
+    marginTop: 150,
   },
   title: {
     fontSize: 20,
@@ -239,6 +248,27 @@ const styles = StyleSheet.create({
     height: 200,
     borderRadius: 12,
     marginBottom: 16,
+  },
+  textAnalysisContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 24,
+    backgroundColor: colors.primary[50],
+    borderRadius: 12,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: colors.primary[100],
+  },
+  textAnalysisIcon: {
+    fontSize: 48,
+    color: colors.primary[500],
+    marginBottom: 12,
+  },
+  textAnalysisText: {
+    fontSize: 16,
+    color: colors.primary[700],
+    textAlign: 'center',
+    fontWeight: '500',
   },
   aiInfoContainer: {
     backgroundColor: colors.neutral[50],
@@ -338,7 +368,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   button: {
-    flex: 1,
     padding: 14,
     borderRadius: 8,
     alignItems: 'center',
@@ -347,12 +376,14 @@ const styles = StyleSheet.create({
   confirmButton: {
     backgroundColor: colors.primary[500],
     marginLeft: 8,
+    flex: 2,
   },
   cancelButton: {
     backgroundColor: colors.white,
     borderWidth: 1,
     borderColor: colors.neutral[300],
     marginRight: 8,
+    flex: 1,
   },
   buttonText: {
     fontSize: 16,

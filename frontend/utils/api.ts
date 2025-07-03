@@ -116,7 +116,7 @@ class ApiClient {
     });
   }
 
-  // AI анализ изображения еды
+  // AI анализ изображения еды или текстового описания
   async analyzeFood(imageUri: string, comment?: string, language?: string): Promise<ApiResponse<{
     name: string;
     calories: number;
@@ -127,6 +127,40 @@ class ApiClient {
     portions: string;
     regional?: boolean;
   }>> {
+    const isTextOnly = !imageUri || imageUri.trim() === '';
+    if (isTextOnly) {
+      // Новый серверный endpoint для текстового анализа
+      try {
+        const token = await this.getAuthToken();
+        const headers: Record<string, string> = {
+          'Content-Type': 'application/json',
+        };
+        if (token) {
+          headers.Authorization = `Bearer ${token}`;
+        }
+        const response = await fetch(`${this.baseURL}/api/ai/analyze-text`, {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({ text: comment, language }),
+        });
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(`HTTP error! status: ${response.status}, body: ${errorText}`);
+        }
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('AI Text Analysis request failed, fallback:', error);
+        // Fallback (локальный)
+        const textFallback = this.generateSmartTextAnalysis(comment || '', language || 'en');
+        return {
+          success: true,
+          data: textFallback
+        };
+      }
+    }
+
+    // Оригинальная логика для анализа изображений
     const formData = new FormData();
 
     // Добавляем изображение
@@ -162,7 +196,7 @@ class ApiClient {
     // Разумные таймауты для пользователя
     const AI_TIMEOUT = 20000; // 20 секунд - максимум что пользователь готов ждать
     const RETRY_ATTEMPTS = 2;
-    const RETRY_DELAY = 2000; // 2 секунды между попытками // 2 секунды между попытками
+    const RETRY_DELAY = 2000; // 2 секунды между попытками
 
     for (let attempt = 1; attempt <= RETRY_ATTEMPTS; attempt++) {
       try {
@@ -216,7 +250,6 @@ class ApiClient {
             continue;
           }
           
-          throw new Error('AI анализ занимает слишком много времени. Попробуйте позже.');
         } else if (error instanceof TypeError && error.message.includes('Network request failed')) {
           console.error('🌐 Проблема с сетевым подключением');
           
@@ -254,6 +287,117 @@ class ApiClient {
 
     // Этот код никогда не должен выполниться, но для безопасности
     throw new Error('Все попытки AI анализа завершились неудачей');
+  }
+
+  // Умный анализ текстового описания
+  private generateSmartTextAnalysis(text: string, language: string) {
+    console.log('📝 Генерируем умный анализ для текста:', text);
+    
+    // База данных еды с калориями и БЖУ
+    const foodDatabase: { [key: string]: { calories: number, protein: number, carbs: number, fat: number } } = {
+      // Основные блюда
+      'рис': { calories: 130, protein: 2.7, carbs: 28, fat: 0.3 },
+      'гречка': { calories: 134, protein: 4.5, carbs: 25, fat: 1.2 },
+      'макароны': { calories: 220, protein: 8, carbs: 44, fat: 1.1 },
+      'картофель': { calories: 77, protein: 2, carbs: 17, fat: 0.1 },
+      'курица': { calories: 165, protein: 31, carbs: 0, fat: 3.6 },
+      'говядина': { calories: 250, protein: 26, carbs: 0, fat: 15 },
+      'рыба': { calories: 200, protein: 22, carbs: 0, fat: 12 },
+      'яйца': { calories: 155, protein: 13, carbs: 1.1, fat: 11 },
+      'овсянка': { calories: 68, protein: 2.4, carbs: 12, fat: 1.4 },
+      'творог': { calories: 101, protein: 18, carbs: 3.4, fat: 2.2 },
+      'хлеб': { calories: 265, protein: 9, carbs: 49, fat: 3.2 },
+      'молоко': { calories: 64, protein: 3.2, carbs: 4.8, fat: 3.6 },
+      'масло': { calories: 717, protein: 0.6, carbs: 0.8, fat: 81 },
+      'сыр': { calories: 402, protein: 25, carbs: 0.3, fat: 33 },
+      'салат': { calories: 15, protein: 1.2, carbs: 2.9, fat: 0.2 },
+      'огурец': { calories: 16, protein: 0.8, carbs: 2.5, fat: 0.1 },
+      'помидор': { calories: 18, protein: 0.9, carbs: 3.9, fat: 0.2 },
+      'морковь': { calories: 41, protein: 0.9, carbs: 9.6, fat: 0.24 },
+      'яблоко': { calories: 52, protein: 0.3, carbs: 14, fat: 0.17 },
+      'банан': { calories: 89, protein: 1.1, carbs: 23, fat: 0.33 },
+      'каша': { calories: 90, protein: 3, carbs: 15, fat: 2 },
+      'суп': { calories: 45, protein: 3, carbs: 6, fat: 1 },
+      'борщ': { calories: 70, protein: 4, carbs: 8, fat: 2.5 },
+      'щи': { calories: 35, protein: 2.5, carbs: 5, fat: 1 },
+      'пельмени': { calories: 275, protein: 12, carbs: 29, fat: 12 },
+      'котлета': { calories: 250, protein: 18, carbs: 8, fat: 16 },
+      'пицца': { calories: 266, protein: 11, carbs: 33, fat: 10 },
+      'бутерброд': { calories: 220, protein: 8, carbs: 26, fat: 9 }
+    };
+
+    const textLower = text.toLowerCase();
+    let totalCalories = 0;
+    let totalProtein = 0;
+    let totalCarbs = 0;
+    let totalFat = 0;
+    let foundFoods: string[] = [];
+    let portions = 1;
+
+    // Поиск порций в тексте
+    const portionMatches = textLower.match(/(\d+)\s*(порци|штук|кусочк|ложк|стакан|грамм|г\b)/gi);
+    if (portionMatches) {
+      const numbers = portionMatches.map(match => parseInt(match.match(/\d+/)?.[0] || '1'));
+      if (numbers.length > 0) {
+        portions = Math.max(...numbers);
+      }
+    }
+
+    // Поиск еды в тексте
+    Object.keys(foodDatabase).forEach(food => {
+      if (textLower.includes(food)) {
+        const foodData = foodDatabase[food];
+        totalCalories += foodData.calories * portions;
+        totalProtein += foodData.protein * portions;
+        totalCarbs += foodData.carbs * portions;
+        totalFat += foodData.fat * portions;
+        foundFoods.push(food);
+      }
+    });
+
+    // Если ничего не нашли, используем базовые значения
+    if (foundFoods.length === 0) {
+      totalCalories = 250;
+      totalProtein = 15;
+      totalCarbs = 30;
+      totalFat = 10;
+      foundFoods = ['блюдо'];
+    }
+
+    // Формируем название блюда
+    let dishName = foundFoods.length > 0 ? foundFoods.join(', ') : 'Описанное блюдо';
+    if (portions > 1) {
+      dishName += ` (${portions} порций)`;
+    }
+
+    // Переводим название в зависимости от языка
+    if (language === 'en') {
+      dishName = foundFoods.map(food => {
+        const translations: { [key: string]: string } = {
+          'рис': 'rice', 'гречка': 'buckwheat', 'макароны': 'pasta',
+          'картофель': 'potato', 'курица': 'chicken', 'говядина': 'beef',
+          'рыба': 'fish', 'яйца': 'eggs', 'овсянка': 'oatmeal',
+          'творог': 'cottage cheese', 'хлеб': 'bread', 'молоко': 'milk',
+          'каша': 'porridge', 'суп': 'soup', 'блюдо': 'dish'
+        };
+        return translations[food] || food;
+      }).join(', ');
+      
+      if (portions > 1) {
+        dishName += ` (${portions} portions)`;
+      }
+    }
+
+    return {
+      name: dishName.charAt(0).toUpperCase() + dishName.slice(1),
+      calories: Math.round(totalCalories),
+      protein: Math.round(totalProtein * 10) / 10,
+      carbs: Math.round(totalCarbs * 10) / 10,
+      fat: Math.round(totalFat * 10) / 10,
+      confidence: 0.7, // Средняя уверенность для текстового анализа
+      portions: `${portions} порция${portions > 1 ? 'и' : ''} (текстовый анализ)`,
+      regional: false
+    };
   }
 }
 
