@@ -401,7 +401,7 @@ const styles = StyleSheet.create({
   },
   selectedDayContainer: {
     margin: 16,
-    marginTop: 4,
+    marginTop: 0,
     padding: 16,
     backgroundColor: colors.white,
     borderRadius: 12,
@@ -454,7 +454,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     marginHorizontal: 16,
     marginTop: 0,
-    marginBottom: 4,
+    marginBottom: 8,
     paddingVertical: 8,
     paddingHorizontal: 8,
     borderRadius: 8,
@@ -491,7 +491,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FEF3C7',
   },
   chartsContainer: {
-    margin: 16,
+    marginHorizontal: 16,
     marginBottom: 8,
   },
 });
