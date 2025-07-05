@@ -168,6 +168,45 @@ router.post('/analyze', protect, requestLogger, aiRequestLogger, setAITimeout, u
   }
 );
 
+// @desc    Analyze food text description
+// @route   POST /api/ai/analyze-text
+// @access  Private
+router.post('/analyze-text', protect, requestLogger, aiRequestLogger, setAITimeout, async (req, res, next) => {
+  const requestId = req.requestId || Math.random().toString(36).substring(7);
+  const startTime = req.startTime || Date.now();
+  try {
+    const { text = '', language } = req.body;
+    if (!text || typeof text !== 'string' || text.trim().length < 2) {
+      return res.status(400).json({ success: false, error: 'No text description provided' });
+    }
+    const userLanguage = language || req.user?.language || 'en';
+    console.log(`🔍 [${requestId}] AI Text Analysis request: language=${userLanguage}, text="${text}"`);
+    const analysisStartTime = Date.now();
+    const analysis = await aiProviderManager.analyzeText(text, userLanguage);
+    const analysisEndTime = Date.now();
+    // Логирование использования
+    try {
+      const aiSettings = new AISettingsService();
+      await aiSettings.logAIUsage({
+        provider: analysis.provider,
+        userId: req.user?.id,
+        success: true,
+        responseTime: analysisEndTime - analysisStartTime,
+        language: userLanguage
+      });
+    } catch (logError) {
+      console.error(`⚠️ [${requestId}] Failed to log AI usage:`, logError.message);
+    }
+    const totalTime = Date.now() - startTime;
+    console.log(`✅ [${requestId}] AI Text Analysis route completed successfully in ${totalTime}ms`);
+    res.json({ success: true, data: analysis });
+  } catch (error) {
+    const totalTime = Date.now() - startTime;
+    console.error(`❌ [${requestId}] AI Text Analysis route error after ${totalTime}ms:`, error.message);
+    next(error);
+  }
+});
+
 // @desc    Get AI service status (public, basic info)
 // @route   GET /api/ai/status
 // @access  Public

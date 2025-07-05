@@ -101,6 +101,43 @@ class OpenAIProvider extends BaseAIProvider {
   }
 
   /**
+   * Анализ текстового описания еды через OpenAI
+   * @param {string} text
+   * @param {string} language
+   * @returns {Promise<Object>}
+   */
+  async analyzeText(text, language = 'en') {
+    const startTime = Date.now();
+    this.logRequest({ language, comment: text });
+    try {
+      // Формируем промпт для текстового анализа
+      const prompt = this.getTextPrompt(language, text);
+      const response = await this.client.chat.completions.create({
+        model: this.model,
+        max_tokens: this.maxTokens,
+        messages: [
+          {
+            role: 'user',
+            content: prompt
+          }
+        ]
+      });
+      const result = this.parseResponse(response.choices[0].message.content, language);
+      const validated = this.validateResult(result);
+      const duration = Date.now() - startTime;
+      this.logResult(validated, duration);
+      return validated;
+    } catch (error) {
+      this.logError(error);
+      return this.validateResult({
+        name: text || 'Неопознанное блюдо',
+        confidence: 0.3,
+        language: language || 'ru'
+      });
+    }
+  }
+
+  /**
    * Определение MIME типа изображения
    * @param {Buffer} buffer 
    * @returns {string}
@@ -204,6 +241,83 @@ Zwróć TYLKO prawidłowy obiekt JSON z tymi dokładnymi polami:
 }`
     };
 
+    return prompts[language] || prompts.en;
+  }
+
+  /**
+   * Получение промпта для текстового анализа
+   * @param {string} language
+   * @param {string} text
+   * @returns {string}
+   */
+  getTextPrompt(language, text) {
+    const prompts = {
+      en: `Analyze this food description and provide nutritional information in English. Description: "${text}"
+Return ONLY a valid JSON object with these exact fields:
+{
+  "name": "dish name",
+  "calories": number,
+  "protein": number,
+  "carbs": number,
+  "fat": number,
+  "confidence": number (0-1),
+  "language": "en",
+  "portions": "portion description",
+  "regional": boolean
+}`,
+      ru: `Проанализируй это текстовое описание еды и предоставь информацию о питательной ценности на русском языке. Описание: "${text}"
+Верни ТОЛЬКО валидный JSON объект с этими точными полями:
+{
+  "name": "название блюда",
+  "calories": число,
+  "protein": число,
+  "carbs": число,
+  "fat": число,
+  "confidence": число (0-1),
+  "language": "ru",
+  "portions": "описание порции",
+  "regional": булево
+}`,
+      es: `Analiza esta descripción de comida y proporciona información nutricional en español. Descripción: "${text}"
+Devuelve SOLO un objeto JSON válido con estos campos exactos:
+{
+  "name": "nombre del plato",
+  "calories": número,
+  "protein": número,
+  "carbs": número,
+  "fat": número,
+  "confidence": número (0-1),
+  "language": "es",
+  "portions": "descripción de la porción",
+  "regional": booleano
+}`,
+      pl: `Przeanalizuj ten opis jedzenia i podaj informacje o wartościach odżywczych po polsku. Opis: "${text}"
+Zwróć TYLKO prawidłowy obiekt JSON z tymi dokładnymi polami:
+{
+  "name": "nazwa potrawy",
+  "calories": liczba,
+  "protein": liczba,
+  "carbs": liczba,
+  "fat": liczba,
+  "confidence": liczba (0-1),
+  "language": "pl",
+  "portions": "opis porcji",
+  "regional": wartość logiczna
+}`,
+      uk: `Проаналізуй цей текстовий опис їжі та надай інформацію про поживну цінність українською мовою. Опис: "${text}"
+Поверни ТІЛЬКИ валідний JSON об'єкт з цими точними полями:
+{
+  "name": "назва страви",
+  "calories": число,
+  "protein": число,
+  "carbs": число,
+  "fat": число,
+  "confidence": число (0-1),
+  "language": "uk",
+  "portions": "опис порції",
+  "regional": булеве
+}`
+    };
     return prompts[language] || prompts.en;
   }
 

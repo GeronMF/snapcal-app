@@ -136,8 +136,17 @@ export default {
   optional: 'opcjonalne',
   
   // Legal & Support
-  legalAndSupport: 'Informacje prawne i wsparcie',
+  legalAndSupport: 'Prawne i wsparcie',
   termsOfService: '📋 Warunki korzystania',
   privacyPolicy: '🔒 Polityka prywatności',
   contactUs: '📞 Skontaktuj się z nami',
+  
+  // Calendar status
+  targetMet: 'Cel osiągnięty',
+  targetExceeded: 'Cel przekroczony',
+  noRecords: 'Brak rekordów',
+  
+  // New translation
+  caloriesChartTitle: 'Kalorie według dni (tydzień)',
+  nutrientsChartTitle: 'Składniki odżywcze (tydzień)',
 };

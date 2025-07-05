@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
+import colors from '../constants/colors';
+import i18n from '../i18n';
 import { Meal } from '../types';
 import MealCard from './MealCard';
-import i18n from '../i18n';
-import colors from '../constants/colors';
 
 type MealListProps = {
   meals: Meal[];
@@ -13,6 +13,7 @@ type MealListProps = {
   compact?: boolean;
   useScrollView?: boolean;
   showNutrients?: boolean;
+  favoriteMeals?: Meal[];
 };
 
 const MealList: React.FC<MealListProps> = ({ 
@@ -23,6 +24,7 @@ const MealList: React.FC<MealListProps> = ({
   compact = false,
   useScrollView = false,
   showNutrients = false,
+  favoriteMeals = [],
 }) => {
   // Render empty state
   if (!meals.length) {
@@ -44,6 +46,7 @@ const MealList: React.FC<MealListProps> = ({
             onToggleFavorite={onToggleFavorite}
             compact={compact}
             showNutrients={showNutrients}
+            favoriteMeals={favoriteMeals}
           />
         ))}
       </View>
@@ -61,6 +64,7 @@ const MealList: React.FC<MealListProps> = ({
           onToggleFavorite={onToggleFavorite}
           compact={compact}
           showNutrients={showNutrients}
+          favoriteMeals={favoriteMeals}
         />
       )}
       contentContainerStyle={styles.listContainer}

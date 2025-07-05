@@ -329,6 +329,119 @@ Bądź precyzyjny z liczbami i realistyczny w szacunkach.`,
       provider: 'gemini'
     };
   }
+
+  /**
+   * Анализ текстового описания еды через Gemini
+   * @param {string} text
+   * @param {string} language
+   * @returns {Promise<Object>}
+   */
+  async analyzeText(text, language = 'en') {
+    const startTime = Date.now();
+    this.logRequest({ language, comment: text });
+    try {
+      const prompt = this.getTextPrompt(language, text);
+      const model = this.genAI.getGenerativeModel({ 
+        model: this.model,
+        generationConfig: {
+          maxOutputTokens: this.maxTokens,
+          temperature: 0.1,
+        }
+      });
+      const result = await model.generateContent([prompt]);
+      const response = await result.response;
+      const content = response.text();
+      const analysisResult = this.parseResponse(content, language);
+      const validated = this.validateResult(analysisResult);
+      const duration = Date.now() - startTime;
+      this.logResult(validated, duration);
+      return validated;
+    } catch (error) {
+      this.logError(error);
+      return this.validateResult({
+        name: text || 'Неопознанное блюдо',
+        confidence: 0.3,
+        language: language || 'ru'
+      });
+    }
+  }
+
+  /**
+   * Получение промпта для текстового анализа
+   * @param {string} language
+   * @param {string} text
+   * @returns {string}
+   */
+  getTextPrompt(language, text) {
+    const prompts = {
+      en: `Analyze this food description and provide detailed nutritional information in English. Description: "${text}"
+Return ONLY a valid JSON object with these exact fields (no additional text or explanation):
+{
+  "name": "specific dish name",
+  "calories": estimated_calories_number,
+  "protein": protein_grams_number,
+  "carbs": carbohydrates_grams_number,
+  "fat": fat_grams_number,
+  "confidence": confidence_score_0_to_1,
+  "language": "en",
+  "portions": "detailed portion description",
+  "regional": true_or_false
+}`,
+      ru: `Проанализируй это текстовое описание еды и предоставь детальную информацию о питательной ценности на русском языке. Описание: "${text}"
+Верни ТОЛЬКО валидный JSON объект с этими точными полями (без дополнительного текста или объяснений):
+{
+  "name": "конкретное название блюда",
+  "calories": число_калорий,
+  "protein": число_граммов_белка,
+  "carbs": число_граммов_углеводов,
+  "fat": число_граммов_жира,
+  "confidence": оценка_уверенности_от_0_до_1,
+  "language": "ru",
+  "portions": "детальное описание порции",
+  "regional": правда_или_ложь
+}`,
+      es: `Analiza esta descripción de comida y proporciona información nutricional detallada en español. Descripción: "${text}"
+Devuelve SOLO un objeto JSON válido con estos campos exactos (sin texto adicional o explicación):
+{
+  "name": "nombre específico del plato",
+  "calories": número_de_calorías,
+  "protein": número_de_gramos_de_proteína,
+  "carbs": número_de_gramos_de_carbohidratos,
+  "fat": número_de_gramos_de_grasa,
+  "confidence": puntuación_de_confianza_0_a_1,
+  "language": "es",
+  "portions": "descripción detallada de la porción",
+  "regional": verdadero_o_falso
+}`,
+      pl: `Przeanalizuj ten opis jedzenia i podaj szczegółowe informacje o wartościach odżywczych po polsku. Opis: "${text}"
+Zwróć TYLKO prawidłowy obiekt JSON z tymi dokładnymi polami (bez dodatkowego tekstu lub wyjaśnień):
+{
+  "name": "konkretna nazwa potrawy",
+  "calories": liczba_kalorii,
+  "protein": liczba_gramów_białka,
+  "carbs": liczba_gramów_węglowodanów,
+  "fat": liczba_gramów_tłuszczu,
+  "confidence": wskaźnik_pewności_od_0_do_1,
+  "language": "pl",
+  "portions": "szczegółowy opis porcji",
+  "regional": prawda_lub_fałsz
+}`,
+      uk: `Проаналізуй цей текстовий опис їжі та надай детальну інформацію про поживну цінність українською мовою. Опис: "${text}"
+Поверни ТІЛЬКИ валідний JSON об'єкт з цими точними полями (без додаткового тексту або пояснень):
+{
+  "name": "конкретна назва страви",
+  "calories": число_калорій,
+  "protein": число_грамів_білка,
+  "carbs": число_грамів_вуглеводів,
+  "fat": число_грамів_жиру,
+  "confidence": оцінка_впевненості_від_0_до_1,
+  "language": "uk",
+  "portions": "детальний опис порції",
+  "regional": правда_або_брехня
+}`
+    };
+    return prompts[language] || prompts.en;
+  }
 }
 
 module.exports = GeminiProvider; 

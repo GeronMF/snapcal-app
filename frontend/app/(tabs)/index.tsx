@@ -255,7 +255,7 @@ export default function HomeScreen() {
       // Анализируем текстовое описание - используем пустую строку вместо null
       const result = await analyzeFood('', textDescription, userLanguage);
       setImageUri('text-analysis'); // Специальное значение для текстового анализа
-      setAnalyzedData(result.data ? result.data : result); // Универсально для mock и API
+      setAnalyzedData(result); // Убираем проверку на result.data
       setPendingComment(textDescription);
     } catch (error) {
       console.error('Error analyzing text description:', error);
@@ -318,6 +318,7 @@ export default function HomeScreen() {
             emptyText={i18n.t('noMealsYet')}
             useScrollView={true}
             showNutrients={false}
+            favoriteMeals={favoriteMeals}
           />
         </View>
       </ScrollView>

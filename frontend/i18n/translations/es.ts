@@ -29,7 +29,7 @@ export default {
   
   // Main Screen
   takePicture: 'Toma una foto de tu comida',
-  addFoodPortion: 'Agregar Porción de Comida',
+  addFoodPortion: 'Agregar Comida',
   dailyTarget: 'Objetivo Diario de Calorías',
   remaining: 'Restante',
   consumed: 'Consumido',
@@ -138,4 +138,11 @@ export default {
   termsOfService: '📋 Términos de servicio',
   privacyPolicy: '🔒 Política de privacidad',
   contactUs: '📞 Contáctanos',
+  
+  // Calendar status
+  targetMet: 'Objetivo cumplido',
+  targetExceeded: 'Objetivo superado',
+  noRecords: 'Sin\nregistros',
+  caloriesChartTitle: 'Calorías por día (semana)',
+  nutrientsChartTitle: 'Nutrientes (semana)',
 };

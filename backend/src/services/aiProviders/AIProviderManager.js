@@ -333,6 +333,46 @@ class AIProviderManager {
     this.activeProvider = null;
     this.providers.clear();
   }
+
+  /**
+   * Анализ текстового описания еды через активный провайдер
+   * @param {string} text
+   * @param {string} language
+   * @returns {Promise<Object>}
+   */
+  async analyzeText(text, language = 'en') {
+    if (!this.isInitialized) {
+      throw new Error('AI Provider Manager не инициализирован');
+    }
+    if (!this.activeProvider) {
+      throw new Error('Нет активного AI провайдера');
+    }
+    const startTime = Date.now();
+    try {
+      console.log(`🔍 AI текстовый анализ через ${this.activeProvider.name}:`, { language, text: text?.substring(0, 50) + '...', timestamp: new Date().toISOString() });
+      const result = await this.activeProvider.analyzeText(text, language);
+      const duration = Date.now() - startTime;
+      console.log(`✅ AI текстовый анализ завершен:`, { provider: result.provider, name: result.name, calories: result.calories, confidence: result.confidence, duration: `${duration}ms` });
+      return result;
+    } catch (error) {
+      console.error(`❌ Ошибка AI текстового анализа через ${this.activeProvider.name}:`, error.message);
+      if (this.fallbackEnabled && this.providers.size > 1) {
+        console.log('🔄 Попытка fallback текстового анализа...');
+        const fallbackProvider = await this.findAvailableProvider(this.activeProvider.name);
+        if (fallbackProvider) {
+          try {
+            const result = await fallbackProvider.analyzeText(text, language);
+            console.log(`✅ Fallback текстовый анализ успешен через ${fallbackProvider.name}`);
+            return result;
+          } catch (fallbackError) {
+            console.error(`❌ Fallback текстовый анализ также неудачен:`, fallbackError.message);
+          }
+        }
+      }
+      // Возвращаем базовый результат
+      return this.getDefaultResult(text, language);
+    }
+  }
 }
 
 // Экспортируем единственный экземпляр (Singleton)

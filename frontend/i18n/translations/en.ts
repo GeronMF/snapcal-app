@@ -138,4 +138,13 @@ export default {
   termsOfService: '📋 Terms of Service',
   privacyPolicy: '🔒 Privacy Policy',
   contactUs: '📞 Contact Us',
+  
+  // Calendar status
+  targetMet: 'Target Met',
+  targetExceeded: 'Target Exceeded',
+  noRecords: 'No Records',
+  
+  // New translation
+  caloriesChartTitle: 'Calories by Day (week)',
+  nutrientsChartTitle: 'Nutrients (week)',
 };

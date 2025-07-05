@@ -16,6 +16,7 @@ type MealCardProps = {
   compact?: boolean;
   disableTouch?: boolean;
   showNutrients?: boolean;
+  favoriteMeals?: Meal[];
 };
 
 const MealCard: React.FC<MealCardProps> = ({ 
@@ -25,7 +26,8 @@ const MealCard: React.FC<MealCardProps> = ({
   onSelect, 
   compact = false, 
   disableTouch = false,
-  showNutrients = false
+  showNutrients = false,
+  favoriteMeals = []
 }) => {
   const { 
     id, 
@@ -42,6 +44,11 @@ const MealCard: React.FC<MealCardProps> = ({
   } = meal;
   
   const [modalVisible, setModalVisible] = useState(false);
+  
+  // Проверяем, является ли блюдо избранным (либо по флагу, либо по наличию в списке избранных)
+  const isCurrentlyFavorite = isFavorite || favoriteMeals.some(favMeal => 
+    favMeal.name === name && Math.abs(favMeal.calories - calories) < 10
+  );
   
   // Format time
   const formattedTime = format(new Date(timestamp), 'HH:mm');
@@ -167,7 +174,7 @@ const MealCard: React.FC<MealCardProps> = ({
       </View>
       
       <View style={styles.statusIndicator}>
-        {(isFavorite && onToggleFavorite) ? (
+        {(isCurrentlyFavorite && onToggleFavorite) ? (
           <Heart size={20} color={colors.error[500]} fill={colors.error[500]} />
         ) : null}
       </View>
@@ -288,16 +295,16 @@ const MealCard: React.FC<MealCardProps> = ({
               
               {onToggleFavorite && (
                 <TouchableOpacity 
-                  style={[styles.actionButton, isFavorite ? styles.unfavoriteButton : styles.favoriteButton]}
+                  style={[styles.actionButton, isCurrentlyFavorite ? styles.unfavoriteButton : styles.favoriteButton]}
                   onPress={() => handleAction('favorite')}
                 >
-                  {isFavorite ? (
+                  {isCurrentlyFavorite ? (
                     <HeartOff size={16} color={colors.white} />
                   ) : (
                     <Heart size={16} color={colors.white} />
                   )}
                   <Text style={styles.actionButtonText}>
-                    {isFavorite ? safeTranslate('removeFromFavorites', 'Убрать') : safeTranslate('addToFavorites', 'Избранное')}
+                    {isCurrentlyFavorite ? safeTranslate('removeFromFavorites', 'Убрать') : safeTranslate('addToFavorites', 'Избранное')}
                   </Text>
                 </TouchableOpacity>
               )}
