@@ -1,7 +1,7 @@
 {
-  "name": "snapcal-backend",
+  "name": "slimiq-backend",
   "version": "1.0.0",
-  "description": "Backend for SnapCal food calorie detection app",
+      "description": "Backend for SlimIQ food calorie detection app",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
@@ -41,6 +41,6 @@
     "ai",
     "nutrition"
   ],
-  "author": "SnapCal Team",
+      "author": "SlimIQ Team",
   "license": "MIT"
 }

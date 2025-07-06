@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import colors from '../constants/colors';
 import i18n from '../i18n';
 
@@ -12,9 +12,10 @@ type DayCalories = {
 type CaloriesChartProps = {
   data: DayCalories[];
   dailyTarget: number;
+  onBarPress?: (date: string) => void;
 };
 
-const CaloriesChart: React.FC<CaloriesChartProps> = ({ data, dailyTarget }) => {
+const CaloriesChart: React.FC<CaloriesChartProps> = ({ data, dailyTarget, onBarPress }) => {
   const maxCalories = Math.max(...data.map(d => d.calories), dailyTarget);
   
   if (data.length === 0) {
@@ -28,15 +29,18 @@ const CaloriesChart: React.FC<CaloriesChartProps> = ({ data, dailyTarget }) => {
     );
   }
 
+  // Высота линии цели относительно максимального значения
+  const targetLinePosition = maxCalories > 0 ? (1 - dailyTarget / maxCalories) * 100 : 0;
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{i18n.t('caloriesChartTitle')}</Text>
       
       <View style={styles.chartContainer}>
         {/* Целевая линия */}
-        <View style={styles.targetLine}>
+        <View style={[styles.targetLine, { top: `${targetLinePosition}%` }]}> 
           <View style={styles.targetLineBar} />
-          <Text style={styles.targetLineText}>Цель: {dailyTarget} ккал</Text>
+          <Text style={styles.targetLineText}>{i18n.t('goal')}: {dailyTarget} ккал</Text>
         </View>
         
         {/* Столбцы графика */}
@@ -47,7 +51,7 @@ const CaloriesChart: React.FC<CaloriesChartProps> = ({ data, dailyTarget }) => {
             
             return (
               <View key={index} style={styles.barWrapper}>
-                <View style={styles.barContainer}>
+                <TouchableOpacity style={styles.barContainer} onPress={() => onBarPress && onBarPress(item.date)} activeOpacity={0.7}>
                   <View style={[
                     styles.bar,
                     {
@@ -55,7 +59,7 @@ const CaloriesChart: React.FC<CaloriesChartProps> = ({ data, dailyTarget }) => {
                       backgroundColor: isExceeded ? colors.error[500] : colors.primary[500]
                     }
                   ]} />
-                </View>
+                </TouchableOpacity>
                 <Text style={styles.dayLabel}>{item.day}</Text>
                 <Text style={styles.caloriesLabel}>{item.calories}</Text>
               </View>
@@ -72,7 +76,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     borderRadius: 12,
     padding: 16,
-    marginBottom: 8,
     shadowColor: colors.neutral[900],
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.06,
@@ -91,7 +94,6 @@ const styles = StyleSheet.create({
   },
   targetLine: {
     position: 'absolute',
-    top: '50%',
     left: 0,
     right: 0,
     flexDirection: 'row',

@@ -3,10 +3,10 @@ const privacyContent = {
     ru: `
         <p><strong>Последнее обновление:</strong> 13 мая 2025 г.</p>
 
-        <p>Эта Политика конфиденциальности для SnapCal ("мы", "нас" или "наш") описывает, как и почему мы можем собирать, хранить, использовать и/или делиться ("обрабатывать") вашей информацией при использовании наших услуг ("Услуги"), например когда вы:</p>
+        <p>Эта Политика конфиденциальности для SlimIQ ("мы", "нас" или "наш") описывает, как и почему мы можем собирать, хранить, использовать и/или делиться ("обрабатывать") вашей информацией при использовании наших услуг ("Услуги"), например когда вы:</p>
 
         <ul>
-            <li>Скачиваете и используете наше мобильное приложение (SnapCal) или любое другое наше приложение, которое ссылается на эту Политику конфиденциальности</li>
+            <li>Скачиваете и используете наше мобильное приложение (SlimIQ) или любое другое наше приложение, которое ссылается на эту Политику конфиденциальности</li>
             <li>Взаимодействуете с нами другими способами, включая продажи, маркетинг или мероприятия</li>
         </ul>
 
@@ -205,8 +205,8 @@ const privacyContent = {
 
         <p>Если у вас есть вопросы или комментарии об этой политике, вы можете написать нам по адресу:</p>
 
-        <p><strong>SnapCal</strong><br>
-        Email: <a href="mailto:support@snapcal.fun">support@snapcal.fun</a><br>
+        <p><strong>SlimIQ</strong><br>
+        Email: <a href="mailto:support@slimiq.fun">support@slimiq.fun</a><br>
         Website: <a href="https://snapcal.fun">https://snapcal.fun</a></p>
 
         <h2 id="request">16. ЗАПРОСЫ НА ДАННЫЕ</h2>
@@ -227,10 +227,10 @@ const privacyContent = {
     en: `
         <p><strong>Last updated:</strong> May 13, 2025</p>
 
-        <p>This Privacy Policy for SnapCal ("we," "us," or "our") describes how and why we might collect, store, use, and/or share ("process") your information when you use our services ("Services"), such as when you:</p>
+        <p>This Privacy Policy for SlimIQ ("we," "us," or "our") describes how and why we might collect, store, use, and/or share ("process") your information when you use our services ("Services"), such as when you:</p>
 
         <ul>
-            <li>Download and use our mobile application (SnapCal), or any other application of ours that links to this Privacy Policy</li>
+            <li>Download and use our mobile application (SlimIQ), or any other application of ours that links to this Privacy Policy</li>
             <li>Engage with us in other related ways, including any sales, marketing, or events</li>
         </ul>
 
@@ -351,8 +351,8 @@ const privacyContent = {
 
         <h2 id="contact">15. CONTACT US</h2>
         <p>If you have questions or comments about this policy, you may email us at:</p>
-        <p><strong>SnapCal</strong><br>
-        Email: <a href="mailto:support@snapcal.fun">support@snapcal.fun</a><br>
+        <p><strong>SlimIQ</strong><br>
+        Email: <a href="mailto:support@slimiq.fun">support@slimiq.fun</a><br>
         Website: <a href="https://snapcal.fun">https://snapcal.fun</a></p>
 
         <h2 id="request">16. DATA REQUESTS</h2>
@@ -362,7 +362,7 @@ const privacyContent = {
     uk: `
         <p><strong>Останнє оновлення:</strong> 13 травня 2025 р.</p>
 
-        <p>Ця Політика конфіденційності для SnapCal описує, як ми збираємо та використовуємо вашу особисту інформацію при використанні наших послуг.</p>
+        <p>Ця Політика конфіденційності для SlimIQ описує, як ми збираємо та використовуємо вашу особисту інформацію при використанні наших послуг.</p>
 
         <h2 id="infocollect">1. ЯКУ ІНФОРМАЦІЮ МИ ЗБИРАЄМО?</h2>
         <p>Ми збираємо особисту інформацію, яку ви добровільно надаєте нам при реєстрації в Послугах.</p>
@@ -448,8 +448,8 @@ const privacyContent = {
 
         <h2 id="contact">15. ЗВ'ЯЖІТЬСЯ З НАМИ</h2>
         <p>Якщо у вас є питання або коментарі щодо цієї політики, ви можете написати нам:</p>
-        <p><strong>SnapCal</strong><br>
-        Email: <a href="mailto:support@snapcal.fun">support@snapcal.fun</a><br>
+        <p><strong>SlimIQ</strong><br>
+        Email: <a href="mailto:support@slimiq.fun">support@slimiq.fun</a><br>
         Website: <a href="https://snapcal.fun">https://snapcal.fun</a></p>
 
         <h2 id="request">16. ЗАПИТИ НА ДАНІ</h2>
@@ -459,7 +459,7 @@ const privacyContent = {
     pl: `
         <p><strong>Ostatnia aktualizacja:</strong> 13 maja 2025 r.</p>
 
-        <p>Ta Polityka Prywatności dla SnapCal opisuje, jak i dlaczego możemy gromadzić, przechowywać, używać i/lub udostępniać Twoje informacje podczas korzystania z naszych usług.</p>
+        <p>Ta Polityka Prywatności dla SlimIQ opisuje, jak i dlaczego możemy gromadzić, przechowywać, używać i/lub udostępniać Twoje informacje podczas korzystania z naszych usług.</p>
 
         <h2 id="infocollect">1. JAKIE INFORMACJE GROMADZIMY?</h2>
         <p>Gromadzimy dane osobowe, które dobrowolnie nam przekazujesz podczas rejestracji w Usługach.</p>
@@ -545,8 +545,8 @@ const privacyContent = {
 
         <h2 id="contact">15. SKONTAKTUJ SIĘ Z NAMI</h2>
         <p>Jeśli masz pytania lub uwagi dotyczące tej polityki, możesz napisać do nas:</p>
-        <p><strong>SnapCal</strong><br>
-        Email: <a href="mailto:support@snapcal.fun">support@snapcal.fun</a><br>
+        <p><strong>SlimIQ</strong><br>
+        Email: <a href="mailto:support@slimiq.fun">support@slimiq.fun</a><br>
         Website: <a href="https://snapcal.fun">https://snapcal.fun</a></p>
 
         <h2 id="request">16. ŻĄDANIA DOTYCZĄCE DANYCH</h2>
@@ -556,7 +556,7 @@ const privacyContent = {
     es: `
         <p><strong>Última actualización:</strong> 13 de mayo de 2025</p>
 
-        <p>Esta Política de Privacidad para SnapCal describe cómo y por qué podemos recopilar, almacenar, usar y/o compartir su información cuando usa nuestros servicios.</p>
+        <p>Esta Política de Privacidad para SlimIQ describe cómo y por qué podemos recopilar, almacenar, usar y/o compartir su información cuando usa nuestros servicios.</p>
 
         <h2 id="infocollect">1. ¿QUÉ INFORMACIÓN RECOPILAMOS?</h2>
         <p>Recopilamos información personal que usted nos proporciona voluntariamente cuando se registra en los Servicios.</p>
@@ -642,8 +642,8 @@ const privacyContent = {
 
         <h2 id="contact">15. CONTÁCTANOS</h2>
         <p>Si tiene preguntas o comentarios sobre esta política, puede escribirnos a:</p>
-        <p><strong>SnapCal</strong><br>
-        Email: <a href="mailto:support@snapcal.fun">support@snapcal.fun</a><br>
+        <p><strong>SlimIQ</strong><br>
+        Email: <a href="mailto:support@slimiq.fun">support@slimiq.fun</a><br>
         Website: <a href="https://snapcal.fun">https://snapcal.fun</a></p>
 
         <h2 id="request">16. SOLICITUDES DE DATOS</h2>

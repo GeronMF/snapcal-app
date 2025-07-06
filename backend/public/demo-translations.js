@@ -1,6 +1,6 @@
 const demoTranslations = {
     ru: {
-        'demo.title': '🧪 SnapCal Demo',
+        'demo.title': '🧪 SlimIQ Demo',
         'demo.description': 'Попробуйте AI анализ калорийности прямо сейчас',
         'back': '← Назад к главной',
         'upload.title': 'Загрузите фото еды',
@@ -12,7 +12,7 @@ const demoTranslations = {
         'result.title': '📊 Результат анализа'
     },
     en: {
-        'demo.title': '🧪 SnapCal Demo',
+        'demo.title': '🧪 SlimIQ Demo',
         'demo.description': 'Try AI calorie analysis right now',
         'back': '← Back to Home',
         'upload.title': 'Upload Food Photo',
@@ -24,7 +24,7 @@ const demoTranslations = {
         'result.title': '📊 Analysis Result'
     },
     uk: {
-        'demo.title': '🧪 SnapCal Demo',
+        'demo.title': '🧪 SlimIQ Demo',
         'demo.description': 'Спробуйте AI аналіз калорійності прямо зараз',
         'back': '← Назад до головної',
         'upload.title': 'Завантажте фото їжі',
@@ -36,7 +36,7 @@ const demoTranslations = {
         'result.title': '📊 Результат аналізу'
     },
     pl: {
-        'demo.title': '🧪 SnapCal Demo',
+        'demo.title': '🧪 SlimIQ Demo',
         'demo.description': 'Wypróbuj analizę kalorii AI już teraz',
         'back': '← Powrót do strony głównej',
         'upload.title': 'Prześlij zdjęcie jedzenia',
@@ -48,7 +48,7 @@ const demoTranslations = {
         'result.title': '📊 Wynik analizy'
     },
     es: {
-        'demo.title': '🧪 SnapCal Demo',
+        'demo.title': '🧪 SlimIQ Demo',
         'demo.description': 'Prueba el análisis de calorías con IA ahora mismo',
         'back': '← Volver al inicio',
         'upload.title': 'Subir foto de comida',

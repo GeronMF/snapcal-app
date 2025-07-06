@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
-import { Camera, History, Settings as SettingsIcon } from 'lucide-react-native';
 import colors from '@/constants/colors';
+import { Camera, History, Settings as SettingsIcon } from 'lucide-react-native';
+import React, { useState } from 'react';
+import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 // Импортируем компоненты страниц напрямую
-import HomeScreen from './index';
 import HistoryScreen from './history';
+import HomeScreen from './index';
 import SettingsScreen from './settings';
 
 export default function TabLayout() {
@@ -44,7 +44,7 @@ export default function TabLayout() {
             styles.tabLabel, 
             activeTab === 'index' && styles.activeTabLabel
           ]}>
-            SnapCal
+            SlimIQ
           </Text>
         </TouchableOpacity>
         

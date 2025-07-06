@@ -1,19 +1,19 @@
-// Полные переводы условий использования SnapCal на 5 языков
+// Полные переводы условий использования SlimIQ на 5 языков
 const termsContent = {
     ru: `
         <h2><strong>СОГЛАШЕНИЕ С НАШИМИ ЮРИДИЧЕСКИМИ УСЛОВИЯМИ</strong></h2>
         
-        <p>Мы - SnapCal ("<strong>Компания</strong>," "<strong>мы</strong>," "<strong>нас</strong>," "<strong>наш</strong>").</p>
+        <p>Мы - SlimIQ ("<strong>Компания</strong>," "<strong>мы</strong>," "<strong>нас</strong>," "<strong>наш</strong>").</p>
         
-        <p>Мы управляем мобильным приложением и веб-сайтом SnapCal, а также любыми другими связанными продуктами и услугами, которые ссылаются на эти юридические условия ("<strong>Юридические условия</strong>") (совместно, "<strong>Сервисы</strong>").</p>
+        <p>Мы управляем мобильным приложением и веб-сайтом SlimIQ, а также любыми другими связанными продуктами и услугами, которые ссылаются на эти юридические условия ("<strong>Юридические условия</strong>") (совместно, "<strong>Сервисы</strong>").</p>
         
-        <p>Вы можете связаться с нами по электронной почте <a href="mailto:support@snapcal.fun">support@snapcal.fun</a>.</p>
+        <p>Вы можете связаться с нами по электронной почте <a href="mailto:support@slimiq.fun">support@slimiq.fun</a>.</p>
         
-        <p>Эти Юридические условия представляют собой юридически обязательное соглашение между вами, лично или от имени организации ("<strong>вы</strong>"), и SnapCal, касающееся вашего доступа к Сервисам и их использования. Вы соглашаетесь, что, получая доступ к Сервисам, вы прочитали, поняли и согласились соблюдать все эти Юридические условия. ЕСЛИ ВЫ НЕ СОГЛАСНЫ СО ВСЕМИ ЭТИМИ ЮРИДИЧЕСКИМИ УСЛОВИЯМИ, ТО ВАМ ПРЯМО ЗАПРЕЩЕНО ИСПОЛЬЗОВАТЬ СЕРВИСЫ И ВЫ ДОЛЖНЫ НЕМЕДЛЕННО ПРЕКРАТИТЬ ИСПОЛЬЗОВАНИЕ.</p>
+        <p>Эти Юридические условия представляют собой юридически обязательное соглашение между вами, лично или от имени организации ("<strong>вы</strong>"), и SlimIQ, касающееся вашего доступа к Сервисам и их использования. Вы соглашаетесь, что, получая доступ к Сервисам, вы прочитали, поняли и согласились соблюдать все эти Юридические условия. ЕСЛИ ВЫ НЕ СОГЛАСНЫ СО ВСЕМИ ЭТИМИ ЮРИДИЧЕСКИМИ УСЛОВИЯМИ, ТО ВАМ ПРЯМО ЗАПРЕЩЕНО ИСПОЛЬЗОВАТЬ СЕРВИСЫ И ВЫ ДОЛЖНЫ НЕМЕДЛЕННО ПРЕКРАТИТЬ ИСПОЛЬЗОВАНИЕ.</p>
         
         <h2 id="services"><strong>1. НАШИ УСЛУГИ</strong></h2>
         
-        <p>SnapCal - это приложение для отслеживания калорий на основе ИИ, которое позволяет пользователям фотографировать свою пищу и получать автоматический анализ питательной ценности. Наши Сервисы включают мобильные приложения, веб-интерфейсы и связанные функции, предназначенные для помощи пользователям в отслеживании их питания и поддержании здоровых привычек питания.</p>
+        <p>SlimIQ - это приложение для отслеживания калорий на основе ИИ, которое позволяет пользователям фотографировать свою пищу и получать автоматический анализ питательной ценности. Наши Сервисы включают мобильные приложения, веб-интерфейсы и связанные функции, предназначенные для помощи пользователям в отслеживании их питания и поддержании здоровых привычек питания.</p>
         
         <h2 id="ip"><strong>2. ПРАВА ИНТЕЛЛЕКТУАЛЬНОЙ СОБСТВЕННОСТИ</strong></h2>
         
@@ -74,7 +74,7 @@ const termsContent = {
         
         <h2 id="law"><strong>10. ПРИМЕНИМОЕ ПРАВО</strong></h2>
         
-        <p>Эти Юридические условия регулируются и определяются в соответствии с законами Соединенных Штатов. SnapCal и вы безотзывно соглашаетесь, что суды Соединенных Штатов имеют исключительную юрисдикцию для разрешения любого спора, который может возникнуть в связи с этими Юридическими условиями.</p>
+        <p>Эти Юридические условия регулируются и определяются в соответствии с законами Соединенных Штатов. SlimIQ и вы безотзывно соглашаетесь, что суды Соединенных Штатов имеют исключительную юрисдикцию для разрешения любого спора, который может возникнуть в связи с этими Юридическими условиями.</p>
         
         <h2 id="disputes"><strong>11. РАЗРЕШЕНИЕ СПОРОВ</strong></h2>
         
@@ -90,7 +90,7 @@ const termsContent = {
         
         <p>СЕРВИСЫ ПРЕДОСТАВЛЯЮТСЯ НА ОСНОВЕ "КАК ЕСТЬ" И "КАК ДОСТУПНО". ВЫ СОГЛАШАЕТЕСЬ, ЧТО ИСПОЛЬЗОВАНИЕ СЕРВИСОВ БУДЕТ НА ВАШ СОБСТВЕННЫЙ РИСК. В ПОЛНОЙ МЕРЕ, РАЗРЕШЕННОЙ ЗАКОНОМ, МЫ ОТКАЗЫВАЕМСЯ ОТ ВСЕХ ГАРАНТИЙ, ЯВНЫХ ИЛИ ПОДРАЗУМЕВАЕМЫХ, В СВЯЗИ С СЕРВИСАМИ И ВАШИМ ИХ ИСПОЛЬЗОВАНИЕМ.</p>
         
-        <p><strong>⚠️ Важное примечание:</strong> SnapCal предоставляет оценки питательной ценности с использованием технологии ИИ. Эти оценки предназначены только для информационных целей и не должны рассматриваться как медицинский совет. Для конкретных диетических требований или проблем со здоровьем, пожалуйста, проконсультируйтесь с квалифицированным медицинским работником.</p>
+        <p><strong>⚠️ Важное примечание:</strong> SlimIQ предоставляет оценки питательной ценности с использованием технологии ИИ. Эти оценки предназначены только для информационных целей и не должны рассматриваться как медицинский совет. Для конкретных диетических требований или проблем со здоровьем, пожалуйста, проконсультируйтесь с квалифицированным медицинским работником.</p>
         
         <h2 id="liability"><strong>14. ОГРАНИЧЕНИЯ ОТВЕТСТВЕННОСТИ</strong></h2>
         
@@ -116,17 +116,17 @@ const termsContent = {
     en: `
         <h2><strong>AGREEMENT TO OUR LEGAL TERMS</strong></h2>
 
-        <p>We are SnapCal ("<strong>Company</strong>," "<strong>we</strong>," "<strong>us</strong>," "<strong>our</strong>").</p>
+        <p>We are SlimIQ ("<strong>Company</strong>," "<strong>we</strong>," "<strong>us</strong>," "<strong>our</strong>").</p>
 
-        <p>We operate the SnapCal mobile application and website, as well as any other related products and services that refer or link to these legal terms ("<strong>Legal Terms</strong>") (collectively, the "<strong>Services</strong>").</p>
+        <p>We operate the SlimIQ mobile application and website, as well as any other related products and services that refer or link to these legal terms ("<strong>Legal Terms</strong>") (collectively, the "<strong>Services</strong>").</p>
 
-        <p>You can contact us by email at <a href="mailto:support@snapcal.fun">support@snapcal.fun</a>.</p>
+        <p>You can contact us by email at <a href="mailto:support@slimiq.fun">support@slimiq.fun</a>.</p>
 
-        <p>These Legal Terms constitute a legally binding agreement made between you, whether personally or on behalf of an entity ("<strong>you</strong>"), and SnapCal, concerning your access to and use of the Services. You agree that by accessing the Services, you have read, understood, and agreed to be bound by all of these Legal Terms. IF YOU DO NOT AGREE WITH ALL OF THESE LEGAL TERMS, THEN YOU ARE EXPRESSLY PROHIBITED FROM USING THE SERVICES AND YOU MUST DISCONTINUE USE IMMEDIATELY.</p>
+        <p>These Legal Terms constitute a legally binding agreement made between you, whether personally or on behalf of an entity ("<strong>you</strong>"), and SlimIQ, concerning your access to and use of the Services. You agree that by accessing the Services, you have read, understood, and agreed to be bound by all of these Legal Terms. IF YOU DO NOT AGREE WITH ALL OF THESE LEGAL TERMS, THEN YOU ARE EXPRESSLY PROHIBITED FROM USING THE SERVICES AND YOU MUST DISCONTINUE USE IMMEDIATELY.</p>
 
         <h2 id="services"><strong>1. OUR SERVICES</strong></h2>
 
-        <p>SnapCal is an AI-powered calorie tracking application that allows users to photograph their food and receive automated nutritional analysis. Our Services include mobile applications, web interfaces, and related features designed to help users track their nutrition and maintain healthy eating habits.</p>
+        <p>SlimIQ is an AI-powered calorie tracking application that allows users to photograph their food and receive automated nutritional analysis. Our Services include mobile applications, web interfaces, and related features designed to help users track their nutrition and maintain healthy eating habits.</p>
 
         <h2 id="ip"><strong>2. INTELLECTUAL PROPERTY RIGHTS</strong></h2>
 
@@ -187,7 +187,7 @@ const termsContent = {
 
         <h2 id="law"><strong>10. GOVERNING LAW</strong></h2>
 
-        <p>These Legal Terms shall be governed by and defined following the laws of the United States. SnapCal and yourself irrevocably consent that the courts of the United States shall have exclusive jurisdiction to resolve any dispute which may arise in connection with these Legal Terms.</p>
+        <p>These Legal Terms shall be governed by and defined following the laws of the United States. SlimIQ and yourself irrevocably consent that the courts of the United States shall have exclusive jurisdiction to resolve any dispute which may arise in connection with these Legal Terms.</p>
 
         <h2 id="disputes"><strong>11. DISPUTE RESOLUTION</strong></h2>
 
@@ -203,7 +203,7 @@ const termsContent = {
 
         <p>THE SERVICES ARE PROVIDED ON AN AS-IS AND AS-AVAILABLE BASIS. YOU AGREE THAT YOUR USE OF THE SERVICES WILL BE AT YOUR SOLE RISK. TO THE FULLEST EXTENT PERMITTED BY LAW, WE DISCLAIM ALL WARRANTIES, EXPRESS OR IMPLIED, IN CONNECTION WITH THE SERVICES AND YOUR USE THEREOF.</p>
 
-        <p><strong>⚠️ Important Note:</strong> SnapCal provides nutritional estimates using AI technology. These estimates are for informational purposes only and should not be considered as medical advice. For specific dietary requirements or health concerns, please consult with a qualified healthcare professional.</p>
+        <p><strong>⚠️ Important Note:</strong> SlimIQ provides nutritional estimates using AI technology. These estimates are for informational purposes only and should not be considered as medical advice. For specific dietary requirements or health concerns, please consult with a qualified healthcare professional.</p>
 
         <h2 id="liability"><strong>14. LIMITATIONS OF LIABILITY</strong></h2>
 
@@ -229,17 +229,17 @@ const termsContent = {
     uk: `
         <h2><strong>ЗГОДА З НАШИМИ ЮРИДИЧНИМИ УМОВАМИ</strong></h2>
         
-        <p>Ми - SnapCal ("<strong>Компанія</strong>," "<strong>ми</strong>," "<strong>нас</strong>," "<strong>наш</strong>").</p>
+        <p>Ми - SlimIQ ("<strong>Компанія</strong>," "<strong>ми</strong>," "<strong>нас</strong>," "<strong>наш</strong>").</p>
         
-        <p>Ми керуємо мобільним додатком і веб-сайтом SnapCal, а також будь-якими іншими пов'язаними продуктами та послугами, які посилаються на ці юридичні умови ("<strong>Юридичні умови</strong>") (разом, "<strong>Сервіси</strong>").</p>
+        <p>Ми керуємо мобільним додатком і веб-сайтом SlimIQ, а також будь-якими іншими пов'язаними продуктами та послугами, які посилаються на ці юридичні умови ("<strong>Юридичні умови</strong>") (разом, "<strong>Сервіси</strong>").</p>
         
-        <p>Ви можете зв'язатися з нами електронною поштою <a href="mailto:support@snapcal.fun">support@snapcal.fun</a>.</p>
+        <p>Ви можете зв'язатися з нами електронною поштою <a href="mailto:support@slimiq.fun">support@slimiq.fun</a>.</p>
         
-        <p>Ці Юридичні умови становлять юридично обов'язкову угоду між вами, особисто або від імені організації ("<strong>ви</strong>"), та SnapCal, що стосується вашого доступу до Сервісів та їх використання. Ви погоджуєтеся, що, отримуючи доступ до Сервісів, ви прочитали, зрозуміли та погодилися дотримуватися всіх цих Юридичних умов. ЯКЩО ВИ НЕ ЗГОДНІ З УСІМА ЦИМИ ЮРИДИЧНИМИ УМОВАМИ, ТО ВАМ ПРЯМО ЗАБОРОНЕНО ВИКОРИСТОВУВАТИ СЕРВІСИ І ВИ ПОВИННІ НЕГАЙНО ПРИПИНИТИ ВИКОРИСТАННЯ.</p>
+        <p>Ці Юридичні умови становлять юридично обов'язкову угоду між вами, особисто або від імені організації ("<strong>ви</strong>"), та SlimIQ, що стосується вашого доступу до Сервісів та їх використання. Ви погоджуєтеся, що, отримуючи доступ до Сервісів, ви прочитали, зрозуміли та погодилися дотримуватися всіх цих Юридичних умов. ЯКЩО ВИ НЕ ЗГОДНІ З УСІМА ЦИМИ ЮРИДИЧНИМИ УМОВАМИ, ТО ВАМ ПРЯМО ЗАБОРОНЕНО ВИКОРИСТОВУВАТИ СЕРВІСИ І ВИ ПОВИННІ НЕГАЙНО ПРИПИНИТИ ВИКОРИСТАННЯ.</p>
         
         <h2 id="services"><strong>1. НАШІ ПОСЛУГИ</strong></h2>
         
-        <p>SnapCal - це додаток для відстеження калорій на основі ШІ, який дозволяє користувачам фотографувати свою їжу та отримувати автоматичний аналіз поживної цінності. Наші Сервіси включають мобільні додатки, веб-інтерфейси та пов'язані функції, призначені для допомоги користувачам у відстеженні їх харчування та підтримці здорових харчових звичок.</p>
+        <p>SlimIQ - це додаток для відстеження калорій на основі ШІ, який дозволяє користувачам фотографувати свою їжу та отримувати автоматичний аналіз поживної цінності. Наші Сервіси включають мобільні додатки, веб-інтерфейси та пов'язані функції, призначені для допомоги користувачам у відстеженні їх харчування та підтримці здорових харчових звичок.</p>
         
         <h2 id="ip"><strong>2. ПРАВА ІНТЕЛЕКТУАЛЬНОЇ ВЛАСНОСТІ</strong></h2>
         
@@ -284,7 +284,7 @@ const termsContent = {
         
         <h2 id="law"><strong>10. ЗАСТОСОВНЕ ПРАВО</strong></h2>
         
-        <p>Ці Юридичні умови регулюються законами Сполучених Штатів. SnapCal та ви погоджуєтеся, що суди Сполучених Штатів мають виключну юрисдикцію для вирішення спорів.</p>
+        <p>Ці Юридичні умови регулюються законами Сполучених Штатів. SlimIQ та ви погоджуєтеся, що суди Сполучених Штатів мають виключну юрисдикцію для вирішення спорів.</p>
         
         <h2 id="disputes"><strong>11. ВИРІШЕННЯ СПОРІВ</strong></h2>
         
@@ -300,7 +300,7 @@ const termsContent = {
         
         <p>СЕРВІСИ НАДАЮТЬСЯ НА ОСНОВІ "ЯК Є" ТА "ЯК ДОСТУПНО". ВИ ПОГОДЖУЄТЕСЯ, ЩО ВИКОРИСТАННЯ СЕРВІСІВ БУДЕ НА ВАШ ВЛАСНИЙ РИЗИК. МИ ВІДМОВЛЯЄМОСЯ ВІД УСІХ ГАРАНТІЙ У ЗВ'ЯЗКУ З СЕРВІСАМИ.</p>
         
-        <p><strong>⚠️ Важлива примітка:</strong> SnapCal надає оцінки поживної цінності з використанням технології ШІ. Ці оцінки призначені лише для інформаційних цілей і не повинні розглядатися як медична порада. Для конкретних дієтичних вимог або проблем зі здоров'ям, будь ласка, проконсультуйтеся з кваліфікованим медичним працівником.</p>
+        <p><strong>⚠️ Важлива примітка:</strong> SlimIQ надає оцінки поживної цінності з використанням технології ШІ. Ці оцінки призначені лише для інформаційних цілей і не повинні розглядатися як медична порада. Для конкретних дієтичних вимог або проблем зі здоров'ям, будь ласка, проконсультуйтеся з кваліфікованим медичним працівником.</p>
         
         <h2 id="liability"><strong>14. ОБМЕЖЕННЯ ВІДПОВІДАЛЬНОСТІ</strong></h2>
         
@@ -326,17 +326,17 @@ const termsContent = {
     pl: `
         <h2><strong>ZGODA NA NASZE WARUNKI PRAWNE</strong></h2>
         
-        <p>Jesteśmy SnapCal ("<strong>Firma</strong>," "<strong>my</strong>," "<strong>nas</strong>," "<strong>nasz</strong>").</p>
+        <p>Jesteśmy SlimIQ ("<strong>Firma</strong>," "<strong>my</strong>," "<strong>nas</strong>," "<strong>nasz</strong>").</p>
         
-        <p>Prowadzimy aplikację mobilną i stronę internetową SnapCal, a także wszelkie inne powiązane produkty i usługi, które odnoszą się do tych warunków prawnych ("<strong>Warunki Prawne</strong>") (łącznie, "<strong>Usługi</strong>").</p>
+        <p>Prowadzimy aplikację mobilną i stronę internetową SlimIQ, a także wszelkie inne powiązane produkty i usługi, które odnoszą się do tych warunków prawnych ("<strong>Warunki Prawne</strong>") (łącznie, "<strong>Usługi</strong>").</p>
         
-        <p>Możesz skontaktować się z nami e-mailem pod adresem <a href="mailto:support@snapcal.fun">support@snapcal.fun</a>.</p>
+        <p>Możesz skontaktować się z nami e-mailem pod adresem <a href="mailto:support@slimiq.fun">support@slimiq.fun</a>.</p>
         
-        <p>Te Warunki Prawne stanowią prawnie wiążącą umowę zawartą między Tobą, osobiście lub w imieniu podmiotu ("<strong>ty</strong>"), a SnapCal, dotyczącą Twojego dostępu do Usług i ich użytkowania. Zgadzasz się, że uzyskując dostęp do Usług, przeczytałeś, zrozumiałeś i zgodziłeś się przestrzegać wszystkich tych Warunków Prawnych. JEŚLI NIE ZGADZASZ SIĘ ZE WSZYSTKIMI TYMI WARUNKAMI PRAWNYMI, TO WYRAŹNIE ZABRANIA SIĘ CI KORZYSTANIA Z USŁUG I MUSISZ NATYCHMIAST ZAPRZESTAĆ KORZYSTANIA.</p>
+        <p>Te Warunki Prawne stanowią prawnie wiążącą umowę zawartą między Tobą, osobiście lub w imieniu podmiotu ("<strong>ty</strong>"), a SlimIQ, dotyczącą Twojego dostępu do Usług i ich użytkowania. Zgadzasz się, że uzyskując dostęp do Usług, przeczytałeś, zrozumiałeś i zgodziłeś się przestrzegać wszystkich tych Warunków Prawnych. JEŚLI NIE ZGADZASZ SIĘ ZE WSZYSTKIMI TYMI WARUNKAMI PRAWNYMI, TO WYRAŹNIE ZABRANIA SIĘ CI KORZYSTANIA Z USŁUG I MUSISZ NATYCHMIAST ZAPRZESTAĆ KORZYSTANIA.</p>
         
         <h2 id="services"><strong>1. NASZE USŁUGI</strong></h2>
         
-        <p>SnapCal to aplikacja do śledzenia kalorii oparta na sztucznej inteligencji, która pozwala użytkownikom fotografować swoje jedzenie i otrzymywać automatyczną analizę wartości odżywczych. Nasze Usługi obejmują aplikacje mobilne, interfejsy internetowe i powiązane funkcje zaprojektowane w celu pomocy użytkownikom w śledzeniu ich odżywiania i utrzymaniu zdrowych nawyków żywieniowych.</p>
+        <p>SlimIQ to aplikacja do śledzenia kalorii oparta na sztucznej inteligencji, która pozwala użytkownikom fotografować swoje jedzenie i otrzymywać automatyczną analizę wartości odżywczych. Nasze Usługi obejmują aplikacje mobilne, interfejsy internetowe i powiązane funkcje zaprojektowane w celu pomocy użytkownikom w śledzeniu ich odżywiania i utrzymaniu zdrowych nawyków żywieniowych.</p>
         
         <h2 id="ip"><strong>2. PRAWA WŁASNOŚCI INTELEKTUALNEJ</strong></h2>
         
@@ -381,7 +381,7 @@ const termsContent = {
         
         <h2 id="law"><strong>10. PRAWO WŁAŚCIWE</strong></h2>
         
-        <p>Te Warunki Prawne podlegają prawu Stanów Zjednoczonych. SnapCal i Ty nieodwołalnie zgadzacie się, że sądy Stanów Zjednoczonych mają wyłączną jurysdykcję do rozstrzygania sporów.</p>
+        <p>Te Warunki Prawne podlegają prawu Stanów Zjednoczonych. SlimIQ i Ty nieodwołalnie zgadzacie się, że sądy Stanów Zjednoczonych mają wyłączną jurysdykcję do rozstrzygania sporów.</p>
         
         <h2 id="disputes"><strong>11. ROZSTRZYGANIE SPORÓW</strong></h2>
         
@@ -397,7 +397,7 @@ const termsContent = {
         
         <p>USŁUGI SĄ ŚWIADCZONE "TAK JAK SĄ" I "JAK DOSTĘPNE". ZGADZASZ SIĘ, ŻE KORZYSTANIE Z USŁUG BĘDZIE NA TWOJE WŁASNE RYZYKO. WYŁĄCZAMY WSZYSTKIE GWARANCJE W ZWIĄZKU Z USŁUGAMI.</p>
         
-        <p><strong>⚠️ Ważna uwaga:</strong> SnapCal zapewnia szacunki wartości odżywczych przy użyciu technologii AI. Te szacunki są przeznaczone wyłącznie do celów informacyjnych i nie powinny być traktowane jako porada medyczna. W przypadku konkretnych wymagań dietetycznych lub problemów zdrowotnych, skonsultuj się z wykwalifikowanym pracownikiem służby zdrowia.</p>
+        <p><strong>⚠️ Ważna uwaga:</strong> SlimIQ zapewnia szacunki wartości odżywczych przy użyciu technologii AI. Te szacunki są przeznaczone wyłącznie do celów informacyjnych i nie powinny być traktowane jako porada medyczna. W przypadku konkretnych wymagań dietetycznych lub problemów zdrowotnych, skonsultuj się z wykwalifikowanym pracownikiem służby zdrowia.</p>
         
         <h2 id="liability"><strong>14. OGRANICZENIA ODPOWIEDZIALNOŚCI</strong></h2>
         
@@ -423,17 +423,17 @@ const termsContent = {
     es: `
         <h2><strong>ACUERDO CON NUESTROS TÉRMINOS LEGALES</strong></h2>
         
-        <p>Somos SnapCal ("<strong>Empresa</strong>," "<strong>nosotros</strong>," "<strong>nos</strong>," "<strong>nuestro</strong>").</p>
+        <p>Somos SlimIQ ("<strong>Empresa</strong>," "<strong>nosotros</strong>," "<strong>nos</strong>," "<strong>nuestro</strong>").</p>
         
-        <p>Operamos la aplicación móvil y el sitio web SnapCal, así como cualquier otro producto y servicio relacionado que se refiera a estos términos legales ("<strong>Términos Legales</strong>") (colectivamente, los "<strong>Servicios</strong>").</p>
+        <p>Operamos la aplicación móvil y el sitio web SlimIQ, así como cualquier otro producto y servicio relacionado que se refiera a estos términos legales ("<strong>Términos Legales</strong>") (colectivamente, los "<strong>Servicios</strong>").</p>
         
-        <p>Puedes contactarnos por correo electrónico en <a href="mailto:support@snapcal.fun">support@snapcal.fun</a>.</p>
+        <p>Puedes contactarnos por correo electrónico en <a href="mailto:support@slimiq.fun">support@slimiq.fun</a>.</p>
         
-        <p>Estos Términos Legales constituyen un acuerdo legalmente vinculante entre tú, personalmente o en nombre de una entidad ("<strong>tú</strong>"), y SnapCal, relativo a tu acceso y uso de los Servicios. Aceptas que al acceder a los Servicios, has leído, entendido y acordado estar obligado por todos estos Términos Legales. SI NO ESTÁS DE ACUERDO CON TODOS ESTOS TÉRMINOS LEGALES, ENTONCES SE TE PROHÍBE EXPRESAMENTE USAR LOS SERVICIOS Y DEBES DISCONTINUAR EL USO INMEDIATAMENTE.</p>
+        <p>Estos Términos Legales constituyen un acuerdo legalmente vinculante entre tú, personalmente o en nombre de una entidad ("<strong>tú</strong>"), y SlimIQ, relativo a tu acceso y uso de los Servicios. Aceptas que al acceder a los Servicios, has leído, entendido y acordado estar obligado por todos estos Términos Legales. SI NO ESTÁS DE ACUERDO CON TODOS ESTOS TÉRMINOS LEGALES, ENTONCES SE TE PROHÍBE EXPRESAMENTE USAR LOS SERVICIOS Y DEBES DISCONTINUAR EL USO INMEDIATAMENTE.</p>
         
         <h2 id="services"><strong>1. NUESTROS SERVICIOS</strong></h2>
         
-        <p>SnapCal es una aplicación de seguimiento de calorías impulsada por IA que permite a los usuarios fotografiar su comida y recibir análisis nutricional automatizado. Nuestros Servicios incluyen aplicaciones móviles, interfaces web y características relacionadas diseñadas para ayudar a los usuarios a rastrear su nutrición y mantener hábitos alimentarios saludables.</p>
+        <p>SlimIQ es una aplicación de seguimiento de calorías impulsada por IA que permite a los usuarios fotografiar su comida y recibir análisis nutricional automatizado. Nuestros Servicios incluyen aplicaciones móviles, interfaces web y características relacionadas diseñadas para ayudar a los usuarios a rastrear su nutrición y mantener hábitos alimentarios saludables.</p>
         
         <h2 id="ip"><strong>2. DERECHOS DE PROPIEDAD INTELECTUAL</strong></h2>
         
@@ -478,7 +478,7 @@ const termsContent = {
         
         <h2 id="law"><strong>10. LEY APLICABLE</strong></h2>
         
-        <p>Estos Términos Legales se regirán por las leyes de los Estados Unidos. SnapCal y tú consienten irrevocablemente que los tribunales de los Estados Unidos tendrán jurisdicción exclusiva para resolver disputas.</p>
+        <p>Estos Términos Legales se regirán por las leyes de los Estados Unidos. SlimIQ y tú consienten irrevocablemente que los tribunales de los Estados Unidos tendrán jurisdicción exclusiva para resolver disputas.</p>
         
         <h2 id="disputes"><strong>11. RESOLUCIÓN DE DISPUTAS</strong></h2>
         
@@ -494,7 +494,7 @@ const termsContent = {
         
         <p>LOS SERVICIOS SE PROPORCIONAN "TAL COMO ESTÁN" Y "SEGÚN DISPONIBILIDAD". ACEPTAS QUE TU USO DE LOS SERVICIOS SERÁ BAJO TU PROPIO RIESGO. RENUNCIAMOS A TODAS LAS GARANTÍAS EN RELACIÓN CON LOS SERVICIOS.</p>
         
-        <p><strong>⚠️ Nota importante:</strong> SnapCal proporciona estimaciones nutricionales usando tecnología de IA. Estas estimaciones son solo para fines informativos y no deben considerarse como consejo médico. Para requerimientos dietéticos específicos o preocupaciones de salud, por favor consulta con un profesional de salud calificado.</p>
+        <p><strong>⚠️ Nota importante:</strong> SlimIQ proporciona estimaciones nutricionales usando tecnología de IA. Estas estimaciones son solo para fines informativos y no deben considerarse como consejo médico. Para requerimientos dietéticos específicos o preocupaciones de salud, por favor consulta con un profesional de salud calificado.</p>
         
         <h2 id="liability"><strong>14. LIMITACIONES DE RESPONSABILIDAD</strong></h2>
         

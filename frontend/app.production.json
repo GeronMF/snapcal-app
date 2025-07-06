@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "SnapCal",
-    "slug": "snapcal",
+    "name": "SlimIQ",
+    "slug": "slimiq",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "snapcal",
+    "scheme": "slimiq",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
@@ -15,7 +15,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.snapcal.app",
+      "bundleIdentifier": "com.slimiq.app",
       "icon": "./assets/images/icon.png",
       "infoPlist": {
         "CFBundleIconName": "AppIcon"
@@ -23,7 +23,7 @@
       "buildNumber": "1"
     },
     "android": {
-      "package": "com.snapcal.app",
+      "package": "com.slimiq.app",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#14B8A6"

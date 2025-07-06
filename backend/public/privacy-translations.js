@@ -3,7 +3,7 @@ const privacyTranslations = {
     ru: {
         back: "Назад к приложению",
         "privacy.title": "🔒 Политика конфиденциальности",
-        "privacy.subtitle": "Политика конфиденциальности SnapCal",
+        "privacy.subtitle": "Политика конфиденциальности SlimIQ",
         "nav.title": "📑 Содержание",
         "nav.infocollect": "Какую информацию мы собираем?",
         "nav.infouse": "Как мы обрабатываем вашу информацию?",
@@ -29,7 +29,7 @@ const privacyTranslations = {
     en: {
         back: "Back to Application",
         "privacy.title": "🔒 Privacy Policy",
-        "privacy.subtitle": "SnapCal Privacy Policy",
+        "privacy.subtitle": "SlimIQ Privacy Policy",
         "nav.title": "📑 Table of Contents",
         "nav.infocollect": "What information do we collect?",
         "nav.infouse": "How do we process your information?",
@@ -55,7 +55,7 @@ const privacyTranslations = {
     uk: {
         back: "Назад до застосунку",
         "privacy.title": "🔒 Політика конфіденційності",
-        "privacy.subtitle": "Політика конфіденційності SnapCal",
+        "privacy.subtitle": "Політика конфіденційності SlimIQ",
         "nav.title": "📑 Зміст",
         "nav.infocollect": "Яку інформацію ми збираємо?",
         "nav.infouse": "Як ми обробляємо вашу інформацію?",
@@ -81,7 +81,7 @@ const privacyTranslations = {
     pl: {
         back: "Powrót do aplikacji",
         "privacy.title": "🔒 Polityka prywatności",
-        "privacy.subtitle": "Polityka prywatności SnapCal",
+        "privacy.subtitle": "Polityka prywatności SlimIQ",
         "nav.title": "📑 Spis treści",
         "nav.infocollect": "Jakie informacje zbieramy?",
         "nav.infouse": "Jak przetwarzamy Twoje informacje?",
@@ -107,7 +107,7 @@ const privacyTranslations = {
     es: {
         back: "Volver a la aplicación",
         "privacy.title": "🔒 Política de privacidad",
-        "privacy.subtitle": "Política de privacidad de SnapCal",
+        "privacy.subtitle": "Política de privacidad de SlimIQ",
         "nav.title": "📑 Tabla de contenidos",
         "nav.infocollect": "¿Qué información recopilamos?",
         "nav.infouse": "¿Cómo procesamos tu información?",

@@ -1,6 +1,6 @@
 export default {
   // General
-  appName: 'SnapCal',
+  appName: 'SlimIQ',
   next: 'Siguiente',
   back: 'Atrás',
   save: 'Guardar',
@@ -11,7 +11,7 @@ export default {
   done: 'Hecho',
   
   // Onboarding
-  welcome: '¡Bienvenido a SnapCal!',
+  welcome: '¡Bienvenido a SlimIQ!',
   onboardingTitle: 'Configuremos tu perfil',
   selectLanguage: 'Selecciona tu idioma',
   personalInfo: 'Información Personal',

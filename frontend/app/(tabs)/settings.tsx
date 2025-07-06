@@ -136,7 +136,7 @@ export default function SettingsScreen() {
   };
   
   const openContactUs = () => {
-    Linking.openURL('mailto:support@snapcal.fun');
+            Linking.openURL('mailto:support@slimiq.fun');
   };
   
   return (
@@ -430,7 +430,7 @@ export default function SettingsScreen() {
         
         {/* App Information */}
         <View style={styles.appInfo}>
-          <Text style={styles.appVersion}>SnapCal v1.0.0</Text>
+          <Text style={styles.appVersion}>SlimIQ v1.0.0</Text>
           <Text style={styles.appDescription}>
             Take photos of your meals to track calories.
           </Text>

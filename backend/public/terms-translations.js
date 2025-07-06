@@ -2,7 +2,7 @@ const termsTranslations = {
     ru: {
         'back': 'Назад к приложению',
         'terms.title': '📋 Условия использования',
-        'terms.subtitle': 'Условия использования SnapCal',
+        'terms.subtitle': 'Условия использования SlimIQ',
         'nav.title': '📑 Содержание',
         'nav.services': 'Наши услуги',
         'nav.ip': 'Права интеллектуальной собственности',
@@ -31,7 +31,7 @@ const termsTranslations = {
     en: {
         'back': 'Back to App',
         'terms.title': '📋 Terms of Service',
-        'terms.subtitle': 'SnapCal Terms of Service',
+        'terms.subtitle': 'SlimIQ Terms of Service',
         'nav.title': '📑 Table of Contents',
         'nav.services': 'Our Services',
         'nav.ip': 'Intellectual Property Rights',
@@ -60,7 +60,7 @@ const termsTranslations = {
     uk: {
         'back': 'Назад до додатку',
         'terms.title': '📋 Умови використання',
-        'terms.subtitle': 'Умови використання SnapCal',
+        'terms.subtitle': 'Умови використання SlimIQ',
         'nav.title': '📑 Зміст',
         'nav.services': 'Наші послуги',
         'nav.ip': 'Права інтелектуальної власності',
@@ -89,7 +89,7 @@ const termsTranslations = {
     pl: {
         'back': 'Powrót do aplikacji',
         'terms.title': '📋 Warunki korzystania',
-        'terms.subtitle': 'Warunki korzystania SnapCal',
+        'terms.subtitle': 'Warunki korzystania SlimIQ',
         'nav.title': '📑 Spis treści',
         'nav.services': 'Nasze usługi',
         'nav.ip': 'Prawa własności intelektualnej',
@@ -118,7 +118,7 @@ const termsTranslations = {
     es: {
         'back': 'Volver a la aplicación',
         'terms.title': '📋 Términos de servicio',
-        'terms.subtitle': 'Términos de servicio de SnapCal',
+        'terms.subtitle': 'Términos de servicio de SlimIQ',
         'nav.title': '📑 Índice',
         'nav.services': 'Nuestros servicios',
         'nav.ip': 'Derechos de propiedad intelectual',

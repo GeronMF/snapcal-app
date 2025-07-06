@@ -332,6 +332,7 @@ export default function HistoryScreen() {
           <CaloriesChart 
             data={weekData.calories} 
             dailyTarget={dailyTarget} 
+            onBarPress={(date) => setSelectedDate(date)}
           />
           <NutrientsChart 
             data={weekData.nutrients} 

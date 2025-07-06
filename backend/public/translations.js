@@ -1,6 +1,6 @@
 const translations = {
     ru: {
-        'hero.title': '🍽️ SnapCal',
+        'hero.title': '🍽️ SlimIQ',
         'hero.subtitle': 'Определение калорийности пищи с помощью AI',
         'hero.description': 'Просто сфотографируйте еду и получите мгновенную информацию о питательности',
         'features.title': '🌟 Возможности приложения',
@@ -20,7 +20,7 @@ const translations = {
         'how.step3.title': 'Шаг 3',
         'how.step3.description': 'Получите полную информацию о питательности',
         'download.title': '📲 Скачать приложение',
-        'download.description': 'Получите полный функционал SnapCal на вашем мобильном устройстве',
+        'download.description': 'Получите полный функционал SlimIQ на вашем мобильном устройстве',
         'download.ios': '📱 Скачать для iOS',
         'download.android': '🤖 Скачать для Android',
         'download.coming': 'Скоро в App Store и Google Play',
@@ -29,7 +29,7 @@ const translations = {
         'footer.privacy': '🔒 Политика конфиденциальности'
     },
     en: {
-        'hero.title': '🍽️ SnapCal',
+        'hero.title': '🍽️ SlimIQ',
         'hero.subtitle': 'AI-Powered Calorie Tracking',
         'hero.description': 'Simply snap a photo of your food and get instant nutritional information',
         'features.title': '🌟 App Features',
@@ -49,7 +49,7 @@ const translations = {
         'how.step3.title': 'Step 3',
         'how.step3.description': 'Get complete nutritional information',
         'download.title': '📲 Download App',
-        'download.description': 'Get the full SnapCal functionality on your mobile device',
+        'download.description': 'Get the full SlimIQ functionality on your mobile device',
         'download.ios': '📱 Download for iOS',
         'download.android': '🤖 Download for Android',
         'download.coming': 'Coming soon to App Store and Google Play',
@@ -58,7 +58,7 @@ const translations = {
         'footer.privacy': '🔒 Privacy Policy'
     },
     uk: {
-        'hero.title': '🍽️ SnapCal',
+        'hero.title': '🍽️ SlimIQ',
         'hero.subtitle': 'Визначення калорійності їжі за допомогою AI',
         'hero.description': 'Просто сфотографуйте їжу і отримайте миттєву інформацію про поживність',
         'features.title': '🌟 Можливості додатку',
@@ -78,7 +78,7 @@ const translations = {
         'how.step3.title': 'Крок 3',
         'how.step3.description': 'Отримайте повну інформацію про поживність',
         'download.title': '📲 Завантажити додаток',
-        'download.description': 'Отримайте повний функціонал SnapCal на вашому мобільному пристрої',
+        'download.description': 'Отримайте повний функціонал SlimIQ на вашому мобільному пристрої',
         'download.ios': '📱 Завантажити для iOS',
         'download.android': '🤖 Завантажити для Android',
         'download.coming': 'Незабаром в App Store та Google Play',
@@ -87,7 +87,7 @@ const translations = {
         'footer.privacy': '🔒 Політика конфіденційності'
     },
     pl: {
-        'hero.title': '🍽️ SnapCal',
+        'hero.title': '🍽️ SlimIQ',
         'hero.subtitle': 'Określanie kalorii żywności za pomocą AI',
         'hero.description': 'Po prostu sfotografuj jedzenie i uzyskaj natychmiastowe informacje o wartości odżywczej',
         'features.title': '🌟 Funkcje aplikacji',
@@ -107,7 +107,7 @@ const translations = {
         'how.step3.title': 'Krok 3',
         'how.step3.description': 'Otrzymaj pełne informacje o wartości odżywczej',
         'download.title': '📲 Pobierz aplikację',
-        'download.description': 'Uzyskaj pełną funkcjonalność SnapCal na swoim urządzeniu mobilnym',
+        'download.description': 'Uzyskaj pełną funkcjonalność SlimIQ na swoim urządzeniu mobilnym',
         'download.ios': '📱 Pobierz dla iOS',
         'download.android': '🤖 Pobierz dla Android',
         'download.coming': 'Wkrótce w App Store i Google Play',
