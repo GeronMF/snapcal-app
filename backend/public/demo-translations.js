@@ -9,7 +9,8 @@ const demoTranslations = {
         'reset': '🔄 Выбрать другое фото',
         'loading.title': 'Анализируем изображение...',
         'loading.description': 'AI определяет калории и питательные вещества',
-        'result.title': '📊 Результат анализа'
+        'result.title': '📊 Результат анализа',
+        'hero.subtitle': 'Сделайте фото еды и получите анализ калорийности'
     },
     en: {
         'demo.title': '🧪 SlimIQ Demo',
@@ -21,7 +22,8 @@ const demoTranslations = {
         'reset': '🔄 Choose Another Photo',
         'loading.title': 'Analyzing image...',
         'loading.description': 'AI is determining calories and nutrients',
-        'result.title': '📊 Analysis Result'
+        'result.title': '📊 Analysis Result',
+        'hero.subtitle': 'Take a photo of your food and get a calorie analysis'
     },
     uk: {
         'demo.title': '🧪 SlimIQ Demo',
@@ -33,7 +35,8 @@ const demoTranslations = {
         'reset': '🔄 Вибрати інше фото',
         'loading.title': 'Аналізуємо зображення...',
         'loading.description': 'AI визначає калорійність та поживні речовини',
-        'result.title': '📊 Результат аналізу'
+        'result.title': '📊 Результат аналізу',
+        'hero.subtitle': 'Зробіть фото їжі і отримайте аналіз калорійності'
     },
     pl: {
         'demo.title': '🧪 SlimIQ Demo',
@@ -45,7 +48,8 @@ const demoTranslations = {
         'reset': '🔄 Wybierz inne zdjęcie',
         'loading.title': 'Analizowanie obrazu...',
         'loading.description': 'AI określa kalorie i składniki odżywcze',
-        'result.title': '📊 Wynik analizy'
+        'result.title': '📊 Wynik analizy',
+        'hero.subtitle': 'Wykonaj zdjęcie jedzenia i uzyskaj analizę kalorii'
     },
     es: {
         'demo.title': '🧪 SlimIQ Demo',
@@ -57,7 +61,8 @@ const demoTranslations = {
         'reset': '🔄 Elegir otra foto',
         'loading.title': 'Analizando imagen...',
         'loading.description': 'La IA está determinando calorías y nutrientes',
-        'result.title': '📊 Resultado del análisis'
+        'result.title': '📊 Resultado del análisis',
+        'hero.subtitle': 'Toma una foto de tu comida y obtén un análisis de calorías'
     }
 };
 

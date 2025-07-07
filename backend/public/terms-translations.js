@@ -26,7 +26,8 @@ const termsTranslations = {
         'contact.title': '📞 Связаться с нами',
         'contact.text': 'Чтобы решить жалобу относительно Сервисов или получить дополнительную информацию об использовании Сервисов, пожалуйста, свяжитесь с нами:',
         'contact.email': 'Email:',
-        'contact.website': 'Website:'
+        'contact.website': 'Website:',
+        'hero.subtitle': 'Это подзаголовок, который будет отображаться на главной странице'
     },
     en: {
         'back': 'Back to App',
@@ -55,7 +56,8 @@ const termsTranslations = {
         'contact.title': '📞 Contact Us',
         'contact.text': 'In order to resolve a complaint regarding the Services or to receive further information regarding use of the Services, please contact us at:',
         'contact.email': 'Email:',
-        'contact.website': 'Website:'
+        'contact.website': 'Website:',
+        'hero.subtitle': 'This is a subtitle that will appear on the main page'
     },
     uk: {
         'back': 'Назад до додатку',
@@ -84,7 +86,8 @@ const termsTranslations = {
         'contact.title': '📞 Зв\'язатися з нами',
         'contact.text': 'Щоб вирішити скаргу щодо Сервісів або отримати додаткову інформацію щодо використання Сервісів, будь ласка, зв\'яжіться з нами:',
         'contact.email': 'Email:',
-        'contact.website': 'Website:'
+        'contact.website': 'Website:',
+        'hero.subtitle': 'Це підзаголовок, який буде зображатися на головній сторінці'
     },
     pl: {
         'back': 'Powrót do aplikacji',
@@ -113,7 +116,8 @@ const termsTranslations = {
         'contact.title': '📞 Skontaktuj się z nami',
         'contact.text': 'Aby rozwiązać skargę dotyczącą Usług lub otrzymać dalsze informacje dotyczące korzystania z Usług, skontaktuj się z nami:',
         'contact.email': 'Email:',
-        'contact.website': 'Website:'
+        'contact.website': 'Website:',
+        'hero.subtitle': 'To jest podtytuł, który pojawi się na głównej stronie'
     },
     es: {
         'back': 'Volver a la aplicación',
@@ -142,7 +146,8 @@ const termsTranslations = {
         'contact.title': '📞 Contáctanos',
         'contact.text': 'Para resolver una queja sobre los Servicios o recibir más información sobre el uso de los Servicios, contáctanos en:',
         'contact.email': 'Email:',
-        'contact.website': 'Website:'
+        'contact.website': 'Website:',
+        'hero.subtitle': 'Este es un subtítulo que aparecerá en la página principal'
     }
 };
 

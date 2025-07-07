@@ -167,11 +167,45 @@ function applyLandingI18n(lang) {
         const key = el.getAttribute('data-i18n');
         if (dict[key]) el.innerHTML = dict[key].replace('{year}', new Date().getFullYear());
     });
+    
+    // Смена изображений в зависимости от языка
+    updateImagesForLanguage(lang);
+    
     // Установить значение в селекте
     const langSelect = document.querySelector('.lang-select');
     if (langSelect) {
         langSelect.value = lang;
     }
+}
+
+// Функция для обновления изображений в зависимости от языка
+function updateImagesForLanguage(lang) {
+    if (!window.IMAGES_CONFIG) {
+        console.error('IMAGES_CONFIG not loaded');
+        return;
+    }
+    
+    const imageConfig = window.IMAGES_CONFIG[lang] || window.IMAGES_CONFIG['en'];
+    if (!imageConfig) {
+        console.error('Image configuration not found for language:', lang);
+        return;
+    }
+    
+    // Обновляем все изображения с data-image-key
+    document.querySelectorAll('[data-image-key]').forEach(img => {
+        const key = img.getAttribute('data-image-key');
+        if (imageConfig[key]) {
+            const newSrc = imageConfig[key];
+            // Добавляем плавный переход при смене изображения
+            img.style.opacity = '0.7';
+            img.style.transition = 'opacity 0.3s ease';
+            
+            setTimeout(() => {
+                img.src = newSrc;
+                img.style.opacity = '1';
+            }, 150);
+        }
+    });
 }
 
 function createLangSwitcher() {
